@@ -25,7 +25,7 @@ under the License.
          elements found in the common-controller.xml file. -->
     <include location="component://common/webcommon/WEB-INF/common-controller.xml"/>
 
-    <description>NingBoMat Component Site Configuration File</description>
+    <description>GongsConfig Component Site Configuration File</description>
     <preprocessor>
         <event name="basicAuth" type="java" path="com.dpbird.odata.login.LoginEvents" invoke="logInUser"/>
     </preprocessor>
@@ -78,13 +78,6 @@ under the License.
         <security https="false" auth="false"/>
         <!--<event type="service" invoke="userLogin"/>-->
         <event type="java" path="org.apache.ofbiz.webapp.control.LoginWorker" invoke="login"></event>
-        <response name="success" type="request" value="json"/>
-        <response name="error" type="request" value="json"/>
-    </request-map>
-    <request-map uri="externalLogin">
-        <security https="false" auth="false"/>
-        <!--<event type="service" invoke="userLogin"/>-->
-        <event type="java" path="com.banfftech.common.events.LoginEvent" invoke="externalAndTelLogin"></event>
         <response name="success" type="request" value="json"/>
         <response name="error" type="request" value="json"/>
     </request-map>
