@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-engine-xml>
+    <!--============================================系统-管理应用Master数据Begin============================================-->
+    <!-- 公司 -->
+    <Party partyId="Company" partyTypeId="PARTY_GROUP" partyName="上海工至信息科技服务有限公司"/>
+    <PartyGroup partyId="Company" groupName="上海工至信息科技服务有限公司"/>
+    <PartyRole partyId="Company" roleTypeId="INTERNAL_ORGANIZATIO"/>
+
+<!--    &lt;!&ndash; 公司和部门的关联 &ndash;&gt;-->
+<!--    &lt;!&ndash;PartyRelationship（医院-科室）&ndash;&gt;-->
+<!--    <PartyRelationship partyRelationshipId="PRS_10000" partyIdFrom="Company" partyIdTo="Department1" roleTypeIdFrom="INTERNAL_ORGANIZATIO" roleTypeIdTo="DEPARTMENT" fromDate="2023-01-01 00:00:00.0"/>-->
+<!--    &lt;!&ndash; 部门 &ndash;&gt;-->
+<!--    <Party partyId="Department1" partyTypeId="PARTY_GROUP" partyName="上海工至信息科技服务有限公司"/>-->
+<!--    <PartyGroup partyId="Department1" groupName="上海工至信息科技服务有限公司"/>-->
+<!--    <PartyRole partyId="Department1" roleTypeId="DEPARTMENT"/>-->
+    <!--============================================系统-管理应用Master数据Begin============================================-->
+</entity-engine-xml>

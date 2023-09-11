@@ -1,0 +1,25 @@
+<ofbiz-edm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd" ImportGlobal="false">
+
+    <!--=====================================     主对象EntityType definition     =====================================-->
+    <!--主部门-->
+    <EntityType Name="Company" OfbizEntity="Party" EntitySetName="Companies"
+                AutoProperties="true">
+        <NavigationProperty Name="Department" Type="Department" Relations="ToPartyRelationship/ToView"/>
+    </EntityType>
+
+    <!--部门-->
+    <EntityType Name="Department" OfbizEntity="PartyAndGroup" EntitySetName="DepartmentAndMembers"
+                AutoProperties="true">
+        <NavigationProperty Name="SubDepartment" Type="Department" Relations="ToPartyRelationship/ToView"/>
+     </EntityType>
+
+    <!--成员-->
+    <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members"
+                EntityCondition="ToPartyRelationship(partyIdFrom=Company)"
+                AutoProperties="true">
+
+    </EntityType>
+    <!--=====================================     子对象EntityType definition     =====================================-->
+    <!--=====================================    Action Definition End   =====================================-->
+</ofbiz-edm>
