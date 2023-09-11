@@ -25,4 +25,50 @@ under the License.
         <value xml:lang="zh">审批任务名称</value>
         <value xml:lang="zh-TW">审批任务名称</value>
     </property>
+
+    <property key="ProcessEntityProcessEntityId">
+        <value xml:lang="en">Business object id</value>
+        <value xml:lang="zh">业务对象标识</value>
+        <value xml:lang="zh-TW">业务对象标识</value>
+    </property>
+    <property key="ProcessEntityProcessEntityName">
+        <value xml:lang="en">The name of the business object</value>
+        <value xml:lang="zh">业务对象名称</value>
+        <value xml:lang="zh-TW">业务对象名称</value>
+    </property>
+    <property key="ProcessEntityProcessTableName">
+        <value xml:lang="en">The business object table name</value>
+        <value xml:lang="zh">业务对象表名</value>
+        <value xml:lang="zh-TW">业务对象表名</value>
+    </property>
+    <property key="ProcessEntityDescription">
+        <value xml:lang="en">Description</value>
+        <value xml:lang="zh">描述</value>
+        <value xml:lang="zh-TW">描述</value>
+    </property>
+    <property key="ProcessFieldProcessFieldId">
+        <value xml:lang="en">Field ID</value>
+        <value xml:lang="zh">字段标识</value>
+        <value xml:lang="zh-TW">字段标识</value>
+    </property>
+    <property key="ProcessFieldProcessFieldName">
+        <value xml:lang="en">Field Name</value>
+        <value xml:lang="zh">字段名称</value>
+        <value xml:lang="zh-TW">字段名称</value>
+    </property>
+    <property key="ProcessFieldProcessFieldTypeId">
+        <value xml:lang="en">Field Type</value>
+        <value xml:lang="zh">字段类型</value>
+        <value xml:lang="zh-TW">字段类型</value>
+    </property>
+    <property key="ProcessFieldDescription">
+        <value xml:lang="en">Description</value>
+        <value xml:lang="zh">描述</value>
+        <value xml:lang="zh-TW">描述</value>
+    </property>
+    <property key="UpdateData">
+        <value xml:lang="en">Update Config</value>
+        <value xml:lang="zh">更新设置</value>
+        <value xml:lang="zh-TW">更新设置</value>
+    </property>
 </resource>

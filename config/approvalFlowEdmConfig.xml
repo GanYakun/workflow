@@ -1,0 +1,52 @@
+<ofbiz-edm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd"
+           ImportGlobal="false">
+
+    <EntityType Name="MainProcess" EntitySetName="MainProcess" AutoProperties="true">
+        <!-- 流程设计发布 -->
+        <Action Name="SaveProcess" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.saveProcess">
+            <Parameter Name="mainProcess" Type="MainProcess" Nullable="false" IsCollection="false"/>
+            <Parameter Name="nodeData" Type="Edm.String" Nullable="false" IsCollection="false"/>
+        </Action>
+        <NavigationProperty Name="ProcessEntity"/>
+    </EntityType>
+
+    <!-- 业务对象 -->
+    <EntityType Name="ProcessEntity" AutoProperties="true" EntitySetName="ProcessEntities">
+        <SelectionFields PropertyPath="processEntityId,processEntityName,description"/>
+        <LineItem>
+            <DataField Values="processEntityId,processEntityName,processTableName,description"/>
+        </LineItem>
+        <HeaderInfo>
+            <Title Path="processEntityName"/>
+            <Description Path="description"/>
+        </HeaderInfo>
+        <Action Name="InitFieldType" IsBound="true" OfbizService="com.banfftech.event.DataEvent.initFieldType">
+            <Parameter Name="processEntity" Type="ProcessEntity" Nullable="false" IsCollection="false"/>
+        </Action>
+        <NavigationProperty Name="ProcessField"/>
+    </EntityType>
+
+    <EntityType Name="ProcessField" AutoProperties="true" EntitySetName="ProcessFields">
+        <Property Name="processFieldTypeId">
+            <Text Path="ProcessFieldType/description" TextArrangement="TextOnly"/>
+        </Property>
+        <LineItem>
+            <DataField Values="processFieldName,processFieldTypeId,description"/>
+            <DataFieldForAction Label="${uiLabelMap.UpdateData}" Action="UpdateData" InvocationGrouping="Isolated" Criticality="Positive" Inline="true" Importance="High"/>
+        </LineItem>
+        <NavigationProperty Name="ProcessFieldType"/>
+        <Action Name="UpdateData" IsBound="true" OfbizService="com.banfftech.event.DataEvent.updateData">
+            <Parameter Name="processField" Type="ProcessField" Nullable="false" IsCollection="false"/>
+            <Parameter Name="processFieldTypeId" Type="String" Nullable="false" IsCollection="false"/>
+            <Parameter Name="description" Type="String" Nullable="false" IsCollection="false"/>
+        </Action>
+    </EntityType>
+    
+    <EntityType Name="ProcessFieldType" AutoProperties="true" EntitySetName="ProcessFieldTypes">
+        <Property Name="processFieldTypeId">
+            <Text Path="description" TextArrangement="TextOnly"/>
+        </Property>
+    </EntityType>
+
+</ofbiz-edm>
