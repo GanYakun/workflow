@@ -7,7 +7,6 @@
                 AutoProperties="true" EntityCondition="PartyRole/roleTypeId=INTERNAL_ORGANIZATIO">
         <NavigationProperty Name="Department" Type="Department" Relations="FromPartyRelationship/ToPartyAndPartyGroup" IsCollection="true"/>
         <NavigationProperty Name="Member" Type="Member" Relations="FromPartyRelationship/ToPartyAndContact" IsCollection="true"/>
-<!--        <NavigationProperty Name="DesignatedMember" Type="Member" Relations="FromPartyRelationship/PartyAndContact"/>-->
     </EntityType>
 
     <!--部门-->
