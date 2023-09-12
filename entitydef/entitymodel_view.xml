@@ -6,7 +6,7 @@
 	<copyright></copyright>
 	<version></version>
 
-    <view-entity entity-name="PartyAndGroup" package-name="com.banfftech.gongsconfig">
+    <view-entity entity-name="PartyAndPartyGroup" package-name="com.banfftech.gongsconfig">
         <member-entity entity-alias="PTY" entity-name="Party"/>
         <member-entity entity-alias="PTGP" entity-name="PartyGroup"/>
         <alias-all entity-alias="PTY"/>

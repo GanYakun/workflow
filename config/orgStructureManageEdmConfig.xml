@@ -4,22 +4,30 @@
     <!--=====================================     主对象EntityType definition     =====================================-->
     <!--主部门-->
     <EntityType Name="Company" OfbizEntity="Party" EntitySetName="Companies"
-                AutoProperties="true">
-        <NavigationProperty Name="Department" Type="Department" Relations="ToPartyRelationship/ToView"/>
+                AutoProperties="true" EntityCondition="PartyRole/roleTypeId=INTERNAL_ORGANIZATIO">
+        <NavigationProperty Name="Department" Type="Department" Relations="FromPartyRelationship/ToPartyAndPartyGroup" IsCollection="true"/>
+        <NavigationProperty Name="Member" Type="Member" Relations="FromPartyRelationship/ToPartyAndContact" IsCollection="true"/>
+<!--        <NavigationProperty Name="DesignatedMember" Type="Member" Relations="FromPartyRelationship/PartyAndContact"/>-->
     </EntityType>
 
     <!--部门-->
-    <EntityType Name="Department" OfbizEntity="PartyAndGroup" EntitySetName="DepartmentAndMembers"
+    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments"
                 AutoProperties="true">
-        <NavigationProperty Name="SubDepartment" Type="Department" Relations="ToPartyRelationship/ToView"/>
+        <LineItem Qualifier="Department">
+            <DataField Values="partyId,partyName" Importance="High"/>
+        </LineItem>
+        <NavigationProperty Name="SubDepartment" Type="Department" Relations="FromPartyRelationship/ToPartyAndPartyGroup" IsCollection="true"/>
+        <NavigationProperty Name="Member" Type="Member" Relations="FromPartyRelationship/ToPartyAndContact" IsCollection="true"/>
      </EntityType>
 
     <!--成员-->
     <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members"
-                EntityCondition="ToPartyRelationship(partyIdFrom=Company)"
                 AutoProperties="true">
-
+        <LineItem Qualifier="Member">
+            <DataField Values="partyId,partyName" Importance="High"/>
+        </LineItem>
     </EntityType>
+
     <!--=====================================     子对象EntityType definition     =====================================-->
     <!--=====================================    Action Definition End   =====================================-->
 </ofbiz-edm>
