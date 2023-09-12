@@ -20,7 +20,7 @@ under the License.
 
 <services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="https://ofbiz.apache.org/dtds/services.xsd">
-    <description>GongsConfig Services</description>
+    <description>NingBoMat Services</description>
     <vendor></vendor>
     <version>1.0</version>
 
@@ -28,6 +28,6 @@ under the License.
         <description>
             Dummy service to prevent empty files and syntax error - Remove when the 1st real service will be added here 
         </description>
-    </service> 
-    
+    </service>
+
 </services>
