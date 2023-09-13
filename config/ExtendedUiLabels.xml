@@ -71,26 +71,47 @@ under the License.
         <value xml:lang="zh">更新设置</value>
         <value xml:lang="zh-TW">更新设置</value>
     </property>
-<!--C-->
-    <!--Company-->
-    <property key="CompanyPartyName">
-        <value xml:lang="en">CompanyName</value>
-        <value xml:lang="zh">公司名称</value>
-    </property>
-    <property key="CompanyDescription">
-        <value xml:lang="en">Description</value>
-        <value xml:lang="zh">描述</value>
-    </property>
+
 <!--D-->
     <!--Department-->
     <property key="DepartmentPartyName">
         <value xml:lang="en">DepartmentName</value>
         <value xml:lang="zh">部门名称</value>
     </property>
+    <property key="DepartmentMemberNumber">
+        <value xml:lang="en">MemberNumber</value>
+        <value xml:lang="zh">部门人数</value>
+    </property>
+    <property key="DepartmentDepartmentManager">
+        <value xml:lang="en">DepartmentManager</value>
+        <value xml:lang="zh">负责人</value>
+    </property>
 <!--M-->
     <!--Member-->
     <property key="MemberPartyName">
         <value xml:lang="en">MemberName</value>
         <value xml:lang="zh">姓名</value>
+    </property>
+    <property key="MemberPhoneMobile">
+        <value xml:lang="en">PhoneMobile</value>
+        <value xml:lang="zh">联系电话</value>
+    </property>
+    <property key="MemberPrimaryEmail">
+        <value xml:lang="en">PrimaryEmail</value>
+        <value xml:lang="zh">联系邮箱</value>
+    </property>
+<!--D-->
+    <!--SubDepartment-->
+    <property key="SubDepartmentPartyName">
+        <value xml:lang="en">DepartmentName</value>
+        <value xml:lang="zh">部门名称</value>
+    </property>
+    <property key="SubDepartmentMemberNumber">
+        <value xml:lang="en">MemberNumber</value>
+        <value xml:lang="zh">部门人数</value>
+    </property>
+    <property key="SubDepartmentDepartmentManager">
+        <value xml:lang="en">DepartmentManager</value>
+        <value xml:lang="zh">负责人</value>
     </property>
 </resource>

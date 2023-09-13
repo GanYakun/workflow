@@ -30,6 +30,15 @@ under the License.
         </description>
     </service>
 
+    <service name="banfftech.createDepartment" engine="java"
+             default-entity-name="PartyAndPartyGroup"
+             invoke="createDepartment" auth="true"
+             location="com.banfftech.services.GConfigService">
+        <description>Create a PartyAndPartyGroup</description>
+        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+
     <service name="banfftech.createPartyAndPartyGroup" engine="java"
              default-entity-name="PartyAndPartyGroup"
              invoke="createPartyAndPartyGroup" auth="true"
@@ -37,7 +46,6 @@ under the License.
         <description>Create a PartyAndPartyGroup</description>
         <auto-attributes include="pk" mode="INOUT" optional="true"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
-        <override name="facilityLocationId" mode="IN" optional="false"/>
     </service>
 
     <service name="banfftech.updatePartyAndPartyGroup" engine="java"

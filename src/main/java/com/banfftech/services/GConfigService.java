@@ -62,4 +62,24 @@ public class GConfigService {
 
         return ServiceUtil.returnSuccess();
     }
+
+    public static Map<String, Object> createDepartment(DispatchContext dctx, Map<String, Object> context) throws GenericServiceException {
+        try {
+            Map<String, Object> partyResult = CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createParty",
+                    (String) context.get("userLoginId"));
+            context.put("partyId", partyResult.get("partyId"));
+            context.put("roleTypeId", "DEPARTMENT");
+            CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createPartyRole",
+                    (String) context.get("userLoginId"));
+            CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createPartyGroup",
+                    (String) context.get("userLoginId"));
+            context.put("partyIdFrom", "Company");
+            context.put("partyIdTo", partyResult.get("partyId"));
+            CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createPartyRelationship",
+                    (String) context.get("userLoginId"));
+        } catch (GeneralServiceException | GenericEntityException | GenericServiceException e) {
+            throw new GenericServiceException(e.getMessage());
+        }
+        return ServiceUtil.returnSuccess();
+    }
 }

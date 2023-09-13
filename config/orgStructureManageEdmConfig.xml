@@ -9,22 +9,62 @@
         <NavigationProperty Name="Member" Type="Member" Relations="FromPartyRelationship/ToPartyAndContact" IsCollection="true"/>
     </EntityType>
 
-    <!--部门-->
-    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments"
-                AutoProperties="true">
+    <!--主部门-->
+    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments" EntityCondition="partyTypeId=PARTY_GROUP and ToPartyRelationship/partyIdFrom=Company"
+                AutoProperties="true"
+                Handler="component://gongsconfig/groovyScripts/orgStructureManage/Department.groovy">
+        <SelectionFields PropertyPath="partyName,DepartmentManager/partyName"/>
+        <RelAlias Name="Manager" Relations="FromPartyRelationship(roleTypeIdTo=MANAGER)"/>
+        <Property Name="departmentManager" RelAlias="Manager" Field="partyIdTo"/>
+        <Property Name="partyTypeId" DefaultValue="PARTY_GROUP"/>
+        <Property Name="memberNumber" Type="BigDecimal"/>
         <LineItem Qualifier="Department">
             <DataField Values="partyId,partyName" Importance="High"/>
         </LineItem>
-        <NavigationProperty Name="SubDepartment" Type="Department" Relations="FromPartyRelationship/ToPartyAndPartyGroup" IsCollection="true"/>
-        <NavigationProperty Name="Member" Type="Member" Relations="FromPartyRelationship/ToPartyAndContact" IsCollection="true"/>
+        <FieldGroup Label="基本信息" Qualifier="BaseInfo">
+            <DataField Values="partyName,memberNumber,DepartmentManager/partyName" Importance="High"/>
+        </FieldGroup>
+        <HeaderInfo>
+            <Title Path="partyName"/>
+            <Description Path="description"/>
+        </HeaderInfo>
+        <NavigationProperty Name="SubDepartment" Type="SubDepartment" Relations="FromPartyRelationship(roleTypeIdTo=DEPARTMENT)/ToPartyAndPartyGroup" IsCollection="true"/>
+        <NavigationProperty Name="Member" Type="Member" Relations="FromPartyRelationship(roleTypeIdTo=EMPLOYEE)/ToPartyAndContact" IsCollection="true"/>
+        <NavigationProperty Name="DepartmentManager" Type="Member" Relations="FromPartyRelationship(roleTypeIdTo=MANAGER)/ToPartyAndContact" IsCollection="false"/>
      </EntityType>
 
+    <!--子部门-->
+    <EntityType Name="SubDepartment" OfbizEntity="PartyAndPartyGroup" EntitySetName="SubDepartments" EntityCondition="partyTypeId=PARTY_GROUP"
+                AutoProperties="true"
+                Handler="component://gongsconfig/groovyScripts/orgStructureManage/Department.groovy">
+        <RelAlias Name="Manager" Relations="FromPartyRelationship(roleTypeIdTo=MANAGER)"/>
+        <Property Name="departmentManager" RelAlias="Manager" Field="partyIdTo"/>
+        <Property Name="partyTypeId" DefaultValue="PARTY_GROUP"/>
+        <Property Name="memberNumber" Type="BigDecimal"/>
+        <LineItem Qualifier="Department">
+            <DataField Values="partyId,partyName" Importance="High"/>
+        </LineItem>
+        <FieldGroup Label="基本信息" Qualifier="BaseInfo">
+            <DataField Values="partyName,memberNumber,departmentManager" Importance="High"/>
+        </FieldGroup>
+        <HeaderInfo>
+            <Title Path="partyName"/>
+            <Description Path="description"/>
+        </HeaderInfo>
+        <NavigationProperty Name="SubDepartment" Type="Department" Relations="FromPartyRelationship/ToPartyAndPartyGroup" IsCollection="true"/>
+        <NavigationProperty Name="Member" Type="Member" Relations="FromPartyRelationship(roleTypeIdTo=EMPLOYEE)/ToPartyAndContact" IsCollection="true"/>
+        <NavigationProperty Name="DepartmentManager" Type="Member" Relations="FromPartyRelationship(roleTypeIdTo=MANAGER)/ToPartyAndContact" IsCollection="false"/>
+    </EntityType>
+
     <!--成员-->
-    <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members"
+    <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members" EntityCondition="partyTypeId=PERSON"
                 AutoProperties="true">
+        <Property Name="partyTypeId" DefaultValue="PERSON"/>
         <LineItem Qualifier="Member">
             <DataField Values="partyId,partyName" Importance="High"/>
         </LineItem>
+        <NavigationProperty Name="Department" Type="SubDepartment" Relations="ToPartyRelationship/FromPartyAndPartyGroup" IsCollection="false"/>
+
     </EntityType>
 
     <!--=====================================     子对象EntityType definition     =====================================-->

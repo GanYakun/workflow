@@ -2,4 +2,18 @@
 
 <service-eca xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/service-eca.xsd">
+
+    <eca service="banfftech.createDepartment" event="global-commit">
+        <action service="banfftech.createPartyRoleTest" mode="sync"/>
+    </eca>
+
+<!--    <eca service="banfftech.createPartyAndPartyGroup" event="global-commit">-->
+<!--        <set field-name="roleTypeId" value="DEPARTMENT" />-->
+<!--        <action service="banfftech.createPartyRole" mode="sync"/>-->
+<!--    </eca>-->
+
+<!--    <eca service="banfftech.PartyAndContact" event="global-commit">-->
+<!--        <set field-name="roleTypeId" value="EMPLOYEE"/>-->
+<!--        <action service="banfftech.createPartyRole" mode="sync"/>-->
+<!--    </eca>-->
 </service-eca>
