@@ -71,7 +71,11 @@ under the License.
         <value xml:lang="zh">更新设置</value>
         <value xml:lang="zh-TW">更新设置</value>
     </property>
-
+    <property key="ProcessFieldAsCondition">
+        <value xml:lang="en">As Approval Condition</value>
+        <value xml:lang="zh">作为审批条件</value>
+        <value xml:lang="zh-TW">作为审批条件</value>
+    </property>
 <!--D-->
     <!--Department-->
     <property key="DepartmentPartyName">
