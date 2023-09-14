@@ -2,12 +2,22 @@
            xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd"
            ImportGlobal="false">
 
+    <!-- 主流程对象 -->
     <EntityType Name="MainProcess" EntitySetName="MainProcess" AutoProperties="true">
         <!-- 流程设计发布 -->
         <Action Name="SaveProcess" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.saveProcess">
             <Parameter Name="mainProcess" Type="MainProcess" Nullable="false" IsCollection="false"/>
             <Parameter Name="nodeData" Type="Edm.String" Nullable="false" IsCollection="false"/>
         </Action>
+        <!-- 发布(启用) -->
+        <Action Name="PublishFlow" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.publishFlow">
+            <Parameter Name="mainProcess" Type="MainProcess" Nullable="false" IsCollection="false"/>
+        </Action>
+        <!-- 停用 -->
+        <Action Name="StopFlow" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.stopFlow">
+            <Parameter Name="mainProcess" Type="MainProcess" Nullable="false" IsCollection="false"/>
+        </Action>
+        <NavigationProperty Name="ProcessEntity"/>
         <NavigationProperty Name="ProcessEntity"/>
     </EntityType>
 
@@ -28,6 +38,7 @@
         <NavigationProperty Name="ProcessField"/>
     </EntityType>
 
+    <!-- 业务对象字段 -->
     <EntityType Name="ProcessField" AutoProperties="true" EntitySetName="ProcessFields">
         <Property Name="asCondition" Type="Boolean"/>
         <Property Name="processFieldTypeId">
@@ -38,7 +49,7 @@
             <DataFieldForAction Label="${uiLabelMap.UpdateData}" Action="UpdateData" InvocationGrouping="Isolated" Criticality="Positive" Inline="true" Importance="High"/>
         </LineItem>
         <NavigationProperty Name="ProcessFieldType"/>
-        <!-- 更新字段描述和类型 -->
+        <!-- 更新字段描述,类型,可作为审批条件 -->
         <Action Name="UpdateData" IsBound="true" OfbizService="com.banfftech.event.ApprovalObjectEvent.updateData">
             <Parameter Name="processField" Type="ProcessField" Nullable="false" IsCollection="false"/>
             <Parameter Name="processFieldTypeId" Type="String" Nullable="false" IsCollection="false"/>
@@ -59,5 +70,8 @@
             <Parameter Name="inCustRequest" Type="InCustRequest" Nullable="false" IsCollection="false"/>
         </Action>
     </EntityType>
+
+    <EntityType Name="StatusItem" EntitySetName="StatusItems" AutoProperties="true"/>
+    <EntityType Name="Enumeration" EntitySetName="Enumerations" AutoProperties="true" EntityCondition="enumTypeId=PROCESS_RANGE"/>
 
 </ofbiz-edm>
