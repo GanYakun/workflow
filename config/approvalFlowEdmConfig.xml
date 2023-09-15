@@ -2,12 +2,22 @@
            xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd"
            ImportGlobal="false">
 
+    <!-- 主流程对象 -->
     <EntityType Name="MainProcess" EntitySetName="MainProcess" AutoProperties="true">
         <!-- 流程设计发布 -->
         <Action Name="SaveProcess" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.saveProcess">
             <Parameter Name="mainProcess" Type="MainProcess" Nullable="false" IsCollection="false"/>
             <Parameter Name="nodeData" Type="Edm.String" Nullable="false" IsCollection="false"/>
         </Action>
+        <!-- 发布(启用) -->
+        <Action Name="PublishFlow" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.publishFlow">
+            <Parameter Name="mainProcess" Type="MainProcess" Nullable="false" IsCollection="false"/>
+        </Action>
+        <!-- 停用 -->
+        <Action Name="StopFlow" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.stopFlow">
+            <Parameter Name="mainProcess" Type="MainProcess" Nullable="false" IsCollection="false"/>
+        </Action>
+        <NavigationProperty Name="ProcessEntity"/>
         <NavigationProperty Name="ProcessEntity"/>
     </EntityType>
 
@@ -21,24 +31,29 @@
             <Title Path="processEntityName"/>
             <Description Path="description"/>
         </HeaderInfo>
-        <Action Name="InitFieldType" IsBound="true" OfbizService="com.banfftech.event.DataEvent.initFieldType">
+        <!-- 初始化字段类型 -->
+        <Action Name="InitFieldType" IsBound="true" OfbizService="com.banfftech.event.ApprovalObjectEvent.initFieldType">
             <Parameter Name="processEntity" Type="ProcessEntity" Nullable="false" IsCollection="false"/>
         </Action>
         <NavigationProperty Name="ProcessField"/>
     </EntityType>
 
+    <!-- 业务对象字段 -->
     <EntityType Name="ProcessField" AutoProperties="true" EntitySetName="ProcessFields">
+        <Property Name="asCondition" Type="Boolean"/>
         <Property Name="processFieldTypeId">
             <Text Path="ProcessFieldType/description" TextArrangement="TextOnly"/>
         </Property>
         <LineItem>
-            <DataField Values="processFieldName,processFieldTypeId,description"/>
+            <DataField Values="processFieldName,processFieldTypeId,asCondition,description"/>
             <DataFieldForAction Label="${uiLabelMap.UpdateData}" Action="UpdateData" InvocationGrouping="Isolated" Criticality="Positive" Inline="true" Importance="High"/>
         </LineItem>
         <NavigationProperty Name="ProcessFieldType"/>
-        <Action Name="UpdateData" IsBound="true" OfbizService="com.banfftech.event.DataEvent.updateData">
+        <!-- 更新字段描述,类型,可作为审批条件 -->
+        <Action Name="UpdateData" IsBound="true" OfbizService="com.banfftech.event.ApprovalObjectEvent.updateData">
             <Parameter Name="processField" Type="ProcessField" Nullable="false" IsCollection="false"/>
             <Parameter Name="processFieldTypeId" Type="String" Nullable="false" IsCollection="false"/>
+            <Parameter Name="asCondition" Type="Boolean" Nullable="false" IsCollection="false"/>
             <Parameter Name="description" Type="String" Nullable="false" IsCollection="false"/>
         </Action>
     </EntityType>
@@ -48,5 +63,15 @@
             <Text Path="description" TextArrangement="TextOnly"/>
         </Property>
     </EntityType>
+
+    <!-- 一个入库请求单的demo -->
+    <EntityType Name="InCustRequest" OfbizEntity="CustRequest" EntitySetName="InCustRequests" AutoProperties="true">
+        <Action Name="SubmitApproval" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.submitApproval">
+            <Parameter Name="inCustRequest" Type="InCustRequest" Nullable="false" IsCollection="false"/>
+        </Action>
+    </EntityType>
+
+    <EntityType Name="StatusItem" EntitySetName="StatusItems" AutoProperties="true"/>
+    <EntityType Name="Enumeration" EntitySetName="Enumerations" AutoProperties="true" EntityCondition="enumTypeId=PROCESS_RANGE"/>
 
 </ofbiz-edm>

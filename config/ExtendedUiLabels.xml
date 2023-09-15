@@ -82,6 +82,11 @@ under the License.
         <value xml:lang="zh">公司名称</value>
     </property>
     <!--M-->
+    <property key="ProcessFieldAsCondition">
+        <value xml:lang="en">As Approval Condition</value>
+        <value xml:lang="zh">作为审批条件</value>
+        <value xml:lang="zh-TW">作为审批条件</value>
+    </property>
 <!--D-->
     <!--Department-->
     <property key="DepartmentPartyName">
