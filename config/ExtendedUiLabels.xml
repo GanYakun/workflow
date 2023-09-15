@@ -71,15 +71,25 @@ under the License.
         <value xml:lang="zh">更新设置</value>
         <value xml:lang="zh-TW">更新设置</value>
     </property>
-
+<!--C-->
+    <!--Company-->
+    <property key="CompanyPartyId">
+        <value xml:lang="en">CompanyPartyId</value>
+        <value xml:lang="zh">公司标识</value>
+    </property>
+    <property key="CompanyPartyName">
+        <value xml:lang="en">CompanyName</value>
+        <value xml:lang="zh">公司名称</value>
+    </property>
+    <!--M-->
 <!--D-->
     <!--Department-->
     <property key="DepartmentPartyName">
         <value xml:lang="en">DepartmentName</value>
         <value xml:lang="zh">部门名称</value>
     </property>
-    <property key="DepartmentMemberNumber">
-        <value xml:lang="en">MemberNumber</value>
+    <property key="DepartmentNumEmployees">
+        <value xml:lang="en">NumEmployees</value>
         <value xml:lang="zh">部门人数</value>
     </property>
     <property key="DepartmentDepartmentManager">
@@ -100,18 +110,20 @@ under the License.
         <value xml:lang="en">PrimaryEmail</value>
         <value xml:lang="zh">联系邮箱</value>
     </property>
-<!--D-->
-    <!--SubDepartment-->
-    <property key="SubDepartmentPartyName">
-        <value xml:lang="en">DepartmentName</value>
-        <value xml:lang="zh">部门名称</value>
+    <property key="MemberGender">
+        <value xml:lang="en">Gender</value>
+        <value xml:lang="zh">性别</value>
     </property>
-    <property key="SubDepartmentMemberNumber">
-        <value xml:lang="en">MemberNumber</value>
-        <value xml:lang="zh">部门人数</value>
+    <property key="MemberExternalId">
+        <value xml:lang="en">ExternalId</value>
+        <value xml:lang="zh">工号</value>
     </property>
-    <property key="SubDepartmentDepartmentManager">
-        <value xml:lang="en">DepartmentManager</value>
-        <value xml:lang="zh">负责人</value>
+    <property key="MemberNickName">
+        <value xml:lang="en">NickName</value>
+        <value xml:lang="zh">别名</value>
+    </property>
+    <property key="MemberIsManager">
+        <value xml:lang="en">IsManager</value>
+        <value xml:lang="zh">是否为负责人</value>
     </property>
 </resource>

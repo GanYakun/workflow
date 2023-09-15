@@ -1,13 +1,14 @@
 package com.banfftech.services;
 
 import com.banfftech.common.util.CommonUtils;
+import org.apache.ofbiz.base.util.UtilMisc;
+import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
-import org.apache.ofbiz.service.DispatchContext;
-import org.apache.ofbiz.service.GeneralServiceException;
-import org.apache.ofbiz.service.GenericServiceException;
-import org.apache.ofbiz.service.ServiceUtil;
+import org.apache.ofbiz.entity.util.EntityQuery;
+import org.apache.ofbiz.service.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -73,13 +74,30 @@ public class GConfigService {
                     (String) context.get("userLoginId"));
             CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createPartyGroup",
                     (String) context.get("userLoginId"));
-            context.put("partyIdFrom", "Company");
-            context.put("partyIdTo", partyResult.get("partyId"));
-            CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createPartyRelationship",
-                    (String) context.get("userLoginId"));
         } catch (GeneralServiceException | GenericEntityException | GenericServiceException e) {
             throw new GenericServiceException(e.getMessage());
         }
+        return ServiceUtil.returnSuccess();
+    }
+
+    public static Map<String, Object> updateMemberNumber(DispatchContext dctx, Map<String, Object> context)
+            throws GenericServiceException {
+        try {
+            Delegator delegator = dctx.getDelegator();
+            LocalDispatcher dispatcher = dctx.getDispatcher();
+            GenericValue userLogin = (GenericValue) context.get("uerLogin");
+            String partyId = (String) context.get("partyId");
+            GenericValue department = EntityQuery.use(delegator).from("PartyRelationship")
+                    .where(UtilMisc.toMap("partyIdTo", partyId, "roleTypeIdTo", "EMPLOYEE", "roleTypeIdFrom", "DEPARTMENT"))
+                    .queryFirst();
+            List<GenericValue> members = EntityQuery.use(delegator).from("PartyRelationship")
+                    .where(UtilMisc.toMap("partyIdFrom", department.getString("partyIdFrom"), "roleTypeIdTo", "EMPLOYEE", "roleTypeIdFrom", "DEPARTMENT"))
+                    .queryList();
+            dispatcher.runSync("banfftech.updatePartyGroup",UtilMisc.toMap("partyId",department.getString("partyIdFrom"),"numEmployees",members.size()));
+        } catch (GenericEntityException e) {
+            throw new GenericServiceException(e.getMessage());
+        }
+
         return ServiceUtil.returnSuccess();
     }
 }

@@ -64,5 +64,14 @@ under the License.
         <description>Delete a PartyAndPartyGroup</description>
         <auto-attributes include="pk" mode="IN" optional="true"/>
     </service>
+
+    <!--创建部门成员之后，更新PartyGroup  -->
+    <service name="banfftech.updateMemberNumber" engine="java"
+             default-entity-name="PartyGroup"
+             invoke="updateMemberNumber" auth="false"
+             location="com.banfftech.services.GConfigService">
+        <description>Update a PartyGroup</description>
+        <auto-attributes include="pk" mode="IN" optional="true"/>
+    </service>
     
 </services>
