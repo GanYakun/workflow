@@ -47,14 +47,14 @@
         <NavigationProperty Name="Member" Type="Member"
                             Relations="FromPartyRelationship(roleTypeIdFrom=DEPARTMENT and roleTypeIdTo=EMPLOYEE)/ToPartyAndContact"
                             IsCollection="true"/>
-        <!--        <NavigationProperty Name="DepartmentManager" Type="Member" Relations="FromPartyRelationship(roleTypeIdTo=MANAGER)/ToPartyAndContact" IsCollection="false"/>-->
     </EntityType>
-    
+
     <!--成员-->
     <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members" EntityCondition="partyTypeId=PERSON"
                 AutoProperties="true"
                 Handler="component://gongsconfig/groovyScripts/orgStructureManage/Member.groovy">
         <SelectionFields PropertyPath="birthDate,gender"/>
+        <ValueList CollectionPath="Members" WithFixedValues="true"/>
         <RelAlias Name="Person" Relations="Person"/>
         <Property Name="gender" RelAlias="Person" Field="gender" FieldControl="Mandatory" Required="true">
             <Text Path="GenderEnumeration/description" TextArrangement="TextOnly"/>
@@ -64,7 +64,9 @@
         <Property Name="partyTypeId" DefaultValue="PERSON"/>
         <Property Name="isManager" Type="Boolean"/>
         <Property Name="isNotManager" Type="Boolean"/>
-        <Property Name="partyId" Immutable="true"/>
+        <Property Name="partyId" Immutable="true">
+            <Text Path="partyName" TextArrangement="TextOnly"/>
+        </Property>
         <Property Name="partyName" FieldControl="Mandatory" Required="true"/>
         <Property Name="phoneMobile" FieldControl="Mandatory" Required="true"/>
         <Property Name="primaryEmail" FieldControl="Mandatory" Required="true"/>
@@ -90,11 +92,41 @@
     <!--性别-->
     <EntityType Name="Gender" OfbizEntity="Enumeration" EntitySetName="Genders" EntityCondition="enumTypeId=GENDER"
                 AutoProperties="true">
-        <Property Name="enumId" >
+        <Property Name="enumId">
             <Text Path="description" TextArrangement="TextOnly"/>
         </Property>
         <ValueList WithFixedValues="true" CollectionPath="Genders"/>
     </EntityType>
+
+    <!--角色管理-->
+    <EntityType Name="Role" OfbizEntity="RoleType" EntitySetName="Roles" EntityCondition="parentTypeId=MAIN_ROLE"
+                AutoProperties="true">
+        <SelectionFields PropertyPath="description"/>
+        <Property Name="roleTypeId" Computed="true"/>
+        <LineItem>
+            <DataField Values="description" Importance="High"/>
+        </LineItem>
+        <HeaderInfo TypeName="Role Manage" TypeNamePlural="角色信息">
+            <Title Path="roleTypeId"/>
+            <Description Path="description"/>
+        </HeaderInfo>
+        <NavigationProperty Name="RolePartyDisplay" Type="RolePartyDisplay"
+                            Relations="PartyRole"
+                            IsCollection="true"/>
+    </EntityType>
+
+
+    <EntityType Name="RolePartyDisplay" OfbizEntity="PartyRole" EntitySetName="RolePartyDisplays" AutoProperties="true">
+        <Property Name="partyTypeId" DefaultValue="MAIN_ROLE"/>
+        <Property Name="partyId" FieldControl="Mandatory" Required="true">
+            <Text Path="Member/partyName" TextArrangement="TextOnly"/>
+        </Property>
+        <LineItem>
+            <DataField Values="Member/partyName,Member/gender,Member/birthDate,Member/nickName,Member/phoneMobile,Member/primaryEmail,Member/externalId,Member/Department/partyName" Importance="High"/>
+        </LineItem>
+        <NavigationProperty Name="Member" Type="Member" Relations="PartyAndContact"/>
+    </EntityType>
+
 
     <!--=====================================     子对象EntityType definition     =====================================-->
     <!--=====================================    Action Definition End   =====================================-->

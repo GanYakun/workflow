@@ -89,9 +89,17 @@ under the License.
     </property>
 <!--D-->
     <!--Department-->
+    <property key="DepartmentPartyId">
+        <value xml:lang="en">DepartmentID</value>
+        <value xml:lang="zh">部门ID</value>
+    </property>
     <property key="DepartmentPartyName">
         <value xml:lang="en">DepartmentName</value>
         <value xml:lang="zh">部门名称</value>
+    </property>
+    <property key="PartyOfDepartment">
+        <value xml:lang="en">DepartmentName</value>
+        <value xml:lang="zh">所属部门</value>
     </property>
     <property key="DepartmentNumEmployees">
         <value xml:lang="en">NumEmployees</value>
@@ -103,6 +111,10 @@ under the License.
     </property>
 <!--M-->
     <!--Member-->
+    <property key="MemberPartyId">
+        <value xml:lang="en">MemberID</value>
+        <value xml:lang="zh">用户ID</value>
+    </property>
     <property key="MemberPartyName">
         <value xml:lang="en">MemberName</value>
         <value xml:lang="zh">姓名</value>
@@ -134,5 +146,11 @@ under the License.
     <property key="MemberIsManager">
         <value xml:lang="en">IsManager</value>
         <value xml:lang="zh">是否为负责人</value>
+    </property>
+<!--R-->
+    <!--Role-->
+    <property key="RoleDescription">
+        <value xml:lang="en">Role</value>
+        <value xml:lang="zh">角色</value>
     </property>
 </resource>
