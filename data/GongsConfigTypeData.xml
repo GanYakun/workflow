@@ -19,5 +19,6 @@ under the License.
 -->
 
 <entity-engine-xml>
-
+    <!--EnumerationType-->
+    <EnumerationType enumTypeId="GENDER"  description="性别"/>
 </entity-engine-xml>

@@ -85,7 +85,7 @@ public class GConfigService {
         try {
             Delegator delegator = dctx.getDelegator();
             LocalDispatcher dispatcher = dctx.getDispatcher();
-            GenericValue userLogin = (GenericValue) context.get("uerLogin");
+            GenericValue userLogin = (GenericValue) context.get("userLogin");
             String partyId = (String) context.get("partyId");
             GenericValue department = EntityQuery.use(delegator).from("PartyRelationship")
                     .where(UtilMisc.toMap("partyIdTo", partyId, "roleTypeIdTo", "EMPLOYEE", "roleTypeIdFrom", "DEPARTMENT"))
@@ -93,7 +93,7 @@ public class GConfigService {
             List<GenericValue> members = EntityQuery.use(delegator).from("PartyRelationship")
                     .where(UtilMisc.toMap("partyIdFrom", department.getString("partyIdFrom"), "roleTypeIdTo", "EMPLOYEE", "roleTypeIdFrom", "DEPARTMENT"))
                     .queryList();
-            dispatcher.runSync("banfftech.updatePartyGroup",UtilMisc.toMap("partyId",department.getString("partyIdFrom"),"numEmployees",members.size()));
+            dispatcher.runSync("banfftech.updatePartyGroup",UtilMisc.toMap("partyId",department.getString("partyIdFrom"),"numEmployees",members.size(),"userLogin",userLogin));
         } catch (GenericEntityException e) {
             throw new GenericServiceException(e.getMessage());
         }

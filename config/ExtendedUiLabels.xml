@@ -119,6 +119,10 @@ under the License.
         <value xml:lang="en">Gender</value>
         <value xml:lang="zh">性别</value>
     </property>
+    <property key="MemberBirthDate">
+        <value xml:lang="en">BirthDate</value>
+        <value xml:lang="zh">出生日期</value>
+    </property>
     <property key="MemberExternalId">
         <value xml:lang="en">ExternalId</value>
         <value xml:lang="zh">工号</value>

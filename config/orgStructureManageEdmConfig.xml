@@ -49,16 +49,17 @@
                             IsCollection="true"/>
         <!--        <NavigationProperty Name="DepartmentManager" Type="Member" Relations="FromPartyRelationship(roleTypeIdTo=MANAGER)/ToPartyAndContact" IsCollection="false"/>-->
     </EntityType>
-
-
+    
     <!--成员-->
     <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members" EntityCondition="partyTypeId=PERSON"
                 AutoProperties="true"
                 Handler="component://gongsconfig/groovyScripts/orgStructureManage/Member.groovy">
-        <!--                <RelAlias Name="Manager" Relations="FromPartyRelationship(roleTypeIdTo=MANAGER)"/>-->
-        <!--                <Property Name="departmentManager" RelAlias="Manager" Field="partyIdTo"/>-->
+        <SelectionFields PropertyPath="birthDate,gender"/>
         <RelAlias Name="Person" Relations="Person"/>
-        <Property Name="gender" RelAlias="Person" Field="gender" FieldControl="Mandatory" Required="true"/>
+        <Property Name="gender" RelAlias="Person" Field="gender" FieldControl="Mandatory" Required="true">
+            <Text Path="GenderEnumeration/description" TextArrangement="TextOnly"/>
+        </Property>
+        <Property Name="birthDate" RelAlias="Person" Field="birthDate" FieldControl="Mandatory" Required="true"/>
         <Property Name="nickName" RelAlias="Person" Field="nickname" FieldControl="Mandatory" Required="true"/>
         <Property Name="partyTypeId" DefaultValue="PERSON"/>
         <Property Name="isManager" Type="Boolean"/>
@@ -68,7 +69,6 @@
         <Property Name="phoneMobile" FieldControl="Mandatory" Required="true"/>
         <Property Name="primaryEmail" FieldControl="Mandatory" Required="true"/>
         <Property Name="externalId" FieldControl="Mandatory" Required="true" Immutable="true"/>
-
         <Action Name="SetAsDepartmentManager" IsBound="true"
                 OfbizService="com.banfftech.event.OrgStructureAppEvent.setEmployeesRole">
             <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>
@@ -83,6 +83,17 @@
         <NavigationProperty Name="Department" Type="Department"
                             Relations="ToPartyRelationship(roleTypeIdFrom=DEPARTMENT)/FromPartyAndPartyGroup"
                             IsCollection="false"/>
+        <NavigationProperty Name="GenderEnumeration" Type="Gender"
+                            Relations="Person/GenderEnumeration"/>
+    </EntityType>
+
+    <!--性别-->
+    <EntityType Name="Gender" OfbizEntity="Enumeration" EntitySetName="Genders" EntityCondition="enumTypeId=GENDER"
+                AutoProperties="true">
+        <Property Name="enumId" >
+            <Text Path="description" TextArrangement="TextOnly"/>
+        </Property>
+        <ValueList WithFixedValues="true" CollectionPath="Genders"/>
     </EntityType>
 
     <!--=====================================     子对象EntityType definition     =====================================-->

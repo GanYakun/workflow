@@ -43,4 +43,10 @@ under the License.
         </relation>
     </extend-entity>
 
+    <extend-entity entity-name="Person">
+        <relation type="one" fk-name="PERSON_GENDER_ENUM" title="Gender" rel-entity-name="Enumeration">
+            <key-map field-name="gender" rel-field-name="enumId"/>
+        </relation>
+    </extend-entity>
+
 </entitymodel>
