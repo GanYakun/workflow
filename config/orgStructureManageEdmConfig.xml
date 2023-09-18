@@ -45,7 +45,7 @@
                             Relations="FromPartyRelationship(roleTypeIdFrom=DEPARTMENT and roleTypeIdTo=DEPARTMENT)/ToPartyAndPartyGroup"
                             IsCollection="true"/>
         <NavigationProperty Name="Member" Type="Member"
-                            Relations="FromPartyRelationship(roleTypeIdFrom=DEPARTMENT and roleTypeIdTo=EMPLOYEE)/ToPartyAndContact"
+                            Relations="FromPartyRelationship(roleTypeIdFrom=DEPARTMENT and roleTypeIdTo=ORD_EMPLOYEE)/ToPartyAndContact"
                             IsCollection="true"/>
     </EntityType>
 

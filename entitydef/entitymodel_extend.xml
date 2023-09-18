@@ -49,7 +49,6 @@ under the License.
         </relation>
     </extend-entity>
 
-
     <extend-entity entity-name="PartyRole">
         <relation type="one-nofk" rel-entity-name="PartyAndContact">
             <key-map field-name="partyId" rel-field-name="partyId"/>
