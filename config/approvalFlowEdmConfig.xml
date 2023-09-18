@@ -18,7 +18,6 @@
             <Parameter Name="mainProcess" Type="MainProcess" Nullable="false" IsCollection="false"/>
         </Action>
         <NavigationProperty Name="ProcessEntity"/>
-        <NavigationProperty Name="ProcessEntity"/>
     </EntityType>
 
     <!-- 业务对象 -->
@@ -52,7 +51,11 @@
         <!-- 更新字段描述,类型,可作为审批条件 -->
         <Action Name="UpdateData" IsBound="true" OfbizService="com.banfftech.event.ApprovalObjectEvent.updateData">
             <Parameter Name="processField" Type="ProcessField" Nullable="false" IsCollection="false"/>
-            <Parameter Name="processFieldTypeId" Type="String" Nullable="false" IsCollection="false"/>
+            <Parameter Name="processFieldTypeId" Type="String" Nullable="false" IsCollection="false" Label="${uiLabelMap.ProcessFieldProcessFieldTypeId}">
+                <ValueList CollectionPath="ProcessFieldTypes" WithFixedValues="true" ParameterDisplayOnly="description">
+                    <ParameterInOut LocalDataProperty="processFieldTypeId" ValueListProperty="processFieldTypeId"/>
+                </ValueList>
+            </Parameter>
             <Parameter Name="asCondition" Type="Boolean" Nullable="false" IsCollection="false"/>
             <Parameter Name="description" Type="String" Nullable="false" IsCollection="false"/>
         </Action>
