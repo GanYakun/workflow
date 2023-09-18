@@ -3,50 +3,183 @@
 
     <!--=====================================     主对象EntityType definition     =====================================-->
     <!--主部门-->
-    <EntityType Name="Company" OfbizEntity="Party" EntitySetName="Companies"
-                AutoProperties="true" EntityCondition="PartyRole/roleTypeId=INTERNAL_ORGANIZATIO">
+<!--    <EntityType Name="Company" OfbizEntity="Party" EntitySetName="Companies"-->
+<!--                AutoProperties="true" EntityCondition="PartyRole/roleTypeId=INTERNAL_ORGANIZATIO">-->
+<!--        <FieldGroup Label="基本信息" Qualifier="BaseInfo">-->
+<!--            <DataField Values="partyName" Importance="High"/>-->
+<!--        </FieldGroup>-->
+<!--        <LineItem>-->
+<!--            <DataField Values="partyId,partyName" Importance="High"/>-->
+<!--        </LineItem>-->
+<!--        <HeaderInfo TypeName="CompanyInfo Manage" TypeNamePlural="公司信息">-->
+<!--            <Title Path="partyName"/>-->
+<!--            <Description Path="description"/>-->
+<!--        </HeaderInfo>-->
+<!--        <NavigationProperty Name="Department" Type="Department"-->
+<!--                            Relations="FromPartyRelationship(roleTypeIdFrom=INTERNAL_ORGANIZATIO and roleTypeIdTo=DEPARTMENT)/ToPartyAndPartyGroup"-->
+<!--                            IsCollection="true"/>-->
+<!--        <NavigationProperty Name="Member" Type="Member" Relations="FromPartyRelationship/ToPartyAndContact"-->
+<!--                            IsCollection="true"/>-->
+<!--    </EntityType>-->
+
+<!--    &lt;!&ndash;部门&ndash;&gt;-->
+<!--    &lt;!&ndash;    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments" EntityCondition="partyTypeId=PARTY_GROUP and ToPartyRelationship/partyIdFrom=Company"&ndash;&gt;-->
+<!--    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments"-->
+<!--                EntityCondition="partyTypeId=PARTY_GROUP" AutoProperties="true"-->
+<!--                Handler="component://gongsconfig/groovyScripts/orgStructureManage/Department.groovy">-->
+<!--        <SelectionFields PropertyPath="partyName"/>-->
+<!--        <Property Name="partyName" FieldControl="Mandatory" Required="true"/>-->
+<!--        <Property Name="partyTypeId" DefaultValue="PARTY_GROUP"/>-->
+<!--        <Property Name="numEmployees" DefaultValue="0" Scale="0"/>-->
+<!--        <LineItem Qualifier="Department">-->
+<!--            <DataField Values="partyName,numEmployees" Importance="High"/>-->
+<!--        </LineItem>-->
+<!--        <FieldGroup Label="基本信息" Qualifier="BaseInfo">-->
+<!--            <DataField Values="partyName,numEmployees" Importance="High"/>-->
+<!--        </FieldGroup>-->
+<!--        <HeaderInfo TypeName="Department Manage" TypeNamePlural="部门信息">-->
+<!--            <Title Path="partyName"/>-->
+<!--            <Description Path="description"/>-->
+<!--        </HeaderInfo>-->
+<!--        <NavigationProperty Name="SubDepartment" Type="Department"-->
+<!--                            Relations="FromPartyRelationship(roleTypeIdFrom=DEPARTMENT and roleTypeIdTo=DEPARTMENT)/ToPartyAndPartyGroup"-->
+<!--                            IsCollection="true"/>-->
+<!--        <NavigationProperty Name="Member" Type="Member"-->
+<!--                            Relations="FromPartyRelationship(roleTypeIdFrom=DEPARTMENT and roleTypeIdTo=ORD_EMPLOYEE)/ToPartyAndContact"-->
+<!--                            IsCollection="true"/>-->
+<!--    </EntityType>-->
+
+<!--    &lt;!&ndash;成员&ndash;&gt;-->
+<!--    <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members" EntityCondition="partyTypeId=PERSON"-->
+<!--                AutoProperties="true"-->
+<!--                Handler="component://gongsconfig/groovyScripts/orgStructureManage/Member.groovy">-->
+<!--        <SelectionFields PropertyPath="birthDate,gender"/>-->
+<!--        <ValueList CollectionPath="Members" WithFixedValues="true"/>-->
+<!--        <RelAlias Name="Person" Relations="Person"/>-->
+<!--        <Property Name="gender" RelAlias="Person" Field="gender" FieldControl="Mandatory" Required="true">-->
+<!--            <Text Path="GenderEnumeration/description" TextArrangement="TextOnly"/>-->
+<!--        </Property>-->
+<!--        <Property Name="birthDate" RelAlias="Person" Field="birthDate" FieldControl="Mandatory" Required="true"/>-->
+<!--        <Property Name="nickName" RelAlias="Person" Field="nickname" FieldControl="Mandatory" Required="true"/>-->
+<!--        <Property Name="partyTypeId" DefaultValue="PERSON"/>-->
+<!--        <Property Name="isManager" Type="Boolean"/>-->
+<!--        <Property Name="isNotManager" Type="Boolean"/>-->
+<!--        <Property Name="partyId" Immutable="true">-->
+<!--            <Text Path="partyName" TextArrangement="TextOnly"/>-->
+<!--        </Property>-->
+<!--        <Property Name="partyName" FieldControl="Mandatory" Required="true"/>-->
+<!--        <Property Name="phoneMobile" FieldControl="Mandatory" Required="true"/>-->
+<!--        <Property Name="primaryEmail" FieldControl="Mandatory" Required="true"/>-->
+<!--        <Property Name="externalId" FieldControl="Mandatory" Required="true" Immutable="true"/>-->
+<!--        <Action Name="SetAsDepartmentManager" IsBound="true"-->
+<!--                OfbizService="com.banfftech.event.OrgStructureAppEvent.setEmployeesRole">-->
+<!--            <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>-->
+<!--            <ReturnType Type="Member"/>-->
+<!--        </Action>-->
+<!--        &lt;!&ndash;设为普通员工&ndash;&gt;-->
+<!--        <Action Name="SetAsOrdinaryEmployee" IsBound="true"-->
+<!--                OfbizService="com.banfftech.event.OrgStructureAppEvent.setEmployeesRole">-->
+<!--            <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>-->
+<!--            <ReturnType Type="Member"/>-->
+<!--        </Action>-->
+<!--        <NavigationProperty Name="Department" Type="Department"-->
+<!--                            Relations="ToPartyRelationship(roleTypeIdFrom=DEPARTMENT)/FromPartyAndPartyGroup"-->
+<!--                            IsCollection="false"/>-->
+<!--        <NavigationProperty Name="GenderEnumeration" Type="Gender"-->
+<!--                            Relations="Person/GenderEnumeration"/>-->
+<!--    </EntityType>-->
+
+<!--    &lt;!&ndash;性别&ndash;&gt;-->
+<!--    <EntityType Name="Gender" OfbizEntity="Enumeration" EntitySetName="Genders" EntityCondition="enumTypeId=GENDER"-->
+<!--                AutoProperties="true">-->
+<!--        <Property Name="enumId">-->
+<!--            <Text Path="description" TextArrangement="TextOnly"/>-->
+<!--        </Property>-->
+<!--        <ValueList WithFixedValues="true" CollectionPath="Genders"/>-->
+<!--    </EntityType>-->
+
+<!--    &lt;!&ndash;角色管理&ndash;&gt;-->
+<!--    <EntityType Name="Role" OfbizEntity="RoleType" EntitySetName="Roles" EntityCondition="parentTypeId=MAIN_ROLE"-->
+<!--                AutoProperties="true">-->
+<!--        <SelectionFields PropertyPath="description"/>-->
+<!--        <Property Name="roleTypeId" Computed="true"/>-->
+<!--        <LineItem>-->
+<!--            <DataField Values="description" Importance="High"/>-->
+<!--        </LineItem>-->
+<!--        <HeaderInfo TypeName="Role Manage" TypeNamePlural="角色信息">-->
+<!--            <Title Path="roleTypeId"/>-->
+<!--            <Description Path="description"/>-->
+<!--        </HeaderInfo>-->
+<!--        <NavigationProperty Name="RolePartyDisplay" Type="RolePartyDisplay"-->
+<!--                            Relations="PartyRole"-->
+<!--                            IsCollection="true"/>-->
+<!--    </EntityType>-->
+
+
+<!--    <EntityType Name="RolePartyDisplay" OfbizEntity="PartyRole" EntitySetName="RolePartyDisplays" AutoProperties="true">-->
+<!--        <Property Name="partyTypeId" DefaultValue="MAIN_ROLE"/>-->
+<!--        <Property Name="partyId" FieldControl="Mandatory" Required="true">-->
+<!--            <Text Path="Member/partyName" TextArrangement="TextOnly"/>-->
+<!--        </Property>-->
+<!--        <LineItem>-->
+<!--            <DataField Values="Member/partyName,Member/gender,Member/birthDate,Member/nickName,Member/phoneMobile,Member/primaryEmail,Member/externalId,Member/Department/partyName" Importance="High"/>-->
+<!--        </LineItem>-->
+<!--        <NavigationProperty Name="Member" Type="Member" Relations="PartyAndContact"/>-->
+<!--    </EntityType>-->
+
+<!--    &lt;!&ndash;用户组&ndash;&gt;-->
+<!--    <EntityType Name="UserGroup" OfbizEntity="PartyAndPartyGroup" EntitySetName="UserGroup"-->
+<!--                EntityCondition="partyTypeId=PARTY_GROUP and " AutoProperties="true">-->
+<!--        <SelectionFields PropertyPath="partyName"/>-->
+<!--        <Property Name="partyName" FieldControl="Mandatory" Required="true"/>-->
+<!--        <Property Name="partyTypeId" DefaultValue="PARTY_GROUP"/>-->
+<!--        <Property Name="numEmployees" DefaultValue="0" Scale="0"/>-->
+<!--        <LineItem Qualifier="Department">-->
+<!--            <DataField Values="partyName,numEmployees" Importance="High"/>-->
+<!--        </LineItem>-->
+<!--        <FieldGroup Label="基本信息" Qualifier="BaseInfo">-->
+<!--            <DataField Values="partyName,numEmployees" Importance="High"/>-->
+<!--        </FieldGroup>-->
+<!--        <HeaderInfo TypeName="Department Manage" TypeNamePlural="部门信息">-->
+<!--            <Title Path="partyName"/>-->
+<!--            <Description Path="description"/>-->
+<!--        </HeaderInfo>-->
+<!--        <NavigationProperty Name="SubDepartment" Type="Department"-->
+<!--                            Relations="FromPartyRelationship(roleTypeIdFrom=DEPARTMENT and roleTypeIdTo=DEPARTMENT)/ToPartyAndPartyGroup"-->
+<!--                            IsCollection="true"/>-->
+<!--        <NavigationProperty Name="Member" Type="Member"-->
+<!--                            Relations="FromPartyRelationship(roleTypeIdFrom=DEPARTMENT and roleTypeIdTo=ORD_EMPLOYEE)/ToPartyAndContact"-->
+<!--                            IsCollection="true"/>-->
+<!--    </EntityType>-->
+
+    <!--部门-->
+    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments"
+                AutoProperties="true">
+        <Property Name="numEmployees" DefaultValue="0" Scale="0"/>
+        <RelAlias Name="Manager" Relations="FromPartyRelationship(roleTypeIdTo=MANAGER)"/>
+        <Property Name="departmentManager" RelAlias="Manager" Field="partyIdTo"/>
+        <Property Name="partyTypeId" DefaultValue="PARTY_GROUP"/>
         <FieldGroup Label="基本信息" Qualifier="BaseInfo">
             <DataField Values="partyName" Importance="High"/>
         </FieldGroup>
         <LineItem>
-            <DataField Values="partyId,partyName" Importance="High"/>
+            <DataField Values="partyId,partyName,numEmployees" Importance="High"/>
+        </LineItem>
+        <LineItem Qualifier="SubDepartment">
+            <DataField Values="partyId,partyName,numEmployees,departmentManager" Importance="High"/>
         </LineItem>
         <HeaderInfo TypeName="CompanyInfo Manage" TypeNamePlural="公司信息">
             <Title Path="partyName"/>
             <Description Path="description"/>
         </HeaderInfo>
-        <NavigationProperty Name="Department" Type="Department"
-                            Relations="FromPartyRelationship(roleTypeIdFrom=INTERNAL_ORGANIZATIO and roleTypeIdTo=DEPARTMENT)/ToPartyAndPartyGroup"
-                            IsCollection="true"/>
-        <NavigationProperty Name="Member" Type="Member" Relations="FromPartyRelationship/ToPartyAndContact"
-                            IsCollection="true"/>
-    </EntityType>
-
-    <!--部门-->
-    <!--    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments" EntityCondition="partyTypeId=PARTY_GROUP and ToPartyRelationship/partyIdFrom=Company"-->
-    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments"
-                EntityCondition="partyTypeId=PARTY_GROUP" AutoProperties="true"
-                Handler="component://gongsconfig/groovyScripts/orgStructureManage/Department.groovy">
-        <SelectionFields PropertyPath="partyName"/>
-        <Property Name="partyName" FieldControl="Mandatory" Required="true"/>
-        <Property Name="partyTypeId" DefaultValue="PARTY_GROUP"/>
-        <Property Name="numEmployees" DefaultValue="0" Scale="0"/>
-        <LineItem Qualifier="Department">
-            <DataField Values="partyName,numEmployees" Importance="High"/>
-        </LineItem>
-        <FieldGroup Label="基本信息" Qualifier="BaseInfo">
-            <DataField Values="partyName,numEmployees" Importance="High"/>
-        </FieldGroup>
-        <HeaderInfo TypeName="Department Manage" TypeNamePlural="部门信息">
-            <Title Path="partyName"/>
-            <Description Path="description"/>
-        </HeaderInfo>
         <NavigationProperty Name="SubDepartment" Type="Department"
-                            Relations="FromPartyRelationship(roleTypeIdFrom=DEPARTMENT and roleTypeIdTo=DEPARTMENT)/ToPartyAndPartyGroup"
+                            Relations="FromPartyRelationship(roleTypeIdTo=DEPARTMENT)/ToPartyAndPartyGroup"
                             IsCollection="true"/>
-        <NavigationProperty Name="Member" Type="Member"
-                            Relations="FromPartyRelationship(roleTypeIdFrom=DEPARTMENT and roleTypeIdTo=ORD_EMPLOYEE)/ToPartyAndContact"
+        <NavigationProperty Name="DirectMember" Type="Member"
+                            Relations="FromPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/ToPartyAndContact"
                             IsCollection="true"/>
+<!--        打算使用语义化Navigation实现-->
+<!--        <NavigationProperty Name="AllMember" Type="Member" IsCollection="true"/>-->
     </EntityType>
 
     <!--成员-->
@@ -71,6 +204,9 @@
         <Property Name="phoneMobile" FieldControl="Mandatory" Required="true"/>
         <Property Name="primaryEmail" FieldControl="Mandatory" Required="true"/>
         <Property Name="externalId" FieldControl="Mandatory" Required="true" Immutable="true"/>
+        <LineItem Qualifier="Member">
+            <DataField Values="partyName,gender,birthDate,nickName,phoneMobile,primaryEmail,externalId" Importance="High"/>
+        </LineItem>
         <Action Name="SetAsDepartmentManager" IsBound="true"
                 OfbizService="com.banfftech.event.OrgStructureAppEvent.setEmployeesRole">
             <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>
@@ -126,6 +262,32 @@
         </LineItem>
         <NavigationProperty Name="Member" Type="Member" Relations="PartyAndContact"/>
     </EntityType>
+
+    <!--用户组-->
+    <EntityType Name="UserGroup" OfbizEntity="PartyAndPartyGroup" EntitySetName="UserGroup"
+                EntityCondition="partyTypeId=PARTY_GROUP and " AutoProperties="true">
+        <SelectionFields PropertyPath="partyName"/>
+        <Property Name="partyName" FieldControl="Mandatory" Required="true"/>
+        <Property Name="partyTypeId" DefaultValue="PARTY_GROUP"/>
+        <Property Name="numEmployees" DefaultValue="0" Scale="0"/>
+        <LineItem Qualifier="Department">
+            <DataField Values="partyName,numEmployees" Importance="High"/>
+        </LineItem>
+        <FieldGroup Label="基本信息" Qualifier="BaseInfo">
+            <DataField Values="partyName,numEmployees" Importance="High"/>
+        </FieldGroup>
+        <HeaderInfo TypeName="Department Manage" TypeNamePlural="部门信息">
+            <Title Path="partyName"/>
+            <Description Path="description"/>
+        </HeaderInfo>
+        <NavigationProperty Name="SubDepartment" Type="Department"
+                            Relations="FromPartyRelationship(roleTypeIdFrom=DEPARTMENT and roleTypeIdTo=DEPARTMENT)/ToPartyAndPartyGroup"
+                            IsCollection="true"/>
+        <NavigationProperty Name="Member" Type="Member"
+                            Relations="FromPartyRelationship(roleTypeIdFrom=DEPARTMENT and roleTypeIdTo=ORD_EMPLOYEE)/ToPartyAndContact"
+                            IsCollection="true"/>
+    </EntityType>
+
 
 
     <!--=====================================     子对象EntityType definition     =====================================-->

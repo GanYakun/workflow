@@ -1,7 +1,9 @@
 package com.banfftech.services;
 
 import com.banfftech.common.util.CommonUtils;
+import com.dpbird.odata.services.OfbizServiceException;
 import org.apache.ofbiz.base.util.UtilMisc;
+import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
@@ -81,17 +83,20 @@ public class GConfigService {
     }
 
     public static Map<String, Object> updateMemberNumber(DispatchContext dctx, Map<String, Object> context)
-            throws GenericServiceException {
+            throws GenericServiceException, OfbizServiceException {
         try {
             Delegator delegator = dctx.getDelegator();
             LocalDispatcher dispatcher = dctx.getDispatcher();
             GenericValue userLogin = (GenericValue) context.get("userLogin");
             String partyId = (String) context.get("partyId");
             GenericValue department = EntityQuery.use(delegator).from("PartyRelationship")
-                    .where(UtilMisc.toMap("partyIdTo", partyId, "roleTypeIdTo", "EMPLOYEE", "roleTypeIdFrom", "DEPARTMENT"))
+                    .where(UtilMisc.toMap("partyIdTo", partyId, "roleTypeIdTo", "ORD_EMPLOYEE"))
                     .queryFirst();
+            if(UtilValidate.isEmpty(department)){
+                throw new OfbizServiceException("没有找到当前员工所在部门");
+            }
             List<GenericValue> members = EntityQuery.use(delegator).from("PartyRelationship")
-                    .where(UtilMisc.toMap("partyIdFrom", department.getString("partyIdFrom"), "roleTypeIdTo", "EMPLOYEE", "roleTypeIdFrom", "DEPARTMENT"))
+                    .where(UtilMisc.toMap("partyIdFrom", department.getString("partyIdFrom"), "roleTypeIdTo", "ORD_EMPLOYEE"))
                     .queryList();
             dispatcher.runSync("banfftech.updatePartyGroup",UtilMisc.toMap("partyId",department.getString("partyIdFrom"),"numEmployees",members.size(),"userLogin",userLogin));
         } catch (GenericEntityException e) {

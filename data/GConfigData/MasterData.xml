@@ -7,7 +7,10 @@
     <PartyRole partyId="Company" roleTypeId="INTERNAL_ORGANIZATIO"/>
 
     <!-- Enumeration -->
-    <Enumeration enumId="Male" enumTypeId="GENDER" description="男"/>
-    <Enumeration enumId="Female" enumTypeId="GENDER" description="女"/>
+<!--    <Enumeration enumId="Male" enumTypeId="GENDER" description="男"/>-->
+<!--    <Enumeration enumId="Female" enumTypeId="GENDER" description="女"/>-->
+
+    <Enumeration enumId="M" enumTypeId="GENDER" description="男"/>
+    <Enumeration enumId="F" enumTypeId="GENDER" description="女"/>
     <!--============================================系统-管理应用Master数据Begin============================================-->
 </entity-engine-xml>
