@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<entitymodel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://ofbiz.apache.org/dtds/entitymodel.xsd">
+    <!-- ========================================================= -->
+    <!-- ======================== Defaults ======================= -->
+    <!-- ========================================================= -->
+    <title>Entity of ApprovalFlow Component</title>
+    <description>审批流实体</description>
+    <copyright></copyright>
+    <version></version>
+
+    <entity entity-name="MainProcess" package-name="com.banfftech.approval">
+        <description>流程主对象</description>
+        <field name="processId" type="id"><description>主键</description></field>
+        <field name="processEntityId" type="id"><description>业务对象</description></field>
+        <field name="statusId" type="id"><description>状态</description></field>
+        <field name="rangeEnumId" type="id"><description>可见范围(enum)</description></field>
+        <field name="description" type="value"><description>描述</description></field>
+        <field name="workFlowId" type="id"><description>关联流程模板</description></field>
+        <prim-key field="processId"/>
+        <relation type="one" fk-name="MA_PROC_ENTITY" rel-entity-name="ProcessEntity">
+            <key-map field-name="processEntityId"/>
+        </relation>
+        <relation type="one" title="Range" fk-name="PC_RANGE_ENUM" rel-entity-name="Enumeration">
+            <key-map field-name="rangeEnumId" rel-field-name="enumId"/>
+        </relation>
+        <relation type="one" fk-name="PROCESS_WORK_FLOW" rel-entity-name="WorkEffort">
+            <key-map field-name="workFlowId" rel-field-name="workEffortId"/>
+        </relation>
+        <relation type="one" fk-name="PROCESS_STATUS" rel-entity-name="StatusItem">
+            <key-map field-name="statusId" rel-field-name="statusId"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="ProcessEntity" package-name="com.banfftech.approval">
+        <description>业务对象</description>
+        <field name="processEntityId" type="id"><description>主键</description></field>
+        <field name="processEntityName" type="name"><description>实体名称</description></field>
+        <field name="processTableName" type="name"><description>数据库表名称</description></field>
+        <field name="description" type="value"><description>实体描述</description></field>
+        <prim-key field="processEntityId"/>
+        <relation type="many" fk-name="PROC_EN_FD" rel-entity-name="ProcessField">
+            <key-map field-name="processEntityId"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="ProcessField" package-name="com.banfftech.approval">
+        <description>业务对象字段</description>
+        <field name="processFieldId" type="id"><description>主键</description></field>
+        <field name="processFieldName" type="name"><description>字段名称</description></field>
+        <field name="processFieldTypeId" type="id"><description>字段类型</description></field>
+        <field name="asCondition" type="indicator"><description>是否可以在审理流程中当作条件</description></field>
+        <field name="description" type="value"><description>字段描述</description></field>
+        <field name="processEntityId" type="id"><description>对应实体外键</description></field>
+        <prim-key field="processFieldId"/>
+        <relation type="one" fk-name="PROC_FD_TYPE" rel-entity-name="ProcessFieldType">
+            <key-map field-name="processFieldTypeId"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="ProcessFieldType" package-name="com.banfftech.approval">
+        <description>业务对象字段类型</description>
+        <field name="processFieldTypeId" type="id"><description>实体名称</description></field>
+        <field name="description" type="value"><description>描述</description></field>
+        <prim-key field="processFieldTypeId"/>
+    </entity>
+
+
+
+
+
+</entitymodel>

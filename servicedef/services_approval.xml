@@ -20,7 +20,7 @@ under the License.
 
 <services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="https://ofbiz.apache.org/dtds/services.xsd">
-    <description>NingBoMat Services</description>
+    <description>GongsConfig Services</description>
     <vendor></vendor>
     <version>1.0</version>
 
@@ -30,19 +30,10 @@ under the License.
         </description>
     </service>
 
-    <service name="banfftech.createProcessEntity" default-entity-name="ProcessEntity" engine="entity-auto" invoke="create">
-        <description>Create a ProcessEntity</description>
-        <auto-attributes include="pk" mode="INOUT" optional="true"/>
-        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    <service name="banfftech.checkNext" engine="java" invoke="checkNext"
+             location="com.banfftech.services.ApprovalService">
+        <description>审批节点处理</description>
+        <attribute name="workEffortId" type="String" mode="IN"/>
     </service>
-    <service name="banfftech.updateProcessEntity" default-entity-name="ProcessEntity" engine="entity-auto" invoke="update">
-        <description>Update a ProcessEntity</description>
-        <auto-attributes include="pk" mode="IN" optional="false"/>
-        <auto-attributes include="nonpk" mode="IN" optional="true"/>
-    </service>
-    <service name="banfftech.deleteProcessEntity" default-entity-name="ProcessEntity" engine="entity-auto" invoke="delete">
-        <description>Delete a ProcessEntity</description>
-        <auto-attributes include="pk" mode="IN" optional="false"/>
-    </service>
-
+    
 </services>
