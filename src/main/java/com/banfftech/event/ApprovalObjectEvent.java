@@ -32,8 +32,8 @@ public class ApprovalObjectEvent {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.get("processEntity");
         String processEntityId = (String) ofbizEntity.getPropertyValue("processEntityId");
-        String processTableName = (String) ofbizEntity.getPropertyValue("processTableName");
-        ModelEntity modelEntity = delegator.getModelEntity(processTableName);
+        String processEntityName = (String) ofbizEntity.getPropertyValue("processEntityName");
+        ModelEntity modelEntity = delegator.getModelEntity(processEntityName);
         List<String> automaticFieldNames = modelEntity.getAutomaticFieldNames();
         Iterator<ModelField> fieldsIterator = modelEntity.getFieldsIterator();
         delegator.removeByAnd("ProcessField", UtilMisc.toMap("processEntityId", processEntityId));

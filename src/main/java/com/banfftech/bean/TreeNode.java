@@ -13,7 +13,8 @@ public class TreeNode {
     private int type;
     private long nodeId;
     private List<List<Condition>> conditionList;
-    private List<NodeUser> nodeUserList;
+    private NodeUser nodeUserList;
+    private String nodeUserText;
     private TreeNode childNode;
     private List<TreeNode> conditionNodes;
     private boolean isdefault; // 是否为默认条件
@@ -21,7 +22,7 @@ public class TreeNode {
 
 
     public TreeNode(String nodeName, int type, long nodeId, List<List<Condition>> conditionList,
-                    List<NodeUser> nodeUserList, TreeNode childNode, List<TreeNode> conditionNodes, boolean isdefault, String conditionText) {
+                    NodeUser nodeUserList, TreeNode childNode, List<TreeNode> conditionNodes, boolean isdefault, String conditionText) {
         this.nodeName = nodeName;
         this.type = type;
         this.nodeId = nodeId;
@@ -68,11 +69,11 @@ public class TreeNode {
         this.conditionList = conditionList;
     }
 
-    public List<NodeUser> getNodeUserList() {
+    public NodeUser getNodeUserList() {
         return nodeUserList;
     }
 
-    public void setNodeUserList(List<NodeUser> nodeUserList) {
+    public void setNodeUserList(NodeUser nodeUserList) {
         this.nodeUserList = nodeUserList;
     }
 
@@ -107,6 +108,14 @@ public class TreeNode {
     public void setConditionText(String conditionText) {
         this.conditionText = conditionText;
     }
+
+    public String getNodeUserText() {
+        return nodeUserText;
+    }
+
+    public void setNodeUserText(String nodeUserText) {
+        this.nodeUserText = nodeUserText;
+    }
 }
 
 class Condition {
@@ -140,7 +149,7 @@ class Condition {
 }
 
 class NodeUser {
-    //审批类型: 人工审批,自动通过,自动拒绝
+    //审批类型: manual/人工审批, adopt/自动通过, Rejected/自动拒绝
     private String approvalType;
     private Manual manual;
 
@@ -161,10 +170,17 @@ class NodeUser {
     }
 }
 
+/**
+ * 人工审批选项
+ */
 class Manual {
+    //审批人与提交人相同: self/由提交人自己审批, skip/自动跳过
     private String eqSubmit;
+    //多人审批方式: and/会签, or/货签
     private String isArray;
+    //无审批人: adopt/自动通过, spare/分配给备用人员或者灌流
     private String isEmpty;
+    private Approver approver;
 
     public String getEqSubmit() {
         return eqSubmit;
@@ -189,9 +205,21 @@ class Manual {
     public void setIsEmpty(String isEmpty) {
         this.isEmpty = isEmpty;
     }
+
+    public Approver getApprover() {
+        return approver;
+    }
+
+    public void setApprover(Approver approver) {
+        this.approver = approver;
+    }
 }
 
+/**
+ * 审批人
+ */
 class Approver {
+    //人员类型: manager/部门负责人, roleTypeId/角色, partyGroup/用户组, party/指定成员, optional/提交人自选, self/提交人本人
     private String type;
     private List<String> value;
 

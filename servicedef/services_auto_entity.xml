@@ -45,4 +45,19 @@ under the License.
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
 
+    <service name="banfftech.createMainProcess" default-entity-name="MainProcess" engine="entity-auto" invoke="create">
+        <description>Create a MainProcess</description>
+        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="banfftech.updateMainProcess" default-entity-name="MainProcess" engine="entity-auto" invoke="update">
+        <description>Update a MainProcess</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="banfftech.deleteMainProcess" default-entity-name="MainProcess" engine="entity-auto" invoke="delete">
+        <description>Delete a MainProcess</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+
 </services>

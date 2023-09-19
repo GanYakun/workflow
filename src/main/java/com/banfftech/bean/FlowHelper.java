@@ -183,7 +183,7 @@ public class FlowHelper {
                 .where("workFlowId", rootWorkEffort.getString("workEffortParentId")).queryFirst();
         GenericValue processEntity = mainProcess.getRelatedOne("ProcessEntity", false);
         List<GenericValue> processFields = processEntity.getRelated("ProcessField", null, null, false);
-        GenericValue genericValue = EntityQuery.use(delegator).from(processEntity.getString("processTableName"))
+        GenericValue genericValue = EntityQuery.use(delegator).from(processEntity.getString("processEntityName"))
                 .where("workFlowId", rootWorkEffort.getString("workEffortId")).queryOne();
 
         for (TreeNode conditionNode : conditionNodes) {

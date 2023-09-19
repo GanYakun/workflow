@@ -84,15 +84,17 @@ public class ApprovalEvent {
     /**
      * 提交审批
      */
-    public static void submitApproval(Map<String, Object> oDataContext, Map<String, Object> actionParameters,
-                                   EdmBindingTarget edmBindingTarget) throws GenericEntityException, OfbizODataException {
+    public static void submitApproval(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws GenericEntityException, OfbizODataException {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
         LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.values().iterator().next();
-        String processEntityName = edmBindingTarget.getEntityType().getName();
-        GenericValue processEntity = EntityQuery.use(delegator).from("ProcessEntity").where("processEntityName", processEntityName).queryFirst();
+        GenericValue genericValue = ofbizEntity.getGenericValue();
+        String entityName = genericValue.getEntityName();
+        String typeId = genericValue.getString(entityName + "TypeId");
+        GenericValue processEntity = EntityQuery.use(delegator).from("ProcessEntity")
+                .where("processEntityName", entityName, "processEntityTypeId", typeId).queryFirst();
         if (UtilValidate.isEmpty(processEntity)) {
-            throw new OfbizODataException("业务对象不存在: " + processEntityName);
+            throw new OfbizODataException("业务对象不存在: " + entityName);
         }
         //获取主流程对象
         GenericValue mainProcess = EntityQuery.use(delegator).from("MainProcess").where(processEntity.getPrimaryKey()).queryFirst();

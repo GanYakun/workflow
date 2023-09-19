@@ -24,7 +24,7 @@
     <EntityType Name="ProcessEntity" AutoProperties="true" EntitySetName="ProcessEntities">
         <SelectionFields PropertyPath="processEntityId,processEntityName,description"/>
         <LineItem>
-            <DataField Values="processEntityId,processEntityName,processTableName,description"/>
+            <DataField Values="processEntityId,processEntityName,processEntityTypeId,description"/>
         </LineItem>
         <HeaderInfo>
             <Title Path="processEntityName"/>
