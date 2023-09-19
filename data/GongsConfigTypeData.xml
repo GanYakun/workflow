@@ -661,4 +661,41 @@ under the License.
     <PortalPagePortlet portalPageId="PartyProfile" portalPortletId="ProductStores" portletSeqId="00001" columnSeqId="00002" sequenceNum="8"/>
 
 
+    <WorkEffortType workEffortTypeId="WORK_FLOW" description="审批流"/>
+
+    <!-- 审批节点类型 -->
+    <WorkEffortType workEffortTypeId="ROOT_NODE" description="根节点"/>
+    <WorkEffortType workEffortTypeId="APPROVAL" description="审批"/>
+    <WorkEffortType workEffortTypeId="MAKE_COPY" description="抄送"/>
+    <WorkEffortType workEffortTypeId="CONDITION" description="条件"/>
+    <WorkEffortType workEffortTypeId="ROUTING" description="路由"/>
+
+    <!-- 节点状态 -->
+    <StatusType statusTypeId="WORKFLOW_STATUS" description="Work flow status"/>
+    <StatusItem statusId="WEPR_WAIT" statusTypeId="WORKFLOW_STATUS" description="等待处理"/>
+    <StatusItem statusId="WEPR_COMPLETE" statusTypeId="WORKFLOW_STATUS" description="处理通过"/>
+    <StatusItem statusId="WEPR_REFUSE" statusTypeId="WORKFLOW_STATUS" description="处理不通过"/>
+    <StatusItem statusId="WEPR_CANCEL" statusTypeId="WORKFLOW_STATUS" description="取消"/>
+
+    <!-- 主流程状态 -->
+    <StatusType statusTypeId="MAIN_PROCESS_STATUS" description="Main Process Status"/>
+    <StatusItem statusId="PROCESS_ENABLED" statusTypeId="MAIN_PROCESS_STATUS" description="已发布"/>
+    <StatusItem statusId="PROCESS_NOT_ENABLED" statusTypeId="MAIN_PROCESS_STATUS" description="已停用"/>
+
+    <EnumerationType description="审批流程可见范围枚举值" enumTypeId="PROCESS_RANGE" hasTable="N"/>
+    <Enumeration enumId="VISIBLE_ALL" enumTypeId="PROCESS_RANGE" description="全员可见" enumCode="VISIBLE_TO_ALL" sequenceId="01"/>
+    <Enumeration enumId="SPECIFY_PERSON" enumTypeId="PROCESS_RANGE" description="指定人员" enumCode="SPECIFY_PERSON" sequenceId="02"/>
+
+    <!-- 业务对象 字段类型 -->
+    <ProcessFieldType description="金额" processFieldTypeId="AMOUNT"/>
+    <ProcessFieldType description="布尔值" processFieldTypeId="BOOL"/>
+    <ProcessFieldType description="日期" processFieldTypeId="DATA_TIME"/>
+    <ProcessFieldType description="枚举" processFieldTypeId="ENUM"/>
+    <ProcessFieldType description="数字" processFieldTypeId="NUMBER"/>
+    <ProcessFieldType description="人员" processFieldTypeId="PARTY"/>
+    <ProcessFieldType description="产品" processFieldTypeId="PRODUCT"/>
+    <ProcessFieldType description="状态" processFieldTypeId="STATUS"/>
+    <ProcessFieldType description="字符串" processFieldTypeId="STRING"/>
+    <ProcessFieldType description="类型" processFieldTypeId="TYPE"/>
+
 </entity-engine-xml>

@@ -36,10 +36,10 @@ under the License.
         <value xml:lang="zh">业务对象名称</value>
         <value xml:lang="zh-TW">业务对象名称</value>
     </property>
-    <property key="ProcessEntityProcessTableName">
-        <value xml:lang="en">The business object table name</value>
-        <value xml:lang="zh">业务对象表名</value>
-        <value xml:lang="zh-TW">业务对象表名</value>
+    <property key="ProcessEntityProcessEntityTypeId">
+        <value xml:lang="en">Business object type identification</value>
+        <value xml:lang="zh">业务对象类型标识</value>
+        <value xml:lang="zh-TW">业务对象类型标识</value>
     </property>
     <property key="ProcessEntityDescription">
         <value xml:lang="en">Description</value>

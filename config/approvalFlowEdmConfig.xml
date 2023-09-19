@@ -18,13 +18,14 @@
             <Parameter Name="mainProcess" Type="MainProcess" Nullable="false" IsCollection="false"/>
         </Action>
         <NavigationProperty Name="ProcessEntity"/>
+        <NavigationProperty Name="RangeEnumeration"/>
     </EntityType>
 
     <!-- 业务对象 -->
     <EntityType Name="ProcessEntity" AutoProperties="true" EntitySetName="ProcessEntities">
         <SelectionFields PropertyPath="processEntityId,processEntityName,description"/>
         <LineItem>
-            <DataField Values="processEntityId,processEntityName,processTableName,description"/>
+            <DataField Values="processEntityId,processEntityName,processEntityTypeId,description"/>
         </LineItem>
         <HeaderInfo>
             <Title Path="processEntityName"/>
