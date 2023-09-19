@@ -18,6 +18,7 @@
             <Parameter Name="mainProcess" Type="MainProcess" Nullable="false" IsCollection="false"/>
         </Action>
         <NavigationProperty Name="ProcessEntity"/>
+        <NavigationProperty Name="RangeEnumeration"/>
     </EntityType>
 
     <!-- 业务对象 -->
