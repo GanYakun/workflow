@@ -179,7 +179,7 @@
                             Relations="FromPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/ToPartyAndContact"
                             IsCollection="true"/>
 <!--        打算使用语义化Navigation实现-->
-<!--        <NavigationProperty Name="AllMember" Type="Member" IsCollection="true"/>-->
+        <NavigationProperty Name="AllMember" Type="Member" IsCollection="true"/>
     </EntityType>
 
     <!--成员-->
@@ -200,13 +200,23 @@
         <Property Name="partyId" Immutable="true">
             <Text Path="partyName" TextArrangement="TextOnly"/>
         </Property>
+        <Property Name="statusId" Immutable="true">
+            <Text Path="MemberStatusItem/description" TextArrangement="TextOnly"/>
+        </Property>
         <Property Name="partyName" FieldControl="Mandatory" Required="true"/>
         <Property Name="phoneMobile" FieldControl="Mandatory" Required="true"/>
         <Property Name="primaryEmail" FieldControl="Mandatory" Required="true"/>
         <Property Name="externalId" FieldControl="Mandatory" Required="true" Immutable="true"/>
         <LineItem Qualifier="Member">
-            <DataField Values="partyName,gender,birthDate,nickName,phoneMobile,primaryEmail,externalId" Importance="High"/>
+            <DataField Values="partyName,gender,statusId,birthDate,nickName,phoneMobile,primaryEmail,externalId" Importance="High"/>
+            <DataFieldForAction Label="变更部门" Action="ChangeDepartment" InvocationGrouping="Isolated"
+                                Criticality="Positive" Inline="false" Importance="High"/>
         </LineItem>
+<!--        <Action Name="ChangeDepartment" IsBound="true"-->
+<!--                OfbizService="com.banfftech.event.OrgStructureAppEvent.changeDepartment">-->
+<!--            <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>-->
+<!--            <ReturnType Type="Member"/>-->
+<!--        </Action>-->
         <Action Name="SetAsDepartmentManager" IsBound="true"
                 OfbizService="com.banfftech.event.OrgStructureAppEvent.setEmployeesRole">
             <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>
@@ -221,6 +231,7 @@
         <NavigationProperty Name="Department" Type="Department"
                             Relations="ToPartyRelationship(roleTypeIdFrom=DEPARTMENT)/FromPartyAndPartyGroup"
                             IsCollection="false"/>
+        <NavigationProperty Name="MemberStatusItem" Type="MemberStatusItem" Relations="StatusItem"/>
         <NavigationProperty Name="GenderEnumeration" Type="Gender"
                             Relations="Person/GenderEnumeration"/>
     </EntityType>
@@ -232,6 +243,14 @@
             <Text Path="description" TextArrangement="TextOnly"/>
         </Property>
         <ValueList WithFixedValues="true" CollectionPath="Genders"/>
+    </EntityType>
+
+    <!--性别-->
+    <EntityType Name="MemberStatusItem" OfbizEntity="StatusItem" EntitySetName="MemberStatusItem" EntityCondition="statusTypeId=MEMBER_STATUS"
+                AutoProperties="true">
+        <Property Name="statusId">
+            <Text Path="description" TextArrangement="TextOnly"/>
+        </Property>
     </EntityType>
 
     <!--角色管理-->

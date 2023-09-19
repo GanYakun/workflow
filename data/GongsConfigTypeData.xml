@@ -41,6 +41,9 @@ under the License.
 <!--EnumerationType-->
     <EnumerationType enumTypeId="GENDER"  description="性别"/>
 
+<!--StatusType-->
+    <StatusType statusTypeId="MEMBER_STATUS"  description="成员状态"/>
+
     <!--===============================================Ofbiz原生PartySeedData()===============================================-->
     <ContactMechPurposeType contactMechPurposeTypeId="SHIPPING_LOCATION" description="Shipping Destination Address"/>
     <ContactMechPurposeType contactMechPurposeTypeId="SHIP_ORIG_LOCATION" description="Shipping Origin Address"/>

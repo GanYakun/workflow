@@ -3,14 +3,17 @@
     <!--============================================系统-管理应用Master数据Begin============================================-->
     <!-- 公司 -->
     <Party partyId="Company" partyTypeId="PARTY_GROUP" partyName="上海工至信息科技服务有限公司"/>
-    <PartyGroup partyId="Company" groupName="上海工至信息科技服务有限公司"/>
+    <PartyGroup partyId="Company" groupName="上海工至信息科技服务有限公司" numEmployees="0"/>
     <PartyRole partyId="Company" roleTypeId="INTERNAL_ORGANIZATIO"/>
 
     <!-- Enumeration -->
-<!--    <Enumeration enumId="Male" enumTypeId="GENDER" description="男"/>-->
-<!--    <Enumeration enumId="Female" enumTypeId="GENDER" description="女"/>-->
-
     <Enumeration enumId="M" enumTypeId="GENDER" description="男"/>
     <Enumeration enumId="F" enumTypeId="GENDER" description="女"/>
+
+    <!-- StatusItem -->
+    <StatusItem statusId="ToBeSubmittedApproval" statusTypeId="MEMBER_STATUS" description="待提交审批"/>
+    <StatusItem statusId="PendingApproval" statusTypeId="MEMBER_STATUS" description="审批中"/>
+    <StatusItem statusId="Approved" statusTypeId="MEMBER_STATUS" description="审批通过"/>
+    <StatusItem statusId="Disapproved" statusTypeId="MEMBER_STATUS" description="审批不通过"/>
     <!--============================================系统-管理应用Master数据Begin============================================-->
 </entity-engine-xml>
