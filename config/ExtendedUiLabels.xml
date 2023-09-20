@@ -61,6 +61,11 @@ under the License.
         <value xml:lang="zh">字段类型</value>
         <value xml:lang="zh-TW">字段类型</value>
     </property>
+    <property key="ProcessFieldValueTypeId">
+        <value xml:lang="en">The data query type</value>
+        <value xml:lang="zh">数据查询类型</value>
+        <value xml:lang="zh-TW">数据查询类型</value>
+    </property>
     <property key="ProcessFieldDescription">
         <value xml:lang="en">Description</value>
         <value xml:lang="zh">描述</value>
