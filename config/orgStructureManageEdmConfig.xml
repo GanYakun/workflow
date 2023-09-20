@@ -153,7 +153,7 @@
 <!--    </EntityType>-->
 
     <!--部门-->
-    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments"
+    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments" EntityCondition="PartyRole/roleTypeId=DEPARTMENT"
                 AutoProperties="true">
         <Property Name="numEmployees" DefaultValue="0" Scale="0"/>
         <RelAlias Name="Manager" Relations="FromPartyRelationship(roleTypeIdTo=MANAGER)"/>
@@ -240,7 +240,7 @@
     </EntityType>
 
     <!--性别-->
-    <EntityType Name="Gender" OfbizEntity="Enumeration" EntitySetName="Genders" EntityCondition="enumTypeId=GENDER"
+    <EntityType Name="Gender" OfbizEntity="Enumeration" EntitySetName="Genders" EntityCondition="enumTypeId=GENDER_ENUM_TYPE"
                 AutoProperties="true">
         <Property Name="enumId">
             <Text Path="description" TextArrangement="TextOnly"/>
@@ -277,7 +277,7 @@
     <EntityType Name="RolePartyDisplay" OfbizEntity="PartyRole" EntitySetName="RolePartyDisplays" AutoProperties="true">
         <Property Name="partyTypeId" DefaultValue="MAIN_ROLE"/>
         <Property Name="partyId" FieldControl="Mandatory" Required="true">
-            <Text Path="Member/partyName" TextArrangement="TextOnly"/>
+            <Text Path="Member/partyName" TextArrangement="TextFirst"/>
         </Property>
         <LineItem>
             <DataField Values="Member/partyName,Member/gender,Member/birthDate,Member/nickName,Member/phoneMobile,Member/primaryEmail,Member/externalId,Member/Department/partyName" Importance="High"/>
@@ -289,13 +289,13 @@
         <NavigationProperty Name="FromParty" Type="Party" Relations="FromParty"/>
         <NavigationProperty Name="ToParty" Type="Party" Relations="ToParty"/>
     </EntityType>
-    
+
     <EntityType Name="Party" EntitySetName="Parties" AutoProperties="true">
     </EntityType>
 
     <!--用户组-->
-    <EntityType Name="UserGroup" OfbizEntity="PartyAndPartyGroup" EntitySetName="UserGroup"
-                EntityCondition="partyTypeId=PARTY_GROUP and " AutoProperties="true">
+    <EntityType Name="UserGroup" OfbizEntity="PartyAndPartyGroup" EntitySetName="UserGroups"
+                EntityCondition="partyTypeId=PARTY_GROUP and PartyRole" AutoProperties="true">
         <SelectionFields PropertyPath="partyName"/>
         <Property Name="partyName" FieldControl="Mandatory" Required="true"/>
         <Property Name="partyTypeId" DefaultValue="PARTY_GROUP"/>

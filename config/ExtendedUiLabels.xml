@@ -158,4 +158,9 @@ under the License.
         <value xml:lang="en">Role</value>
         <value xml:lang="zh">角色</value>
     </property>
+    <!--RolePartyDisplay-->
+    <property key="RolePartyDisplayPartyId">
+        <value xml:lang="en">MemberName</value>
+        <value xml:lang="zh">成员名称</value>
+    </property>
 </resource>

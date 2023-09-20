@@ -7,8 +7,8 @@
     <PartyRole partyId="Company" roleTypeId="INTERNAL_ORGANIZATIO"/>
 
     <!-- Enumeration -->
-    <Enumeration enumId="M" enumTypeId="GENDER" description="男"/>
-    <Enumeration enumId="F" enumTypeId="GENDER" description="女"/>
+    <Enumeration enumId="M" enumTypeId="GENDER_ENUM_TYPE" description="男"/>
+    <Enumeration enumId="F" enumTypeId="GENDER_ENUM_TYPE" description="女"/>
 
     <!-- StatusItem -->
     <StatusItem statusId="ToBeSubmittedApproval" statusTypeId="MEMBER_STATUS" description="待提交审批"/>
