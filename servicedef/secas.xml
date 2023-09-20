@@ -2,7 +2,8 @@
 
 <service-eca xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/service-eca.xsd">
-    <eca service="banfftech.createPartyAndContact" event="global-commit">
+    <eca service="banfftech.createPartyAndContact" event="global-commit-post-run">
         <action service="banfftech.updateMemberNumber" mode="sync" result-to-context="true"/>
+        <action service="banfftech.createUserLoginAndPermission" mode="sync"/>
     </eca>
 </service-eca>
