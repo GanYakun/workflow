@@ -286,6 +286,11 @@
     </EntityType>
 
     <EntityType Name="PartyRelationship" EntitySetName="PartyRelationships" AutoProperties="true">
+        <NavigationProperty Name="FromParty" Type="Party" Relations="FromParty"/>
+        <NavigationProperty Name="ToParty" Type="Party" Relations="ToParty"/>
+    </EntityType>
+    
+    <EntityType Name="Party" EntitySetName="Parties" AutoProperties="true">
     </EntityType>
 
     <!--用户组-->
