@@ -127,22 +127,22 @@ public class GConfigService {
     }
 
     /**
-    * @Author yyp
-    * @Description 主要作用:在创建成员之后Eca触发创建对应的登录账号和登录权限
-    * @Date 10:33 2023/9/20
-    * @param [dctx, context]
-    * @EntityTypeName
-    * @ServiceName
-    **/
+     * @param [dctx, context]
+     * @Author yyp
+     * @Description 主要作用:在创建成员之后Eca触发创建对应的登录账号和登录权限
+     * @Date 10:33 2023/9/20
+     * @EntityTypeName
+     * @ServiceName
+     **/
     public static Map<String, Object> createUserLoginAndPermission(DispatchContext dctx, Map<String, Object> context) throws GenericServiceException {
         try {
             Delegator delegator = dctx.getDelegator();
             GenericValue userLogin = (GenericValue) context.get("userLogin");
             String userLoginId = (String) context.get("phoneMobile");
             context.put("userLoginId", userLoginId);
-            context.put("currentPassword",  CommonUtils.getEncryptedPassword(delegator,"gongsconfig"));
+            context.put("currentPassword", CommonUtils.getEncryptedPassword(delegator, "gongsconfig"));
 
-            context.put("groupId","VISIT");
+            context.put("groupId", "VISIT");
             context.put("fromDate", UtilDateTime.nowTimestamp());
 
             CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createUserLogin",
@@ -153,6 +153,24 @@ public class GConfigService {
             throw new GenericServiceException(e.getMessage());
         }
         return ServiceUtil.returnSuccess();
+    }
+
+
+    public static Map<String, Object> updatePartyRelationshipAndCheckRole(DispatchContext dctx, Map<String, Object> context) throws GenericEntityException, GeneralServiceException, OfbizODataException, GenericServiceException {
+        Delegator delegator = dctx.getDelegator();
+        LocalDispatcher dispatcher = dctx.getDispatcher();
+        Map<String, Object> resultMap = ServiceUtil.returnSuccess();
+        String roleTypeIdTo = (String) context.get("roleTypeIdTo");
+        String partyIdTo = (String) context.get("partyIdTo");
+        context.put("fromDate", UtilDateTime.nowTimestamp());
+
+        GenericValue partyRole = delegator.findOne("PartyRole", UtilMisc.toMap("partyId", partyIdTo, "roleTypeId", roleTypeIdTo), false);
+        if (UtilValidate.isEmpty(partyRole) && UtilValidate.isNotEmpty(roleTypeIdTo)) {
+            Map<String, Object> partyRoleResultMap = dispatcher.runSync("banfftech.createPartyRole", UtilMisc.toMap("userLogin", context.get("userLogin"), "partyId", context.get("partyIdTo"), "roleTypeId", context.get("roleTypeIdTo")));
+        }
+        CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.updatePartyRelationship", (GenericValue) context.get("userLogin"));
+
+        return resultMap;
     }
 
 

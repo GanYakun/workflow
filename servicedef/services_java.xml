@@ -34,7 +34,7 @@ under the License.
              default-entity-name="PartyAndPartyGroup"
              invoke="createDepartment" auth="true"
              location="com.banfftech.services.GConfigService">
-        <description>Create a PartyAndPartyGroup</description>
+        <description>Create a Department</description>
         <auto-attributes include="pk" mode="INOUT" optional="true"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
@@ -81,6 +81,16 @@ under the License.
         <description>Create a UserLogin</description>
         <attribute name="partyId" type="String" mode="IN"/>
         <attribute name="phoneMobile" type="String" mode="IN"/>
+    </service>
+
+    <!--创建部门成员之后，更新PartyGroup  -->
+    <service name="banfftech.updatePartyRelationshipAndCheckRole" engine="java"
+             default-entity-name="PartyRelationship"
+             invoke="updatePartyRelationshipAndCheckRole" auth="true"
+             location="com.banfftech.services.GConfigService">
+        <description>Update a PartyRelationship</description>
+        <auto-attributes include="pk" mode="IN" optional="true"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
     
 </services>
