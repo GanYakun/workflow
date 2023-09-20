@@ -153,7 +153,7 @@
 <!--    </EntityType>-->
 
     <!--部门-->
-    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments" EntityCondition="PartyRole/roleTypeId=DEPARTMENT"
+    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments"
                 AutoProperties="true">
         <Property Name="numEmployees" DefaultValue="0" Scale="0"/>
         <RelAlias Name="Manager" Relations="FromPartyRelationship(roleTypeIdTo=MANAGER)"/>
