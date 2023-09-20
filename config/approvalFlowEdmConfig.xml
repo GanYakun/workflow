@@ -17,6 +17,7 @@
         <Action Name="StopFlow" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.stopFlow">
             <Parameter Name="mainProcess" Type="MainProcess" Nullable="false" IsCollection="false"/>
         </Action>
+        <NavigationProperty Name="WorkEffort"/>
         <NavigationProperty Name="ProcessEntity"/>
         <NavigationProperty Name="RangeEnumeration"/>
     </EntityType>
@@ -68,6 +69,11 @@
             <Text Path="description" TextArrangement="TextOnly"/>
         </Property>
     </EntityType>
+    
+    <EntityType Name="WorkEffort" EntitySetName="WorkEfforts" Properties="workEffortId,workEffortName">
+        <NavigationProperty Name="NoteData"/>
+    </EntityType>
+    <EntityType Name="NoteData" EntitySetName="NoteDatas" AutoProperties="true"/>
 
     <!-- 一个入库请求单的demo -->
     <EntityType Name="InCustRequest" OfbizEntity="CustRequest" EntitySetName="InCustRequests" AutoProperties="true">

@@ -56,12 +56,13 @@ public class ApprovalObjectEvent {
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.get("processField");
         String processFieldTypeId = (String) actionParameters.get("processFieldTypeId");
         Boolean asCondition = (Boolean) actionParameters.get("asCondition");
+        String valueTypeId = (String) actionParameters.get("valueTypeId");
         if (UtilValidate.isEmpty(processFieldTypeId)) {
             processFieldTypeId = null;
         }
         String asConditionStr = asCondition ? "Y" : "N";
         String description = (String) actionParameters.get("description");
-        delegator.storeByCondition("ProcessField", UtilMisc.toMap("description", description, "processFieldTypeId", processFieldTypeId,
+        delegator.storeByCondition("ProcessField", UtilMisc.toMap("description", description, "valueTypeId", valueTypeId, "processFieldTypeId", processFieldTypeId,
                         "asCondition", asConditionStr), EntityCondition.makeCondition(ofbizEntity.getGenericValue().getPrimaryKey()));
     }
 
