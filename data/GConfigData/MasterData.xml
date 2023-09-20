@@ -15,5 +15,9 @@
     <StatusItem statusId="PendingApproval" statusTypeId="MEMBER_STATUS" description="审批中"/>
     <StatusItem statusId="Approved" statusTypeId="MEMBER_STATUS" description="审批通过"/>
     <StatusItem statusId="Disapproved" statusTypeId="MEMBER_STATUS" description="审批不通过"/>
+
+    <!-- SecurityGroup -->
+    <SecurityGroup groupId="VISIT" description="访问权限" groupName="Visit"/>
+    <SecurityGroupPermission groupId="VISIT" permissionId="GONGSCONFIG_VIEW" fromDate="2023-09-19 22:11:39.139" />
     <!--============================================系统-管理应用Master数据Begin============================================-->
 </entity-engine-xml>

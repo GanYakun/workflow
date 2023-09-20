@@ -4,6 +4,8 @@ import com.banfftech.common.util.CommonUtils;
 import com.banfftech.util.ServiceUtils;
 import com.dpbird.odata.OfbizODataException;
 import com.dpbird.odata.services.OfbizServiceException;
+import org.apache.ofbiz.base.crypto.HashCrypt;
+import org.apache.ofbiz.base.util.UtilDateTime;
 import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
@@ -12,6 +14,7 @@ import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.entity.condition.EntityCondition;
 import org.apache.ofbiz.entity.condition.EntityOperator;
 import org.apache.ofbiz.entity.util.EntityQuery;
+import org.apache.ofbiz.entity.util.EntityUtilProperties;
 import org.apache.ofbiz.service.*;
 
 import java.math.BigDecimal;
@@ -19,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.banfftech.util.ServiceUtils.traverseUpdateParentDepartments;
+import static org.apache.ofbiz.common.login.LoginServices.getHashType;
 
 /**
  * @ClassName: GConfigService
@@ -119,6 +123,35 @@ public class GConfigService {
             throw new GenericServiceException(e.getMessage());
         }
 
+        return ServiceUtil.returnSuccess();
+    }
+
+    /**
+    * @Author yyp
+    * @Description 主要作用:在创建成员之后Eca触发创建对应的登录账号和登录权限
+    * @Date 10:33 2023/9/20
+    * @param [dctx, context]
+    * @EntityTypeName
+    * @ServiceName
+    **/
+    public static Map<String, Object> createUserLoginAndPermission(DispatchContext dctx, Map<String, Object> context) throws GenericServiceException {
+        try {
+            Delegator delegator = dctx.getDelegator();
+            GenericValue userLogin = (GenericValue) context.get("userLogin");
+            String userLoginId = (String) context.get("phoneMobile");
+            context.put("userLoginId", userLoginId);
+            context.put("currentPassword",  CommonUtils.getEncryptedPassword(delegator,"gongsconfig"));
+
+            context.put("groupId","VISIT");
+            context.put("fromDate", UtilDateTime.nowTimestamp());
+
+            CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createUserLogin",
+                    userLogin.getString("userLoginId"));
+            CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createUserLoginSecurityGroup",
+                    userLogin.getString("userLoginId"));
+        } catch (GeneralServiceException | GenericEntityException | GenericServiceException e) {
+            throw new GenericServiceException(e.getMessage());
+        }
         return ServiceUtil.returnSuccess();
     }
 
