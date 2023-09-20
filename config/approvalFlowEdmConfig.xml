@@ -1,6 +1,9 @@
 <ofbiz-edm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd"
            ImportGlobal="false">
+    <!-- 人员数据 -->
+    <ImportEdm Path="component://gongsconfig/config/orgStructureManageEdmConfig.xml"/>
+
 
     <!-- 主流程对象 -->
     <EntityType Name="MainProcess" EntitySetName="MainProcess" AutoProperties="true">
