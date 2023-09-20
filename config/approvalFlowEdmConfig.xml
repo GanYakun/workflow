@@ -23,6 +23,7 @@
         <NavigationProperty Name="WorkEffort"/>
         <NavigationProperty Name="ProcessEntity"/>
         <NavigationProperty Name="RangeEnumeration"/>
+        <NavigationProperty Name="StatusItem"/>
     </EntityType>
 
     <!-- 业务对象 -->
