@@ -45,7 +45,7 @@
             <Text Path="ProcessFieldType/description" TextArrangement="TextOnly"/>
         </Property>
         <LineItem>
-            <DataField Values="processFieldName,processFieldTypeId,asCondition,description"/>
+            <DataField Values="processFieldName,processFieldTypeId,asCondition,valueTypeId,description"/>
             <DataFieldForAction Label="${uiLabelMap.UpdateData}" Action="UpdateData" InvocationGrouping="Isolated" Criticality="Positive" Inline="true" Importance="High"/>
         </LineItem>
         <NavigationProperty Name="ProcessFieldType"/>
@@ -58,6 +58,7 @@
                 </ValueList>
             </Parameter>
             <Parameter Name="asCondition" Type="Boolean" Nullable="false" IsCollection="false"/>
+            <Parameter Name="valueTypeId" Type="String" Nullable="false" IsCollection="false" Label="${uiLabelMap.ProcessFieldValueTypeId}"/>
             <Parameter Name="description" Type="String" Nullable="false" IsCollection="false"/>
         </Action>
     </EntityType>
@@ -76,6 +77,7 @@
     </EntityType>
 
     <EntityType Name="StatusItem" EntitySetName="StatusItems" AutoProperties="true"/>
-    <EntityType Name="Enumeration" EntitySetName="Enumerations" AutoProperties="true" EntityCondition="enumTypeId=PROCESS_RANGE"/>
+    <EntityType Name="RangeEnumeration" OfbizEntity="Enumeration" EntitySetName="RangeEnumerations" AutoProperties="true" EntityCondition="enumTypeId=PROCESS_RANGE"/>
+    <EntityType Name="Enumeration" EntitySetName="Enumerations" AutoProperties="true"/>
 
 </ofbiz-edm>

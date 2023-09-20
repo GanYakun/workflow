@@ -68,6 +68,7 @@ under the License.
         <field name="processFieldId" type="id"><description>主键</description></field>
         <field name="processFieldName" type="name"><description>字段名称</description></field>
         <field name="processFieldTypeId" type="id"><description>字段类型</description></field>
+        <field name="valueTypeId" type="id"><description>选择对象的类型条件</description></field>
         <field name="asCondition" type="indicator"><description>是否可以在审理流程中当作条件</description></field>
         <field name="description" type="value"><description>字段描述</description></field>
         <field name="processEntityId" type="id"><description>对应实体外键</description></field>
