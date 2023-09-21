@@ -4,6 +4,7 @@ import com.banfftech.bean.*;
 import com.banfftech.common.util.CommonUtils;
 import com.dpbird.odata.services.OfbizServiceException;
 import org.apache.ofbiz.base.util.Debug;
+import org.apache.ofbiz.base.util.UtilDateTime;
 import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
@@ -70,7 +71,7 @@ public class ApprovalService {
             delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId,
                     "workEffortName", nodeName, "workEffortTypeId", "APPROVAL", "currentStatusId", statusId,
                     "priority", nodeId, "workEffortParentId", parentWorkEffort.getString("workEffortId"),
-                    "revisionNumber", revisionNumber,"topWorkEffortId", topWorkEffort.getString("workEffortId")));
+                    "revisionNumber", revisionNumber,"topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
             return;
         }
         //审批选项
@@ -99,7 +100,7 @@ public class ApprovalService {
         delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId,
                 "workEffortName", nodeName, "workEffortTypeId", "APPROVAL", "currentStatusId", statusId,
                 "priority", nodeId, "workEffortParentId", parentWorkEffort.getString("workEffortId"),
-                "revisionNumber", revisionNumber, "topWorkEffortId", topWorkEffort.getString("workEffortId")));
+                "revisionNumber", revisionNumber, "topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
         //分配给人
         for (String assiPartyId : assiPartyIds) {
             delegator.create("WorkEffortPartyAssignment", "workEffortPartyAssignmentId", delegator.getNextSeqId("WorkEffortPartyAssignment"),
@@ -118,7 +119,7 @@ public class ApprovalService {
         delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId,
                 "workEffortName", nodeName, "workEffortTypeId", "ROUTING", "currentStatusId", "WEPR_COMPLETE",
                 "priority", nodeId, "workEffortParentId", parentWorkEffort.getString("workEffortId"),
-                "revisionNumber", revisionNumber, "topWorkEffortId", topWorkEffort.getString("workEffortId")));
+                "revisionNumber", revisionNumber, "topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
 
         //获取符合条件的分支
         TreeNode conditionNode = FlowHelper.getConditionNode(delegator, nextNode.getConditionNodes(), revisionNumber);
@@ -129,7 +130,7 @@ public class ApprovalService {
         delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", condWorkEffortId,
                 "workEffortName", condNodeName, "workEffortTypeId", "CONDITION", "currentStatusId", "WEPR_COMPLETE",
                 "priority", condNodeId, "workEffortParentId", workEffortId, "revisionNumber", revisionNumber,
-                "topWorkEffortId", topWorkEffort.getString("workEffortId")));
+                "topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
 
     }
 

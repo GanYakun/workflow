@@ -115,7 +115,8 @@ public class ApprovalEvent {
         GenericValue rootWorkEffort = delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId,
                 "workEffortName", jsonObject.getString("nodeName"), "workEffortTypeId", "ROOT_NODE",
                 "priority", jsonObject.getLong("nodeId"), "workEffortParentId", templateWorkEffort.getString("workEffortId"),
-                "revisionNumber", delegator.getNextSeqIdLong("RevisionNumber"), "createdByUserLogin",  userLogin.getString("userLoginId")));
+                "revisionNumber", delegator.getNextSeqIdLong("RevisionNumber"), "createdByUserLogin",  userLogin.getString("userLoginId"),
+                "createdDate", UtilDateTime.nowTimestamp()));
         //把审批对象关联到根节点
         ModelEntity modelEntity = genericValue.getModelEntity();
         //重复提交

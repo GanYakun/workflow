@@ -5,9 +5,9 @@
     <!--审批-->
     <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true" EntityCondition="partyId">
         <SelectionFields
-                PropertyPath="createdDate,description,workEffortName,ProcessEntity/description,MainProcess/description"/>
+                PropertyPath="createdDate,workEffortName,ProcessEntity/description,MainProcess/description"/>
         <LineItem Qualifier="ApprovalList">
-            <DataField Values="createdDate,comments,workEffortName,ProcessEntity/description,MainProcess/description"
+            <DataField Values="workEffortName,ProcessEntity/description,MainProcess/description,createdDate,comments"
                        Importance="High"/>
         </LineItem>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
