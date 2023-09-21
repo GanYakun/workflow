@@ -24,4 +24,25 @@
             <key-map field-name="partyId"/>
         </relation>
     </view-entity>
+
+
+    <view-entity entity-name="Approval" package-name="com.banfftech.gongsconfig">
+        <member-entity entity-alias="WEFT" entity-name="WorkEffort"/>
+        <member-entity entity-alias="WEETPA" entity-name="WorkEffortPartyAssignment"/>
+        <alias-all entity-alias="WEFT"/>
+        <alias-all entity-alias="WEETPA"/>
+        <view-link entity-alias="WEFT" rel-entity-alias="WEETPA" rel-optional="false">
+            <key-map field-name="workEffortId"/>
+            <entity-condition>
+                <condition-expr entity-alias="WEFT" field-name="workEffortTypeId" value="APPROVAL"/>
+            </entity-condition>
+        </view-link>
+        <relation type="one-nofk" title="Approval" rel-entity-name="StatusItem">
+            <key-map field-name="statusId" />
+        </relation>
+        <relation type="one-nofk" title="Top" rel-entity-name="WorkEffort">
+            <key-map field-name="topWorkEffortId" rel-field-name="workEffortId"/>
+        </relation>
+    </view-entity>
+
 </entitymodel>

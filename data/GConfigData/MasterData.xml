@@ -16,6 +16,10 @@
     <StatusItem statusId="Approved" statusTypeId="MEMBER_STATUS" description="审批通过"/>
     <StatusItem statusId="Disapproved" statusTypeId="MEMBER_STATUS" description="审批不通过"/>
 
+    <!--StatusValidChange(状态改变约束)-->
+    <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_COMPLETE"/>
+    <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_REFUSE"/>
+
     <!-- SecurityGroup -->
     <SecurityGroup groupId="VISIT" description="访问权限" groupName="Visit"/>
     <SecurityGroupPermission groupId="VISIT" permissionId="GONGSCONFIG_VIEW" fromDate="2023-09-19 22:11:39.139" />

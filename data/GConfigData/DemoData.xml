@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-engine-xml>
+    <!--============================================Demo数据Begin============================================-->
+    <WorkEffort workEffortId="Approval10000" workEffortTypeId="APPROVAL" createdDate="2023-09-19 22:11:39.139"/>
+    <WorkEffortPartyAssignment workEffortPartyAssignmentId="Assignment10000" workEffortId="Approval10000" partyId="" statusId="WEPR_WAIT"/>
+    <WorkEffortPartyAssignment workEffortPartyAssignmentId="Assignment10001" workEffortId="Approval10000" partyId="" statusId="WEPR_WAIT"/>
+    <WorkEffortPartyAssignment workEffortPartyAssignmentId="Assignment10002" workEffortId="Approval10000" partyId="" statusId="WEPR_WAIT"/>
+
+    <!--============================================Demo数据End===========================================-->
+</entity-engine-xml>

@@ -1,0 +1,132 @@
+<ofbiz-edm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd" ImportGlobal="false">
+
+    <!--=====================================     主对象EntityType definition     =====================================-->
+    <!--审批-->
+    <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true" EntityCondition="partyId">
+        <SelectionFields
+                PropertyPath="createdDate,description,workEffortName,ProcessEntity/description,MainProcess/description"/>
+        <LineItem Qualifier="ApprovalList">
+            <DataField Values="createdDate,comments,workEffortName,ProcessEntity/description,MainProcess/description"
+                       Importance="High"/>
+        </LineItem>
+        <FieldGroup Qualifier="BaseInfo" Label="基本信息">
+            <DataField Values="createdDate,comments,workEffortName,ProcessEntity/description,MainProcess/description"
+                       Importance="High"/>
+        </FieldGroup>
+        <FieldGroup Qualifier="Member" Label="待审批成员信息">
+            <DataField
+                    Values="Member/partyName,Member/gender,Member/birthDate,Member/nickName,Member/phoneMobile,Member/primaryEmail,Member/externalId"
+                    Importance="High"/>
+        </FieldGroup>
+        <!--审批通过Action-->
+        <Action Name="Approved" IsBound="true"
+                OfbizService="com.banfftech.event.OrgStructureAppEvent.approve">
+            <Parameter Name="approval" Type="Approval" Nullable="false" IsCollection="false"/>
+            <Parameter Name="statusId" Type="Edm.String" Nullable="false" IsCollection="false"
+                       Label="${uiLabelMap.ApprovalStatusId}"/>
+            <Parameter Name="comments" Type="Edm.String" Nullable="false" IsCollection="false"
+                       Label="${uiLabelMap.ApprovalComments}"/>
+        </Action>
+        <!--审批不通过Action-->
+        <Action Name="ApproveRefuse" IsBound="true"
+                OfbizService="com.banfftech.event.OrgStructureAppEvent.approve">
+            <Parameter Name="approval" Type="Approval" Nullable="false" IsCollection="false"/>
+            <Parameter Name="statusId" Type="Edm.String" Nullable="false" IsCollection="false"
+                       Label="${uiLabelMap.ApprovalStatusId}"/>
+            <Parameter Name="comments" Type="Edm.String" Nullable="false" IsCollection="false"
+                       Label="${uiLabelMap.ApprovalComments}"/>
+        </Action>
+        <NavigationProperty Name="TopWorkEffort" Type="WorkEffort" Relations="TopWorkEffort" IsCollection="false"/>
+        <NavigationProperty Name="MainProcess" Relations="TopWorkEffort/ParentWorkEffort/MainProcess" Type="MainProcess"
+                            IsCollection="false"/>
+        <NavigationProperty Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity"
+                            Type="ProcessEntity" IsCollection="false"/>
+        <NavigationProperty Name="Member" Relations="TopWorkEffort/WorkFlowMember/PartyAndContact" Type="Member"
+                            IsCollection="false"/>
+        <NavigationProperty Name="ApprovalStatusItem" Relations="ApprovalStatusItem" Type="ApprovalStatusItem"
+                            IsCollection="false"/>
+    </EntityType>
+
+    <EntityType Name="WorkEffort" EntitySetName="WorkEfforts" AutoProperties="true">
+    </EntityType>
+
+
+    <!-- 主流程对象 -->
+    <EntityType Name="MainProcess" EntitySetName="MainProcess" AutoProperties="true">
+        <NavigationProperty Name="WorkEffort"/>
+        <NavigationProperty Name="ProcessEntity"/>
+        <NavigationProperty Name="StatusItem"/>
+    </EntityType>
+
+
+    <!-- 业务对象 -->
+    <EntityType Name="ProcessEntity" AutoProperties="true" EntitySetName="ProcessEntities">
+        <LineItem Qualifier="ApprovalList">
+            <DataField Values="createdDate,description,workEffortName,ProcessEntity/description,MainProcess/description"
+                       Importance="High"/>
+        </LineItem>
+    </EntityType>
+
+    <!--成员-->
+    <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members" EntityCondition="partyTypeId=PERSON"
+                AutoProperties="true"
+                Handler="component://gongsconfig/groovyScripts/orgStructureManage/Member.groovy">
+        <RelAlias Name="Person" Relations="Person"/>
+        <Property Name="gender" RelAlias="Person" Field="gender" FieldControl="Mandatory" Required="true">
+            <Text Path="GenderEnumeration/description" TextArrangement="TextOnly"/>
+        </Property>
+        <Property Name="birthDate" RelAlias="Person" Field="birthDate" FieldControl="Mandatory" Required="true"/>
+        <Property Name="nickName" RelAlias="Person" Field="nickname" FieldControl="Mandatory" Required="true"/>
+        <Property Name="partyTypeId" DefaultValue="PERSON"/>
+        <Property Name="isManager" Type="Boolean"/>
+        <Property Name="isNotManager" Type="Boolean"/>
+        <Property Name="partyId" Immutable="true">
+            <Text Path="partyName" TextArrangement="TextOnly"/>
+        </Property>
+        <Property Name="statusId" Immutable="true">
+            <Text Path="MemberStatusItem/description" TextArrangement="TextOnly"/>
+        </Property>
+        <Property Name="partyName" FieldControl="Mandatory" Required="true"/>
+        <Property Name="phoneMobile" FieldControl="Mandatory" Required="true"/>
+        <Property Name="primaryEmail" FieldControl="Mandatory" Required="true"/>
+        <Property Name="externalId" FieldControl="Mandatory" Required="true" Immutable="true"/>
+        <NavigationProperty Name="Department" Type="Department"
+                            Relations="ToPartyRelationship(roleTypeIdFrom=DEPARTMENT)/FromPartyAndPartyGroup"
+                            IsCollection="false"/>
+        <NavigationProperty Name="MemberStatusItem" Type="MemberStatusItem" Relations="StatusItem"/>
+        <NavigationProperty Name="GenderEnumeration" Type="Gender"
+                            Relations="Person/GenderEnumeration"/>
+    </EntityType>
+
+    <!--性别-->
+    <EntityType Name="Gender" OfbizEntity="Enumeration" EntitySetName="Genders"
+                EntityCondition="enumTypeId=GENDER_ENUM_TYPE"
+                AutoProperties="true">
+        <Property Name="enumId">
+            <Text Path="description" TextArrangement="TextOnly"/>
+        </Property>
+        <ValueList WithFixedValues="true" CollectionPath="Genders"/>
+    </EntityType>
+
+    <!--成员状态-->
+    <EntityType Name="MemberStatusItem" OfbizEntity="StatusItem" EntitySetName="MemberStatusItem"
+                EntityCondition="statusTypeId=MEMBER_STATUS"
+                AutoProperties="true">
+        <Property Name="statusId">
+            <Text Path="description" TextArrangement="TextOnly"/>
+        </Property>
+    </EntityType>
+
+    <!--部门-->
+    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments"
+                AutoProperties="true">
+    </EntityType>
+
+
+    <EntityType Name="StatusItem" EntitySetName="StatusItems" AutoProperties="true"/>
+    <EntityType Name="ApprovalStatusItem" OfbizEntity="StatusItem" EntitySetName="ApprovalStatusItem"
+                AutoProperties="true" EntityCondition="statusTypeId=APPROVAL"/>
+    <!--=====================================     子对象EntityType definition     =====================================-->
+    <!--=====================================    Action Definition End   =====================================-->
+</ofbiz-edm>

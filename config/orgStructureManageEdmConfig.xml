@@ -248,7 +248,7 @@
         <ValueList WithFixedValues="true" CollectionPath="Genders"/>
     </EntityType>
 
-    <!--性别-->
+    <!--成员状态-->
     <EntityType Name="MemberStatusItem" OfbizEntity="StatusItem" EntitySetName="MemberStatusItem" EntityCondition="statusTypeId=MEMBER_STATUS"
                 AutoProperties="true">
         <Property Name="statusId">

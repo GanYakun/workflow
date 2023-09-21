@@ -43,8 +43,8 @@ under the License.
     </property>
     <property key="ProcessEntityDescription">
         <value xml:lang="en">Description</value>
-        <value xml:lang="zh">描述</value>
-        <value xml:lang="zh-TW">描述</value>
+        <value xml:lang="zh">业务对象描述</value>
+        <value xml:lang="zh-TW">业务对象描述</value>
     </property>
     <property key="ProcessFieldProcessFieldId">
         <value xml:lang="en">Field ID</value>
@@ -75,6 +75,24 @@ under the License.
         <value xml:lang="en">Update Config</value>
         <value xml:lang="zh">更新设置</value>
         <value xml:lang="zh-TW">更新设置</value>
+    </property>
+<!--C-->
+    <!--Approval-->
+    <property key="ApprovalCreatedDate">
+        <value xml:lang="en">CreatedDate</value>
+        <value xml:lang="zh">创建时间</value>
+    </property>
+    <property key="ApprovalWorkEffortName">
+        <value xml:lang="en">WorkEffortName</value>
+        <value xml:lang="zh">当前节点</value>
+    </property>
+    <property key="ApprovalComments">
+        <value xml:lang="en">comments</value>
+        <value xml:lang="zh">审批备注</value>
+    </property>
+    <property key="ApprovalStatusId">
+        <value xml:lang="en">StatusId</value>
+        <value xml:lang="zh">审批状态</value>
     </property>
 <!--C-->
     <!--Company-->
@@ -151,6 +169,12 @@ under the License.
     <property key="MemberIsManager">
         <value xml:lang="en">IsManager</value>
         <value xml:lang="zh">是否为负责人</value>
+    </property>
+<!--M-->
+    <!--MainProcess-->
+    <property key="MainProcessDescription">
+        <value xml:lang="en">ProcessDescription</value>
+        <value xml:lang="zh">流程描述</value>
     </property>
 <!--R-->
     <!--Role-->

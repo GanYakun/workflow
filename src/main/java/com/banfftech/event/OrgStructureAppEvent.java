@@ -51,6 +51,32 @@ public class OrgStructureAppEvent {
         return member;
     }
 
+
+    /**
+    * @Author yyp
+    * @Description 审批通过和不通过
+    * @Date 14:15 2023/9/21
+    * @Edmconfig approvalManageEdmConfig.xml
+    * @ActionName Approved And ApproveRefuse
+    **/
+
+    public static void approve(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws OfbizODataException {
+        LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
+        GenericValue userLogin = (GenericValue) oDataContext.get("userLogin");
+        OdataOfbizEntity odataOfbizEntity = (OdataOfbizEntity) actionParameters.get("approval");
+        GenericValue approval = odataOfbizEntity.getGenericValue();
+        String workEffortPartyAssignmentId = approval.getString("workEffortPartyAssignmentId");
+        String comments = (String) actionParameters.get("comments");
+        String statusId = (String) actionParameters.get("statusId");
+
+        try {
+            dispatcher.runSync("banfftech.updateWorkEffortPartyAssignment",
+                    UtilMisc.toMap("workEffortPartyAssignmentId",workEffortPartyAssignmentId,"statusId",statusId,"comments",comments,"userLogin",userLogin));
+        } catch (GenericServiceException e) {
+            throw new OfbizODataException(e.getMessage());
+        }
+    }
+
 //    public static Object changeDepartment(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws OfbizODataException {
 //        Delegator delegator = (Delegator) oDataContext.get("delegator");
 //        LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
