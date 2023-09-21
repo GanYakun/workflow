@@ -125,6 +125,10 @@ public class ApprovalEvent {
                 "workEffortId", workEffortId, "memberEntityName", entityName, "memberEntityId", genericValue.getString(modelEntity.getFirstPkFieldName())));
         rootWorkEffort.set("currentStatusId", "WEPR_COMPLETE");
         rootWorkEffort.store();
+
+        //TODO: 修改业务对象状态
+        delegator.storeByCondition("Party", UtilMisc.toMap("statusId", "PendingApproval"),
+                EntityCondition.makeCondition(genericValue.getPrimaryKey()));
     }
 
 }

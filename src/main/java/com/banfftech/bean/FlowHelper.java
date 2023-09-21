@@ -77,6 +77,10 @@ public class FlowHelper {
      * 获取子节点 如果当前是某个路由的最后一个节点 要获取对应的路由的下一个节点
      */
     public static TreeNode getNextNode(Delegator delegator, GenericValue workEffort) throws OfbizServiceException, GenericEntityException {
+        if (workEffort.getString("currentStatusId").equals("WEPR_REFUSE")) {
+            //不通过
+            return null;
+        }
         TreeNode nodeBeanByWork = getNodeBeanByWork(delegator, workEffort);
         TreeNode node = getNodeByNodeId(nodeBeanByWork, workEffort.getLong("priority"));
         TreeNode childNode = node.getChildNode();
@@ -303,6 +307,20 @@ public class FlowHelper {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 获取业务对象
+     */
+    public static GenericValue getApprovalObj(GenericValue workEffort,  Delegator delegator) throws GenericEntityException {
+        //查询审批主流程
+        GenericValue rootWorkEffort = EntityQuery.use(delegator).from("WorkEffort")
+                .where("workEffortTypeId", "ROOT_NODE", "revisionNumber", workEffort.getLong("revisionNumber")).queryFirst();
+        //查询审批对象数据
+        GenericValue flowMember = EntityQuery.use(delegator).from("WorkFlowMember").where("workEffortId", rootWorkEffort.getString("workEffortId")).queryFirst();
+        ModelEntity modelEntity = delegator.getModelEntity(flowMember.getString("memberEntityName"));
+        return EntityQuery.use(delegator).from("Party").where(modelEntity.getFirstPkFieldName(), flowMember.get("memberEntityId")).queryOne();
+
     }
 
 }

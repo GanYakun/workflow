@@ -10,6 +10,7 @@ import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
+import org.apache.ofbiz.entity.condition.EntityCondition;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.service.DispatchContext;
 import org.apache.ofbiz.service.LocalDispatcher;
@@ -36,8 +37,11 @@ public class ApprovalService {
         Debug.log("当前节点"  + workEffortId + "处理完成, 开始下一个节点");
         TreeNode nextNode = FlowHelper.getNextNode(delegator, workEffort);
         if (nextNode == null) {
-            //TODO: 流程结束
-            Debug.log(">>>>>>>>>>>>>>>>>>>>>>>> 流程结束");
+            //TODO: 流程结束 修改业务对象状态
+            String statusId = workEffort.getString("currentStatusId").equals("WEPR_COMPLETE") ? "Approved" : "Disapproved";
+            GenericValue approvalObj = FlowHelper.getApprovalObj(workEffort, delegator);
+            approvalObj.set("statusId", statusId);
+            approvalObj.store();
             return resultMap;
         }
         //TODO: Factory Instance
@@ -151,14 +155,21 @@ public class ApprovalService {
     public static Map<String, Object> checkNode(DispatchContext dctx, Map<String, Object> context) throws GenericEntityException, OfbizServiceException {
         Delegator delegator = dctx.getDelegator();
         String workEffortId = (String) context.get("workEffortId");
+        String statusId = (String) context.get("statusId");
+
         GenericValue workEffort = EntityQuery.use(delegator).from("WorkEffort").where("workEffortId", workEffortId).queryOne();
         TreeNode nodeBeanByWork = FlowHelper.getNodeBeanByWork(delegator, workEffort);
         TreeNode currentNode = FlowHelper.getNodeByNodeId(nodeBeanByWork, workEffort.getLong("priority"));
         NodeUser nodeUserList = currentNode.getNodeUserList();
         Manual manual = nodeUserList.getManual();
         String type = manual.getApprover().getType();
-
         String isArray = manual.getIsArray();
+        if (statusId.equals("WEPR_REFUSE")) {
+            //拒绝
+            workEffort.set("currentStatusId", "WEPR_REFUSE");
+            workEffort.store();
+            return ServiceUtil.returnSuccess();
+        }
         if ("party".equals(type) && "and".equals(isArray)) {
             //会签 全部通过则通过
             long waitApproveCount = EntityQuery.use(delegator).from("WorkEffortPartyAssignment").where("workEffortId", workEffortId, "statusId", "WEPR_WAIT").queryCount();
