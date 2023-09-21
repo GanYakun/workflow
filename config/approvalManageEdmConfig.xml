@@ -3,9 +3,9 @@
 
     <!--=====================================     主对象EntityType definition     =====================================-->
     <!--审批-->
-    <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true" EntityCondition="partyId">
+    <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true" EntityCondition="partyId=${userLogin.partyId}">
         <SelectionFields
-                PropertyPath="createdDate,description,workEffortName,ProcessEntity/description,MainProcess/description"/>
+                PropertyPath="createdDate,comments,workEffortName,ProcessEntity/description,MainProcess/description"/>
         <LineItem Qualifier="ApprovalList">
             <DataField Values="createdDate,comments,workEffortName,ProcessEntity/description,MainProcess/description"
                        Importance="High"/>

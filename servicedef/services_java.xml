@@ -39,6 +39,15 @@ under the License.
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
 
+    <service name="banfftech.createUserGroup" engine="java"
+             default-entity-name="PartyAndPartyGroup"
+             invoke="createUserGroup" auth="true"
+             location="com.banfftech.services.GConfigService">
+        <description>Create a UserGroup</description>
+        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+
     <service name="banfftech.createPartyAndPartyGroup" engine="java"
              default-entity-name="PartyAndPartyGroup"
              invoke="createPartyAndPartyGroup" auth="true"

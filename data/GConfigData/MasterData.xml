@@ -16,10 +16,15 @@
     <StatusItem statusId="Approved" statusTypeId="MEMBER_STATUS" description="审批通过"/>
     <StatusItem statusId="Disapproved" statusTypeId="MEMBER_STATUS" description="审批不通过"/>
 
+    <!-- StatusItem -->
+<!--    <StatusItem statusId="APPROVAL_CREATED" statusTypeId="APPROVAL" description="已创建"/>-->
+<!--    <StatusItem statusId="APPROVAL_SUBMITTED" statusTypeId="APPROVAL" description="已提交"/>-->
+<!--    <StatusItem statusId="APPROVAL_REJECTED" statusTypeId="APPROVAL" description="已拒绝"/>-->
+<!--    <StatusItem statusId="APPROVAL_APPROVED" statusTypeId="APPROVAL" description="已通过"/>-->
+
     <!--StatusValidChange(状态改变约束)-->
     <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_COMPLETE"/>
     <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_REFUSE"/>
-
     <!-- SecurityGroup -->
     <SecurityGroup groupId="VISIT" description="访问权限" groupName="Visit"/>
     <SecurityGroupPermission groupId="VISIT" permissionId="GONGSCONFIG_VIEW" fromDate="2023-09-19 22:11:39.139" />

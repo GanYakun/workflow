@@ -33,16 +33,19 @@ import static org.apache.ofbiz.common.login.LoginServices.getHashType;
 public class GConfigService {
 
     public static Map<String, Object> createPartyAndPartyGroup(DispatchContext dctx, Map<String, Object> context) throws GenericServiceException {
+        Map<String, Object> result = ServiceUtil.returnSuccess();
         try {
             Map<String, Object> partyResult = CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createParty",
                     (String) context.get("userLoginId"));
             context.put("partyId", partyResult.get("partyId"));
             CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createPartyGroup",
                     (String) context.get("userLoginId"));
+            result.put("partyId", partyResult.get("partyId"));
         } catch (GeneralServiceException | GenericEntityException | GenericServiceException e) {
             throw new GenericServiceException(e.getMessage());
         }
-        return ServiceUtil.returnSuccess();
+
+        return result;
     }
 
     public static Map<String, Object> updatePartyAndPartyGroup(DispatchContext dctx, Map<String, Object> context)
@@ -93,6 +96,24 @@ public class GConfigService {
         return ServiceUtil.returnSuccess();
     }
 
+    public static Map<String, Object> createUserGroup(DispatchContext dctx, Map<String, Object> context) throws GenericServiceException {
+        Map<String, Object> result = ServiceUtil.returnSuccess();
+        try {
+            Map<String, Object> partyResult = CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createParty",
+                    (String) context.get("userLoginId"));
+            context.put("partyId", partyResult.get("partyId"));
+            context.put("roleTypeId", "OTHER_ORGANIZATION_U");
+            CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createPartyRole",
+                    (String) context.get("userLoginId"));
+            CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createPartyGroup",
+                    (String) context.get("userLoginId"));
+            result.put("partyId", partyResult.get("partyId"));
+        } catch (GeneralServiceException | GenericEntityException | GenericServiceException e) {
+            throw new GenericServiceException(e.getMessage());
+        }
+        return result;
+    }
+
     /**
      * @param [dctx, context]
      * @Author yyp
@@ -129,7 +150,7 @@ public class GConfigService {
     /**
      * @param [dctx, context]
      * @Author yyp
-     * @Description 主要作用:在创建成员之后Eca触发创建对应的登录账号和登录权限
+     * @Description 主要作用:在创建成员之后Eca触发创建对应的登录账号和登录权限(默认创建后的初始状态是未激活)
      * @Date 10:33 2023/9/20
      * @EntityTypeName
      * @ServiceName
