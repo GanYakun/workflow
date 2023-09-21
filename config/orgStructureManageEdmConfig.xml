@@ -231,6 +231,10 @@
             <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>
             <ReturnType Type="Member"/>
         </Action>
+        <Action Name="SubmitApproval" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.submitApproval">
+            <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>
+            <Parameter Name="type" Type="String" Nullable="false" IsCollection="false"/>
+        </Action>
         <NavigationProperty Name="Department" Type="Department"
                             Relations="ToPartyRelationship(roleTypeIdFrom=DEPARTMENT)/FromPartyAndPartyGroup"
                             IsCollection="false"/>
