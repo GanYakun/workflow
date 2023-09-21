@@ -19,6 +19,7 @@ public class TreeNode {
     private List<TreeNode> conditionNodes;
     private boolean isdefault; // 是否为默认条件
     private String conditionText;
+    private boolean hasError;
 
 
     public TreeNode(String nodeName, int type, long nodeId, List<List<Condition>> conditionList,
@@ -115,5 +116,13 @@ public class TreeNode {
 
     public void setNodeUserText(String nodeUserText) {
         this.nodeUserText = nodeUserText;
+    }
+
+    public boolean isHasError() {
+        return hasError;
+    }
+
+    public void setHasError(boolean hasError) {
+        this.hasError = hasError;
     }
 }

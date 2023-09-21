@@ -40,6 +40,7 @@ under the License.
              location="com.banfftech.services.ApprovalService">
         <description>执行审批 检查是节点是否通过</description>
         <attribute name="workEffortId" type="String" mode="IN"/>
+        <attribute name="statusId" type="String" mode="IN"/>
     </service>
     
 </services>
