@@ -1,5 +1,6 @@
 package com.banfftech.event;
 
+import com.banfftech.bean.FlowHelper;
 import com.dpbird.odata.OfbizODataException;
 import com.dpbird.odata.edm.OdataOfbizEntity;
 import net.sf.json.JSONObject;
@@ -51,6 +52,8 @@ public class ApprovalEvent {
             noteData.set("noteInfo", nodeData);
             noteData.set("noteDateTime", UtilDateTime.nowTimestamp());
             noteData.store();
+            //更新结构缓存
+            FlowHelper.flushTreeNodeCache(noteData);
         }
         process.set("statusId", "PROCESS_ENABLED");
         process.store();

@@ -293,4 +293,16 @@ public class FlowHelper {
         return assignmentPartyIds;
     }
 
+    /**
+     * 刷新缓存
+     */
+    public static void flushTreeNodeCache(GenericValue noteData) {
+        try {
+            TreeNode treeNode = new ObjectMapper().readValue(noteData.getString("noteInfo"), TreeNode.class);
+            FLOW_TREES.put(noteData.getString("noteId"), treeNode);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
