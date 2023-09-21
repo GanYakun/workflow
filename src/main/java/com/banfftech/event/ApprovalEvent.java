@@ -40,20 +40,20 @@ public class ApprovalEvent {
             //创建流程
             String noteId = delegator.getNextSeqId("NoteData");
             delegator.create("NoteData", UtilMisc.toMap("noteId", noteId, "noteName", "FLOW_JSON",
-                    "statusId", "PROCESS_ENABLED", "noteInfo", nodeData, "noteDateTime", UtilDateTime.nowTimestamp()));
+                    "noteInfo", nodeData, "noteDateTime", UtilDateTime.nowTimestamp()));
             String workEffortId = delegator.getNextSeqId("WorkEffort");
             delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId, "workEffortTypeId", "WORK_FLOW", "noteId", noteId));
             process.set("workFlowId", workEffortId);
-            process.store();
         } else {
             //更新流程
             GenericValue workEffort = process.getRelatedOne("WorkEffort", false);
             GenericValue noteData = workEffort.getRelatedOne("NoteData", false);
             noteData.set("noteInfo", nodeData);
-            noteData.set("statusId", "PROCESS_ENABLED");
             noteData.set("noteDateTime", UtilDateTime.nowTimestamp());
             noteData.store();
         }
+        process.set("statusId", "PROCESS_ENABLED");
+        process.store();
     }
 
     /**

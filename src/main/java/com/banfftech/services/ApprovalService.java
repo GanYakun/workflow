@@ -39,6 +39,7 @@ public class ApprovalService {
             Debug.log(">>>>>>>>>>>>>>>>>>>>>>>> 流程结束");
             return resultMap;
         }
+        //TODO: Factory Instance
         //审核节点
         if (nextNode.getType() == 1) {
             approval(delegator, nextNode, workEffort);
