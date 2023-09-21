@@ -73,12 +73,8 @@
         </Property>
     </EntityType>
     
-    <EntityType Name="WorkEffort" EntitySetName="WorkEfforts" Properties="workEffortId,workEffortName,topWorkEffortId">
+    <EntityType Name="WorkEffort" EntitySetName="WorkEfforts" Properties="workEffortId,workEffortName">
         <NavigationProperty Name="NoteData"/>
-        <NavigationProperty Name="MainProcess" Relations="TopWorkEffort/ParentWorkEffort/MainProcess" Type="MainProcess" IsCollection="false"/>
-        <NavigationProperty Name="TopWorkEffort" Relations="TopWorkEffort" Type="WorkEffort" IsCollection="false"/>
-        <NavigationProperty Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity" Type="ProcessEntity" IsCollection="false"/>
-        <NavigationProperty Name="PartyAndContact" Relations="TopWorkEffort/WorkFlowMember/PartyAndContact" Type="PartyAndContact" IsCollection="false"/>
     </EntityType>
     <EntityType Name="NoteData" EntitySetName="NoteDatas" AutoProperties="true"/>
 
