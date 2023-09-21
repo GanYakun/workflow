@@ -85,6 +85,21 @@ under the License.
         <prim-key field="processFieldTypeId"/>
     </entity>
 
+    <entity entity-name="WorkFlowMember" package-name="com.banfftech.approval">
+        <description>审批流程和审批对象关联表</description>
+        <field name="workFlowMemberId" type="id"><description>主键</description></field>
+        <field name="workEffortId" type="id"><description>审批流根节点id</description></field>
+        <field name="memberEntityName" type="id"><description>关联对象</description></field>
+        <field name="memberEntityId" type="id"><description>关联对象Id</description></field>
+        <prim-key field="workFlowMemberId"/>
+        <relation type="one" fk-name="WF_MEM_WORKEFF" rel-entity-name="WorkEffort">
+            <key-map field-name="workEffortId"/>
+        </relation>
+        <relation type="one-nofk" fk-name="WF_MEM_PTY" rel-entity-name="PartyAndContact">
+            <key-map field-name="memberEntityId" rel-field-name="partyId"/>
+        </relation>
+    </entity>
+
 
 
 

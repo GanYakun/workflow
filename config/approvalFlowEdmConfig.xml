@@ -4,7 +4,6 @@
     <!-- 人员数据 -->
     <ImportEdm Path="component://gongsconfig/config/orgStructureManageEdmConfig.xml"/>
 
-
     <!-- 主流程对象 -->
     <EntityType Name="MainProcess" EntitySetName="MainProcess" AutoProperties="true">
         <!-- 流程设计发布 -->
@@ -74,15 +73,26 @@
         </Property>
     </EntityType>
     
-    <EntityType Name="WorkEffort" EntitySetName="WorkEfforts" Properties="workEffortId,workEffortName">
+    <EntityType Name="WorkEffort" EntitySetName="WorkEfforts" Properties="workEffortId,workEffortName,topWorkEffortId">
         <NavigationProperty Name="NoteData"/>
+        <NavigationProperty Name="MainProcess" Relations="TopWorkEffort/ParentWorkEffort/MainProcess" Type="MainProcess" IsCollection="false"/>
+        <NavigationProperty Name="TopWorkEffort" Relations="TopWorkEffort" Type="WorkEffort" IsCollection="false"/>
+        <NavigationProperty Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity" Type="ProcessEntity" IsCollection="false"/>
+        <NavigationProperty Name="PartyAndContact" Relations="TopWorkEffort/WorkFlowMember/PartyAndContact" Type="PartyAndContact" IsCollection="false"/>
     </EntityType>
     <EntityType Name="NoteData" EntitySetName="NoteDatas" AutoProperties="true"/>
 
-    <!-- 一个入库请求单的demo -->
+    <!-- 入库请求单的demo -->
     <EntityType Name="InCustRequest" OfbizEntity="CustRequest" EntitySetName="InCustRequests" AutoProperties="true">
         <Action Name="SubmitApproval" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.submitApproval">
             <Parameter Name="inCustRequest" Type="InCustRequest" Nullable="false" IsCollection="false"/>
+        </Action>
+    </EntityType>
+    <!-- 入库请求单的demo -->
+    <EntityType Name="PartyAndContact" OfbizEntity="PartyAndContact" EntitySetName="PartyAndContacts" AutoProperties="true">
+        <Action Name="SubmitApproval" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.submitApproval">
+            <Parameter Name="partyAndContact" Type="PartyAndContact" Nullable="false" IsCollection="false"/>
+            <Parameter Name="type" Type="String" Nullable="false" IsCollection="false"/>
         </Action>
     </EntityType>
 

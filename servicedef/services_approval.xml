@@ -30,9 +30,15 @@ under the License.
         </description>
     </service>
 
-    <service name="banfftech.checkNext" engine="java" invoke="checkNext"
+    <service name="banfftech.checkDecision" engine="java" invoke="checkDecision"
              location="com.banfftech.services.ApprovalService">
-        <description>审批节点处理</description>
+        <description>执行新的流程步骤或结束流程</description>
+        <attribute name="workEffortId" type="String" mode="IN"/>
+    </service>
+
+    <service name="banfftech.checkNode" engine="java" invoke="checkNode"
+             location="com.banfftech.services.ApprovalService">
+        <description>执行审批 检查是节点是否通过</description>
         <attribute name="workEffortId" type="String" mode="IN"/>
     </service>
     

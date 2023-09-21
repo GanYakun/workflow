@@ -24,25 +24,30 @@ under the License.
     <eca entity="WorkEffort" operation="create-store" event="return">
         <condition field-name="workEffortTypeId" operator="equals" value="ROOT_NODE"/>
         <condition field-name="currentStatusId" operator="equals" value="WEPR_COMPLETE"/>
-        <action service="banfftech.checkNext" mode="sync"/>
+        <action service="banfftech.checkDecision" mode="sync"/>
     </eca>
 
     <eca entity="WorkEffort" operation="create-store" event="return">
         <condition field-name="workEffortTypeId" operator="equals" value="APPROVAL"/>
         <condition field-name="currentStatusId" operator="equals" value="WEPR_COMPLETE"/>
-        <action service="banfftech.checkNext" mode="sync"/>
+        <action service="banfftech.checkDecision" mode="sync"/>
     </eca>
 
     <eca entity="WorkEffort" operation="create-store" event="return">
         <condition field-name="workEffortTypeId" operator="equals" value="MAKE_COPY"/>
         <condition field-name="currentStatusId" operator="equals" value="WEPR_COMPLETE"/>
-        <action service="banfftech.checkNext" mode="sync"/>
+        <action service="banfftech.checkDecision" mode="sync"/>
     </eca>
 
     <eca entity="WorkEffort" operation="create-store" event="return">
         <condition field-name="workEffortTypeId" operator="equals" value="CONDITION"/>
         <condition field-name="currentStatusId" operator="equals" value="WEPR_COMPLETE"/>
-        <action service="banfftech.checkNext" mode="sync"/>
+        <action service="banfftech.checkDecision" mode="sync"/>
+    </eca>
+
+    <eca entity="WorkEffortPartyAssignment" operation="create-store" event="return">
+        <condition field-name="statusId" operator="equals" value="WEPR_COMPLETE"/>
+        <action service="banfftech.checkNode" mode="sync"/>
     </eca>
 
 <!--    <eca entity="WorkEffort" operation="create-store" event="return">-->

@@ -28,11 +28,5 @@ under the License.
     <copyright></copyright>
     <version></version>
 
-    <extend-entity entity-name="CustRequest">
-        <field name="workFlowId" type="id"/>
-        <relation type="one" rel-entity-name="WorkEffort">
-            <key-map field-name="workFlowId" rel-field-name="workEffortId"/>
-        </relation>
-    </extend-entity>
 
 </entitymodel>

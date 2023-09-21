@@ -11,14 +11,18 @@ import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.entity.condition.EntityComparisonOperator;
 import org.apache.ofbiz.entity.condition.EntityCondition;
 import org.apache.ofbiz.entity.condition.EntityOperator;
+import org.apache.ofbiz.entity.model.ModelEntity;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.entity.util.EntityUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
+ * 审批流工具类
+ *
  * @author scy
  * @date 2023/9/12
  */
@@ -122,6 +126,14 @@ public class FlowHelper {
     }
 
     /**
+     * 查询根节点
+     */
+    public static GenericValue getTopWorkEffort(Delegator delegator, Long revisionNumber) throws GenericEntityException {
+        return EntityQuery.use(delegator).from("WorkEffort").where("workEffortTypeId", "ROOT_NODE",
+                "revisionNumber", revisionNumber).queryFirst();
+    }
+
+    /**
      * 根据条件获取parent workEffort
      */
     public static GenericValue getParentWorkEffort(GenericValue workEffort, Map<String, Object> byAnd) throws GenericEntityException {
@@ -167,7 +179,6 @@ public class FlowHelper {
         return null; // 未找到匹配的节点
     }
 
-
     /**
      * 解析条件表达式
      *
@@ -176,15 +187,18 @@ public class FlowHelper {
      * @return 从所有的条件节点获取一个符合条件的节点返回 如果全都不符合返回默认节点
      */
     public static TreeNode getConditionNode(Delegator delegator, List<TreeNode> conditionNodes, Long revisionNumber) throws GenericEntityException {
-        //查询审批对象
+        //查询审批主流程
         GenericValue rootWorkEffort = EntityQuery.use(delegator).from("WorkEffort")
                 .where("workEffortTypeId", "ROOT_NODE", "revisionNumber", revisionNumber).queryFirst();
         GenericValue mainProcess = EntityQuery.use(delegator).from("MainProcess")
                 .where("workFlowId", rootWorkEffort.getString("workEffortParentId")).queryFirst();
         GenericValue processEntity = mainProcess.getRelatedOne("ProcessEntity", false);
         List<GenericValue> processFields = processEntity.getRelated("ProcessField", null, null, false);
-        GenericValue genericValue = EntityQuery.use(delegator).from(processEntity.getString("processEntityName"))
-                .where("workFlowId", rootWorkEffort.getString("workEffortId")).queryOne();
+        //查询审批对象数据
+        GenericValue flowMember = EntityQuery.use(delegator).from("WorkFlowMember").where("workEffortId", rootWorkEffort.getString("workEffortId")).queryFirst();
+        ModelEntity modelEntity = delegator.getModelEntity(flowMember.getString("memberEntityName"));
+        GenericValue approvalObj = EntityQuery.use(delegator).from(flowMember.getString("memberEntityName")).where(modelEntity.getFirstPkFieldName(), flowMember.get("memberEntityId")).queryOne();
+
 
         for (TreeNode conditionNode : conditionNodes) {
             if (conditionNode.isIsdefault()) {
@@ -194,7 +208,7 @@ public class FlowHelper {
             List<List<Condition>> conditionGroups = conditionNode.getConditionList();
             //条件组之间的关系是or 有一个匹配就成功
             for (List<Condition> conditionsGro : conditionGroups) {
-                boolean result = checkConditionGroup(delegator, conditionsGro, genericValue, processFields);
+                boolean result = checkConditionGroup(delegator, conditionsGro, approvalObj, processFields);
                 if (result) {
                     return conditionNode;
                 }
@@ -242,6 +256,41 @@ public class FlowHelper {
         EntityCondition entityCondition = EntityCondition.makeCondition(property, OPERATOR_MAP.get(operator), value);
         List<GenericValue> genericValues = EntityUtil.filterByCondition(UtilMisc.toList(genericValue), entityCondition);
         return UtilValidate.isNotEmpty(genericValues);
+    }
+
+    /**
+     * 获取需要分配的审批人
+     *
+     * @param approverType 审批类型  manager/部门负责人, roleTypeId/角色, partyGroup/用户组, party/指定成员, optional/提交人自选, self/提交人本人
+     * @param revisionNumber 审批流程编号
+     * @return 返回所有审批人的partyId
+     */
+    public static List<String> getApprover(Delegator delegator, String approverType, List<String> approverValue, Long revisionNumber) throws GenericEntityException {
+        GenericValue rootWorkEffort = EntityQuery.use(delegator).from("WorkEffort")
+                .where("workEffortTypeId", "ROOT_NODE", "revisionNumber", revisionNumber).queryFirst();
+        //发起人
+        String createdByUserLogin = rootWorkEffort.getString("createdByUserLogin");
+        List<String> assignmentPartyIds = new ArrayList<>();
+        if ("manager".equals(approverType)) {
+            //查询提交人的部门负责人
+        }
+        if ("roleTypeId".equals(approverType)) {
+            //查询角色人员
+        }
+        if ("partyGroup".equals(approverType)) {
+            //查询用户组人员
+        }
+        if ("party".equals(approverType)) {
+            //指定成员
+            return approverValue;
+        }
+        if ("optional".equals(approverType)) {
+            //提交人自选
+        }
+        if ("self".equals(approverType)) {
+            //提交人本人
+        }
+        return assignmentPartyIds;
     }
 
 }

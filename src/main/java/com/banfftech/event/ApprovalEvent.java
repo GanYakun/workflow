@@ -1,6 +1,7 @@
 package com.banfftech.event;
 
 import com.dpbird.odata.OfbizODataException;
+import com.dpbird.odata.Util;
 import com.dpbird.odata.edm.OdataOfbizEntity;
 import net.sf.json.JSONObject;
 import org.apache.ofbiz.base.util.UtilDateTime;
@@ -87,10 +88,12 @@ public class ApprovalEvent {
     public static void submitApproval(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws GenericEntityException, OfbizODataException {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
         LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
+        GenericValue userLogin = (GenericValue) oDataContext.get("userLogin");
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.values().iterator().next();
+        String typeId = (String) actionParameters.get("type");
         GenericValue genericValue = ofbizEntity.getGenericValue();
         String entityName = genericValue.getEntityName();
-        String typeId = genericValue.getString(entityName + "TypeId");
+//        String typeId = genericValue.getString(Util.firstLowerCase(entityName) + "TypeId");
         GenericValue processEntity = EntityQuery.use(delegator).from("ProcessEntity")
                 .where("processEntityName", entityName, "processEntityTypeId", typeId).queryFirst();
         if (UtilValidate.isEmpty(processEntity)) {
@@ -111,11 +114,14 @@ public class ApprovalEvent {
         //创建根节点
         GenericValue rootWorkEffort = delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId,
                 "workEffortName", jsonObject.getString("nodeName"), "workEffortTypeId", "ROOT_NODE",
-                "priority", jsonObject.getLong("nodeId"), "workEffortParentId", templateWorkEffort.getString("workEffortId"), "revisionNumber", revisionNumber));
+                "priority", jsonObject.getLong("nodeId"), "workEffortParentId", templateWorkEffort.getString("workEffortId"),
+                "revisionNumber", revisionNumber, "createdByUserLogin",  userLogin.getString("userLoginId")));
         //把审批对象关联到根节点
-        ModelEntity modelEntity = ofbizEntity.getGenericValue().getModelEntity();
-        delegator.storeByCondition(modelEntity.getEntityName(), UtilMisc.toMap("workFlowId", workEffortId),
-                EntityCondition.makeCondition(ofbizEntity.getGenericValue().getPrimaryKey()));
+        ModelEntity modelEntity = genericValue.getModelEntity();
+        //重复提交
+        delegator.removeByAnd("WorkFlowMember", UtilMisc.toMap("memberEntityName", entityName, "memberEntityId", genericValue.getString(modelEntity.getFirstPkFieldName())));
+        delegator.create("WorkFlowMember", UtilMisc.toMap("workFlowMemberId", delegator.getNextSeqId("WorkFlowMember"),
+                "workEffortId", workEffortId, "memberEntityName", entityName, "memberEntityId", genericValue.getString(modelEntity.getFirstPkFieldName())));
         rootWorkEffort.set("currentStatusId", "WEPR_COMPLETE");
         rootWorkEffort.store();
     }
