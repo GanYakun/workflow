@@ -5,6 +5,7 @@ import com.dpbird.odata.Util;
 import com.dpbird.odata.services.OfbizServiceException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.ofbiz.base.util.UtilDateTime;
 import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
@@ -260,8 +261,16 @@ public class FlowHelper {
                 return UtilValidate.isNotEmpty(department);
             }
         }
+        Object valueObj = value;
+        //转换日期
+        if (fieldTypeId.equals("DATE")) {
+            valueObj = Util.getSqlDate(value);
+        }
+        if (fieldTypeId.equals("DATE_TIME")) {
+            valueObj = Util.getSqlTimestamp(value);
+        }
         //使用condition匹配
-        EntityCondition entityCondition = EntityCondition.makeCondition(property, OPERATOR_MAP.get(operator), value);
+        EntityCondition entityCondition = EntityCondition.makeCondition(property, OPERATOR_MAP.get(operator), valueObj);
         List<GenericValue> genericValues = EntityUtil.filterByCondition(UtilMisc.toList(genericValue), entityCondition);
         return UtilValidate.isNotEmpty(genericValues);
     }
