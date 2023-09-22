@@ -60,6 +60,9 @@ under the License.
         <relation type="one" fk-name="TOP_WORK_EFFORT" title="Top" rel-entity-name="WorkEffort">
             <key-map field-name="topWorkEffortId" rel-field-name="workEffortId"/>
         </relation>
+        <relation type="many" title="Node" rel-entity-name="WorkEffort">
+            <key-map field-name="workEffortId" rel-field-name="topWorkEffortId"/>
+        </relation>
     </extend-entity>
 
     <extend-entity entity-name="WorkEffortPartyAssignment">
