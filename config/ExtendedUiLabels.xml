@@ -162,8 +162,8 @@ under the License.
         <value xml:lang="en">ExternalId</value>
         <value xml:lang="zh">工号</value>
     </property>
-    <property key="MemberNickName">
-        <value xml:lang="en">NickName</value>
+    <property key="MemberNickname">
+        <value xml:lang="en">Nickname</value>
         <value xml:lang="zh">别名</value>
     </property>
     <property key="MemberIsManager">

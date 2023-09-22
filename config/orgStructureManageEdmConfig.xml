@@ -46,7 +46,7 @@
             <Text Path="GenderEnumeration/description" TextArrangement="TextOnly"/>
         </Property>
         <Property Name="birthDate" RelAlias="Person" Field="birthDate" FieldControl="Mandatory" Required="true"/>
-        <Property Name="nickName" RelAlias="Person" Field="nickname" FieldControl="Mandatory" Required="true"/>
+        <Property Name="nickname" RelAlias="Person" Field="nickname" FieldControl="Mandatory" Required="true"/>
         <Property Name="partyTypeId" DefaultValue="PERSON"/>
         <Property Name="isManager" Type="Boolean"/>
         <Property Name="isNotManager" Type="Boolean"/>
@@ -61,7 +61,7 @@
         <Property Name="primaryEmail" FieldControl="Mandatory" Required="true"/>
         <Property Name="externalId" FieldControl="Mandatory" Required="true" Immutable="true"/>
         <LineItem Qualifier="Member">
-            <DataField Values="partyName,gender,statusId,birthDate,nickName,phoneMobile,primaryEmail,externalId" Importance="High"/>
+            <DataField Values="partyName,gender,statusId,birthDate,nickname,phoneMobile,primaryEmail,externalId" Importance="High"/>
             <DataFieldForAction Label="变更部门" Action="ChangeDepartment" InvocationGrouping="Isolated"
                                 Criticality="Positive" Inline="false" Importance="High"/>
         </LineItem>
