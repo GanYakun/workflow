@@ -83,6 +83,9 @@
         <NavigationProperty Name="Department" Type="Department"
                             Relations="ToPartyRelationship(roleTypeIdFrom=DEPARTMENT)/FromPartyAndPartyGroup"
                             IsCollection="false"/>
+        <NavigationProperty Name="DepartmentRelation" Type="PartyRelationship"
+                            Relations="ToPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)"
+                            IsCollection="false"/>
         <NavigationProperty Name="MemberStatusItem" Type="MemberStatusItem" Relations="StatusItem"/>
         <NavigationProperty Name="GenderEnumeration" Type="Gender"
                             Relations="Person/GenderEnumeration"/>
