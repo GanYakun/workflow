@@ -33,23 +33,21 @@ public class OverrideMemberFindList extends DefaultEntityHandler {
                                    Map<String, QueryOption> queryOptions, Map<String, Object> navigationParam) throws OfbizODataException {
         Delegator delegator = (Delegator) odataContext.get("delegator");
 
-        //普通的查询
+        //如果不是一段式并且NavigationName=AllMember
         if (UtilValidate.isNotEmpty(navigationParam)) {
             EdmNavigationProperty edmNavigationProperty = (EdmNavigationProperty) navigationParam.get("edmNavigationProperty");
             String navigationPropertyName = edmNavigationProperty.getName();
             if ("AllMember".equals(navigationPropertyName)) {
-
                 OdataOfbizEntity entity = (OdataOfbizEntity) navigationParam.get("entity");
                 GenericValue genericValue = entity.getGenericValue();
-
-                //如果是多段式的且查所有的成员
                 String departmentId = genericValue.getString("partyId");
+
                 List<GenericValue> allMembers = new ArrayList<>();
                 getDepartmentALlMembers(delegator, departmentId, allMembers);
-
                 return new HandlerResults(allMembers.size(), allMembers);
             }
         }
+        //否则(如果是一段式或者NavigationName!=AllMember)直接调用Super
         return super.findList(odataContext, edmBindingTarget, primaryKey, queryOptions, navigationParam);
 
 

@@ -94,6 +94,10 @@ under the License.
         <value xml:lang="en">StatusId</value>
         <value xml:lang="zh">审批状态</value>
     </property>
+    <property key="ApprovalMannerEnumId">
+        <value xml:lang="en">Via</value>
+        <value xml:lang="zh">通过方式</value>
+    </property>
 <!--C-->
     <!--Company-->
     <property key="CompanyPartyId">
@@ -186,5 +190,10 @@ under the License.
     <property key="RolePartyDisplayPartyId">
         <value xml:lang="en">MemberName</value>
         <value xml:lang="zh">成员名称</value>
+    </property>
+    <!--RootNodeWorkEffort-->
+    <property key="RootNodeWorkEffortCreatedByUserLogin">
+        <value xml:lang="en">Creator</value>
+        <value xml:lang="zh">创建人</value>
     </property>
 </resource>

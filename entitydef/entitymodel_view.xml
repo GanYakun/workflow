@@ -43,6 +43,9 @@
         <relation type="one-nofk" title="Top" rel-entity-name="WorkEffort">
             <key-map field-name="topWorkEffortId" rel-field-name="workEffortId"/>
         </relation>
+        <relation type="one-nofk" title="Manner" rel-entity-name="Enumeration">
+            <key-map field-name="mannerEnumId" rel-field-name="enumId"/>
+        </relation>
     </view-entity>
 
 </entitymodel>

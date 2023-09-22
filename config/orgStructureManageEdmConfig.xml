@@ -165,12 +165,6 @@
             <Title Path="partyName"/>
             <Description Path="description"/>
         </HeaderInfo>
-<!--        <NavigationProperty Name="SubDepartment" Type="Department"-->
-<!--                            Relations="FromPartyRelationship(roleTypeIdTo=DEPARTMENT)/ToPartyAndPartyGroup"-->
-<!--                            IsCollection="true"/>-->
-<!--        <NavigationProperty Name="Member" Type="Member"-->
-<!--                            Relations="FromPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/ToPartyAndContact"-->
-<!--                            IsCollection="true"/>-->
         <NavigationProperty Name="UserGroupMemberRelation" Type="PartyRelationship" Relations="FromPartyRelationship"
                             IsCollection="true"/>
     </EntityType>
