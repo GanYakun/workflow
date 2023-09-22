@@ -135,8 +135,12 @@
     </EntityType>
 
     <EntityType Name="PartyRelationship" EntitySetName="PartyRelationships" AutoProperties="true">
+        <LineItem>
+            <DataField Values="partyIdTo,MemberDepartment/partyName" Importance="High"/>
+        </LineItem>
         <NavigationProperty Name="FromParty" Type="Party" Relations="FromParty"/>
         <NavigationProperty Name="ToParty" Type="Party" Relations="ToParty"/>
+        <NavigationProperty Name="MemberDepartment" Type="Department" Relations="ToParty/ToPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/FromPartyAndPartyGroup"/>
     </EntityType>
 
     <EntityType Name="Party" EntitySetName="Parties" AutoProperties="true">
@@ -164,8 +168,7 @@
 <!--        <NavigationProperty Name="Member" Type="Member"-->
 <!--                            Relations="FromPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/ToPartyAndContact"-->
 <!--                            IsCollection="true"/>-->
-        <NavigationProperty Name="UserGroupMember" Type="PartyAndContact"
-                            Relations="FromPartyRelationship/ToPartyAndContact"
+        <NavigationProperty Name="UserGroupMemberRelation" Type="PartyRelationship" Relations="FromPartyRelationship"
                             IsCollection="true"/>
     </EntityType>
 
