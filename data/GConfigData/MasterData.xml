@@ -9,6 +9,8 @@
     <!-- Enumeration -->
     <Enumeration enumId="M" enumTypeId="GENDER_ENUM_TYPE" description="男"/>
     <Enumeration enumId="F" enumTypeId="GENDER_ENUM_TYPE" description="女"/>
+    <Enumeration enumId="PASS_APPROVE" enumTypeId="PASS_MANNER" description="审批通过"/>
+    <Enumeration enumId="PASS_AUTO" enumTypeId="PASS_MANNER" description="自动通过"/>
 
     <!-- StatusItem -->
     <StatusItem statusId="ToBeSubmittedApproval" statusTypeId="MEMBER_STATUS" description="待提交审批"/>
@@ -26,9 +28,20 @@
     <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_COMPLETE"/>
     <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_REFUSE"/>
     <StatusValidChange statusId="Disapproved" statusIdTo="PendingApproval"/>
+    <StatusValidChange statusId="ToBeSubmittedApproval" statusIdTo="PendingApproval"/>
+    <StatusValidChange statusId="PendingApproval" statusIdTo="Approved"/>
     <!-- SecurityGroup -->
     <SecurityGroup groupId="VISIT" description="访问权限" groupName="Visit"/>
     <SecurityGroupPermission groupId="VISIT" permissionId="GONGSCONFIG_VIEW" fromDate="2023-09-19 22:11:39.139" />
     <SecurityGroupPermission groupId="VISIT" permissionId="OFBTOOLS_VIEW" fromDate="2023-09-19 22:11:39.139" />
     <!--============================================系统-管理应用Master数据Begin============================================-->
+
+    <!-- 组织管理员 -->
+    <Party partyId="org_admin" partyTypeId="PERSON" partyName="组织管理员"/>
+    <Person partyId="org_admin" firstName="Org" lastName="Manager"/>
+    <PartyRole partyId="org_admin" roleTypeId="ORG_MANAGER"/>
+    <UserLogin userLoginId="org_admin" currentPassword="$SHA$CB2JTQBg$IVZnsVlreq0L8EVM8soUIETA9c8" passwordHint="" partyId="org_admin"/>
+    <UserLoginSecurityGroup groupId="VISIT" userLoginId="org_admin" fromDate="2001-01-01 12:00:00.0"/>
+    <PartyRelationship partyRelationshipId="PRID_10000" partyIdFrom="Company" partyIdTo="org_admin"
+                       roleTypeIdTo="ORG_MANAGER" fromDate="2001-01-01 12:00:00.0"/>
 </entity-engine-xml>

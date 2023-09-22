@@ -5,7 +5,13 @@
     <ImportEdm Path="component://gongsconfig/config/orgStructureManageEdmConfig.xml"/>
 
     <!-- 主流程对象 -->
-    <EntityType Name="MainProcess" EntitySetName="MainProcess" AutoProperties="true">
+    <EntityType Name="MainProcess" EntitySetName="MainProcess" AutoProperties="true"
+                Handler="component://gongsconfig/groovyScripts/mainProcess/generateFields.groovy">
+        <!-- 实例数量 -->
+        <Property Name="totalQuantity" Type="Edm.Decimal"/>
+        <Property Name="progressingQuantity" Type="Edm.Decimal"/>
+        <Property Name="completedQuantity" Type="Edm.Decimal"/>
+
         <!-- 流程设计发布 -->
         <Action Name="SaveProcess" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.saveProcess">
             <Parameter Name="mainProcess" Type="MainProcess" Nullable="false" IsCollection="false"/>

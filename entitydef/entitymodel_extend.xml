@@ -62,5 +62,12 @@ under the License.
         </relation>
     </extend-entity>
 
+    <extend-entity entity-name="WorkEffortPartyAssignment">
+        <field name="mannerEnumId" type="id"/>
+        <relation type="one" fk-name="WEPA_ENUM" title="Manner" rel-entity-name="Enumeration">
+            <key-map field-name="mannerEnumId" rel-field-name="enumId"/>
+        </relation>
+    </extend-entity>
+
 
 </entitymodel>

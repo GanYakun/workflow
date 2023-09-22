@@ -17,6 +17,7 @@ import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 import org.apache.olingo.commons.api.edm.EdmBindingTarget;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -34,9 +35,10 @@ public class ApprovalEvent {
                                    EdmBindingTarget edmBindingTarget) throws GenericEntityException {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.get("mainProcess");
+        GenericValue genericValue = ofbizEntity.getGenericValue();
         //所有的节点数据
         String nodeData = (String) actionParameters.get("nodeData");
-        GenericValue process = EntityQuery.use(delegator).from("MainProcess").where(ofbizEntity.getGenericValue().getPrimaryKey()).queryOne();
+        GenericValue process = EntityQuery.use(delegator).from("MainProcess").where(genericValue.getPrimaryKey()).queryOne();
         String workFlowId = process.getString("workFlowId");
         if (UtilValidate.isEmpty(workFlowId)) {
             //创建流程
@@ -56,8 +58,14 @@ public class ApprovalEvent {
             //更新结构缓存
             FlowHelper.flushTreeNodeCache(noteData);
         }
+        //停用所有相同业务对象的流程
+        delegator.storeByCondition("MainProcess", UtilMisc.toMap("statusId","PROCESS_NOT_ENABLED"),
+                EntityCondition.makeCondition("processEntityId",genericValue.getString("processEntityId")));
+        //启用当前流程
         process.set("statusId", "PROCESS_ENABLED");
         process.store();
+
+
     }
 
     /**
@@ -68,6 +76,10 @@ public class ApprovalEvent {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
         LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.get("mainProcess");
+        //停用所有相同业务对象的流程
+        delegator.storeByCondition("MainProcess", UtilMisc.toMap("statusId","PROCESS_NOT_ENABLED"),
+                EntityCondition.makeCondition("processEntityId",ofbizEntity.getPropertyValue("processEntityId")));
+        //启用当前流程
         delegator.storeByCondition("MainProcess", UtilMisc.toMap("statusId", "PROCESS_ENABLED"),
                 EntityCondition.makeCondition(ofbizEntity.getGenericValue().getPrimaryKey()));
     }

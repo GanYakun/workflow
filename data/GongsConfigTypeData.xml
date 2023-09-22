@@ -26,6 +26,7 @@ under the License.
     <RoleType description="Employee" hasTable="N" parentTypeId="PERSON_ROLE" roleTypeId="EMPLOYEE"/>
     <RoleType description="Manager" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="MANAGER"/>
     <RoleType description="Ordinary Employee" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="ORD_EMPLOYEE"/>
+    <RoleType description="Organization Manager" hasTable="N" roleTypeId="ORG_MANAGER"/>
 
     <!--MAIN_ROLE(人事,IT,行政,财务等的parentTypeId)-->
     <RoleType description="Main Role" hasTable="N" parentTypeId="" roleTypeId="MAIN_ROLE"/>
@@ -40,6 +41,7 @@ under the License.
 
 <!--EnumerationType-->
     <EnumerationType enumTypeId="GENDER_ENUM_TYPE"  description="性别"/>
+    <EnumerationType enumTypeId="PASS_MANNER"  description="审批通过方式枚举"/>
 
 <!--StatusType-->
     <StatusType statusTypeId="MEMBER_STATUS"  description="成员状态"/>
@@ -73,7 +75,8 @@ under the License.
     <!-- 业务对象 字段类型 -->
     <ProcessFieldType description="金额" processFieldTypeId="AMOUNT"/>
     <ProcessFieldType description="布尔值" processFieldTypeId="BOOL"/>
-    <ProcessFieldType description="日期" processFieldTypeId="DATA_TIME"/>
+    <ProcessFieldType description="日期" processFieldTypeId="DATE"/>
+    <ProcessFieldType description="日期时间" processFieldTypeId="DATE_TIME"/>
     <ProcessFieldType description="枚举" processFieldTypeId="ENUM"/>
     <ProcessFieldType description="数字" processFieldTypeId="NUMBER"/>
     <ProcessFieldType description="人员" processFieldTypeId="PARTY"/>
@@ -306,7 +309,7 @@ under the License.
 <!--    <RoleType description="Cashier" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="CASHIER"/>-->
 <!--    <RoleType description="Department" hasTable="N" parentTypeId="ORGANIZATION_UNIT" roleTypeId="DEPARTMENT"/>-->
 <!--    <RoleType description="Division" hasTable="N" parentTypeId="ORGANIZATION_UNIT" roleTypeId="DIVISION"/>-->
-<!--    <RoleType description="Family Member" hasTable="N" parentTypeId="PERSON_ROLE" roleTypeId="FAMILY_MEMBER"/>-->
+<!--    <RoleType description="Family generateFields" hasTable="N" parentTypeId="PERSON_ROLE" roleTypeId="FAMILY_MEMBER"/>-->
 <!--    <RoleType description="Manager" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="MANAGER"/>-->
 <!--    <RoleType description="Order Clerk" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="ORDER_CLERK"/>-->
 <!--    <RoleType description="Other Internal" hasTable="N" parentTypeId="INTERNAL_ORGANIZATIO" roleTypeId="OTHER_INTERNAL_ORGAN"/>-->
@@ -352,7 +355,7 @@ under the License.
 <!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Distributor" partyRelationshipTypeId="DISTRIBUTION_CHANNEL" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
 <!--    <PartyRelationshipType description="" hasTable="Y" parentTypeId="" partyRelationshipName="Employee" partyRelationshipTypeId="EMPLOYMENT" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
 <!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Friend" partyRelationshipTypeId="FRIEND" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Group Member" partyRelationshipTypeId="GROUP_ROLLUP" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
+<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Group generateFields" partyRelationshipTypeId="GROUP_ROLLUP" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
 <!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Host Server Visitor" partyRelationshipTypeId="HOST_SERVER_VISITOR" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
 <!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="ISP Visitor" partyRelationshipTypeId="VISITOR_ISP" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
 <!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Manager" partyRelationshipTypeId="MANAGER" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->

@@ -71,7 +71,8 @@ public class OrgStructureAppEvent {
 
         try {
             dispatcher.runSync("banfftech.updateWorkEffortPartyAssignment",
-                    UtilMisc.toMap("workEffortPartyAssignmentId",workEffortPartyAssignmentId,"statusId",statusId,"comments",comments,"userLogin",userLogin));
+                    UtilMisc.toMap("workEffortPartyAssignmentId",workEffortPartyAssignmentId,"statusId",statusId,
+                            "comments",comments,"mannerEnumId","PASS_APPROVE","userLogin",userLogin));
         } catch (GenericServiceException e) {
             throw new OfbizODataException(e.getMessage());
         }

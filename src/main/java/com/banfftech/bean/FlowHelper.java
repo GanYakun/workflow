@@ -273,30 +273,44 @@ public class FlowHelper {
      * @param revisionNumber 审批流程编号
      * @return 返回所有审批人的partyId
      */
-    public static List<String> getApprover(Delegator delegator, String approverType, List<String> approverValue, Long revisionNumber) throws GenericEntityException {
+    public static List<String> getApprover(Delegator delegator, String approverType, List<String> approverValue, Long revisionNumber) throws GenericEntityException, OfbizServiceException {
         GenericValue rootWorkEffort = EntityQuery.use(delegator).from("WorkEffort")
                 .where("workEffortTypeId", "ROOT_NODE", "revisionNumber", revisionNumber).queryFirst();
         //发起人
         String createdByUserLogin = rootWorkEffort.getString("createdByUserLogin");
+        GenericValue createUser = delegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", createdByUserLogin), false);
         List<String> assignmentPartyIds = new ArrayList<>();
         if ("manager".equals(approverType)) {
             //查询提交人的部门负责人
+            GenericValue manager = EntityQuery.use(delegator).from("PartyRelationship")
+                    .where("partyIdTo", createUser.getString("partyId"), "roleTypeIdTo", "MANAGER").queryFirst();
+            if (UtilValidate.isNotEmpty(manager)) {
+                assignmentPartyIds.add(manager.getString("partyIdFrom"));
+            }
+            return assignmentPartyIds;
         }
         if ("roleTypeId".equals(approverType)) {
             //查询角色人员
+            List<String> partyIds = EntityQuery.use(delegator).from("PartyRole")
+                    .where(EntityCondition.makeCondition("roleTypeId", EntityOperator.IN, approverValue)).getFieldList("partyId");
+            assignmentPartyIds.addAll(partyIds);
         }
         if ("partyGroup".equals(approverType)) {
             //查询用户组人员
+            List<String> partyIds = EntityQuery.use(delegator).from("PartyRelationship")
+                    .where(EntityCondition.makeCondition("partyIdFrom", EntityOperator.IN, approverValue)).getFieldList("partyIdTo");
+            assignmentPartyIds.addAll(partyIds);
         }
         if ("party".equals(approverType)) {
             //指定成员
             return approverValue;
         }
         if ("optional".equals(approverType)) {
-            //提交人自选
+            //TODO: 提交人自选
         }
         if ("self".equals(approverType)) {
             //提交人本人
+            assignmentPartyIds.add(createUser.getString("partyId"));
         }
         return assignmentPartyIds;
     }

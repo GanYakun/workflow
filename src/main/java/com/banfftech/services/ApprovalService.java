@@ -78,6 +78,7 @@ public class ApprovalService {
             //拒绝
             workEffort.set("currentStatusId", "WEPR_REFUSE");
             workEffort.store();
+            autoPassAllAssign(delegator, workEffortId, "WEPR_REFUSE");
             return ServiceUtil.returnSuccess();
         }
         if ("party".equals(type) && "and".equals(isArray)) {
@@ -91,8 +92,23 @@ public class ApprovalService {
             //其他审批和或签 直接通过
             workEffort.set("currentStatusId", "WEPR_COMPLETE");
             workEffort.store();
+            //如果是或签 需要将其他未审批的节点直接通过
+            autoPassAllAssign(delegator, workEffortId, "WEPR_COMPLETE");
         }
         return ServiceUtil.returnSuccess();
+    }
+
+    /**
+     * 将所有未审批的改为通过
+     */
+    private static void autoPassAllAssign(Delegator delegator, String workEffortId, String statusId) throws GenericEntityException {
+        List<GenericValue> otherAssignments = EntityQuery.use(delegator).from("WorkEffortPartyAssignment")
+                .where("workEffortId", workEffortId, "statusId", "WEPR_WAIT").queryList();
+        for (GenericValue otherAssignment : otherAssignments) {
+            otherAssignment.set("statusId", statusId);
+            otherAssignment.set("mannerEnumId", "PASS_AUTO");
+            otherAssignment.store();
+        }
     }
 
 }

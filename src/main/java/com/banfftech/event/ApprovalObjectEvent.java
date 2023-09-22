@@ -82,7 +82,7 @@ public class ApprovalObjectEvent {
             return "ENUM";
         }
         if (TYPE_TIME.contains(fieldType)) {
-            return "DATA_TIME";
+            return "DATE_TIME";
         }
         if (TYPE_BOOL.contains(fieldType)) {
             return "BOOL";

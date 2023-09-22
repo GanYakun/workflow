@@ -59,11 +59,13 @@ under the License.
     <!-- 审批人审批通过 -->
     <eca entity="WorkEffortPartyAssignment" operation="create-store" event="return">
         <condition field-name="statusId" operator="equals" value="WEPR_COMPLETE"/>
+        <condition field-name="mannerEnumId" operator="equals" value="PASS_APPROVE"/>
         <action service="banfftech.checkNode" mode="sync"/>
     </eca>
     <!-- 审批人审批拒绝 -->
     <eca entity="WorkEffortPartyAssignment" operation="create-store" event="return">
         <condition field-name="statusId" operator="equals" value="WEPR_REFUSE"/>
+        <condition field-name="mannerEnumId" operator="equals" value="PASS_APPROVE"/>
         <action service="banfftech.checkNode" mode="sync"/>
     </eca>
 
