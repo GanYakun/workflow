@@ -21,10 +21,10 @@ under the License.
 <entity-eca xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="https://ofbiz.apache.org/dtds/entity-eca.xsd">
 
-    <!-- 根节点_通过 -->
+    <!-- 根节点_开始 -->
     <eca entity="WorkEffort" operation="create-store" event="return">
         <condition field-name="workEffortTypeId" operator="equals" value="ROOT_NODE"/>
-        <condition field-name="currentStatusId" operator="equals" value="WEPR_COMPLETE"/>
+        <condition field-name="currentStatusId" operator="equals" value="WEPR_WAIT"/>
         <action service="banfftech.checkDecision" mode="sync"/>
     </eca>
 

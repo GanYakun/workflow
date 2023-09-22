@@ -59,8 +59,6 @@ under the License.
     <StatusItem statusId="WEPR_COMPLETE" statusTypeId="WORKFLOW_STATUS" description="审批通过"/>
     <StatusItem statusId="WEPR_REFUSE" statusTypeId="WORKFLOW_STATUS" description="审批不通过"/>
     <StatusItem statusId="WEPR_CANCEL" statusTypeId="WORKFLOW_STATUS" description="取消"/>
-    <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_COMPLETE" transitionName="Approved"/>
-    <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_REFUSE" transitionName="Refuse"/>
 
 
     <!-- 主流程状态 -->

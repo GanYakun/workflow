@@ -36,6 +36,8 @@ under the License.
         <field name="rangeEnumId" type="id"><description>可见范围(enum)</description></field>
         <field name="description" type="value"><description>描述</description></field>
         <field name="workFlowId" type="id"><description>关联流程模板</description></field>
+        <field name="createdDate" type="date-time"><description>创建时间</description></field>
+        <field name="version" type="value"><description>版本号</description></field>
         <prim-key field="processId"/>
         <relation type="one" fk-name="MA_PROC_ENTITY" rel-entity-name="ProcessEntity">
             <key-map field-name="processEntityId"/>

@@ -25,6 +25,7 @@
     <!--StatusValidChange(状态改变约束)-->
     <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_COMPLETE"/>
     <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_REFUSE"/>
+    <StatusValidChange statusId="Disapproved" statusIdTo="PendingApproval"/>
     <!-- SecurityGroup -->
     <SecurityGroup groupId="VISIT" description="访问权限" groupName="Visit"/>
     <SecurityGroupPermission groupId="VISIT" permissionId="GONGSCONFIG_VIEW" fromDate="2023-09-19 22:11:39.139" />

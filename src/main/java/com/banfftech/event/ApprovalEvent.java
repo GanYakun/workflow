@@ -13,6 +13,7 @@ import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.entity.condition.EntityCondition;
 import org.apache.ofbiz.entity.model.ModelEntity;
 import org.apache.ofbiz.entity.util.EntityQuery;
+import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 import org.apache.olingo.commons.api.edm.EdmBindingTarget;
 
@@ -86,7 +87,7 @@ public class ApprovalEvent {
     /**
      * 提交审批
      */
-    public static void submitApproval(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws GenericEntityException, OfbizODataException {
+    public static void submitApproval(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws GenericEntityException, OfbizODataException, GenericServiceException {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
         LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
         GenericValue userLogin = (GenericValue) oDataContext.get("userLogin");
@@ -123,12 +124,10 @@ public class ApprovalEvent {
         delegator.removeByAnd("WorkFlowMember", UtilMisc.toMap("memberEntityName", entityName, "memberEntityId", genericValue.getString(modelEntity.getFirstPkFieldName())));
         delegator.create("WorkFlowMember", UtilMisc.toMap("workFlowMemberId", delegator.getNextSeqId("WorkFlowMember"),
                 "workEffortId", workEffortId, "memberEntityName", entityName, "memberEntityId", genericValue.getString(modelEntity.getFirstPkFieldName())));
-        rootWorkEffort.set("currentStatusId", "WEPR_COMPLETE");
+        rootWorkEffort.set("currentStatusId", "WEPR_WAIT");
         rootWorkEffort.store();
-
-        //TODO: 修改业务对象状态
-        delegator.storeByCondition("Party", UtilMisc.toMap("statusId", "PendingApproval"),
-                EntityCondition.makeCondition(genericValue.getPrimaryKey()));
+        //修改业务对象状态 审批中
+        FlowHelper.updateEntityStatus(genericValue, dispatcher, "PendingApproval");
     }
 
 }

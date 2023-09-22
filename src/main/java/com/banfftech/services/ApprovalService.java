@@ -2,6 +2,9 @@ package com.banfftech.services;
 
 import com.banfftech.bean.*;
 import com.banfftech.common.util.CommonUtils;
+import com.banfftech.factory.ExecFactory;
+import com.banfftech.factory.ExecNode;
+import com.dpbird.odata.OfbizODataException;
 import com.dpbird.odata.services.OfbizServiceException;
 import org.apache.ofbiz.base.util.Debug;
 import org.apache.ofbiz.base.util.UtilDateTime;
@@ -13,6 +16,7 @@ import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.entity.condition.EntityCondition;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.service.DispatchContext;
+import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 import org.apache.ofbiz.service.ServiceUtil;
 
@@ -27,127 +31,33 @@ public class ApprovalService {
 
     public final static String module = ApprovalService.class.getName();
 
-    public static Map<String, Object> checkDecision(DispatchContext dctx, Map<String, Object> context) throws GenericEntityException, OfbizServiceException {
+    /**
+     * 检查决策
+     */
+    public static Map<String, Object> checkDecision(DispatchContext dctx, Map<String, Object> context) throws GenericEntityException, OfbizServiceException, OfbizODataException, GenericServiceException {
         Delegator delegator = dctx.getDelegator();
         LocalDispatcher dispatcher = dctx.getDispatcher();
         Map<String, Object> resultMap = ServiceUtil.returnSuccess();
-        //有一个节点完成了 开始下个节点
+        //节点结束 开始下个节点
         String workEffortId = (String) context.get("workEffortId");
         GenericValue workEffort = EntityQuery.use(delegator).from("WorkEffort").where("workEffortId", workEffortId).queryOne();
         Debug.log("当前节点"  + workEffortId + "处理完成, 开始下一个节点");
         TreeNode nextNode = FlowHelper.getNextNode(delegator, workEffort);
         if (nextNode == null) {
-            //TODO: 流程结束 修改业务对象状态
+            //流程结束 修改业务对象和根节点状态
             String statusId = workEffort.getString("currentStatusId").equals("WEPR_COMPLETE") ? "Approved" : "Disapproved";
             GenericValue approvalObj = FlowHelper.getApprovalObj(workEffort, delegator);
-            approvalObj.set("statusId", statusId);
-            approvalObj.store();
+            FlowHelper.updateEntityStatus(approvalObj, dispatcher, statusId);
+            GenericValue topWorkEffort = FlowHelper.getTopWorkEffort(delegator, workEffort.getLong("revisionNumber"));
+            topWorkEffort.set("currentStatusId", "WEPR_COMPLETE");
             return resultMap;
         }
-        //TODO: Factory Instance
-        //审核节点
-        if (nextNode.getType() == 1) {
-            approval(delegator, nextNode, workEffort);
-        }
-        //抄送节点
-        if (nextNode.getType() == 2) {
-            makeCopy(delegator, nextNode, workEffort);
-        }
-        //路由节点
-        if (nextNode.getType() == 4) {
-            routing(delegator, nextNode, workEffort);
+        ExecNode execNode = ExecFactory.getExecNode(nextNode.getType());
+        if (UtilValidate.isNotEmpty(execNode)) {
+            execNode.exec(delegator, nextNode, workEffort);
         }
         return resultMap;
     }
-
-    private static void approval(Delegator delegator, TreeNode nextNode, GenericValue parentWorkEffort) throws GenericEntityException {
-        String nodeName = nextNode.getNodeName();
-        long nodeId = nextNode.getNodeId();
-        Long revisionNumber = parentWorkEffort.getLong("revisionNumber");
-        GenericValue topWorkEffort = FlowHelper.getTopWorkEffort(delegator, revisionNumber);
-        GenericValue createParty = CommonUtils.getCreateParty(topWorkEffort);
-        NodeUser nodeUserList = nextNode.getNodeUserList();
-        String approvalType = nodeUserList.getApprovalType();
-        String workEffortId = delegator.getNextSeqId("WorkEffort");
-        if (approvalType.equals("adopt") || approvalType.equals("Rejected")) {
-            //自动通过或自动拒绝
-            String statusId = approvalType.equals("adopt") ? "WEPR_COMPLETE" : "WEPR_REFUSE";
-            delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId,
-                    "workEffortName", nodeName, "workEffortTypeId", "APPROVAL", "currentStatusId", statusId,
-                    "priority", nodeId, "workEffortParentId", parentWorkEffort.getString("workEffortId"),
-                    "revisionNumber", revisionNumber,"topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
-            return;
-        }
-        //审批选项
-        Manual manual = nodeUserList.getManual();
-        String isEmpty = manual.getIsEmpty();
-        //审批人
-        Approver approver = manual.getApprover();
-        List<String> assiPartyIds = FlowHelper.getApprover(delegator, approver.getType(), approver.getValue(), parentWorkEffort.getLong("revisionNumber"));
-        String statusId = "WEPR_WAIT";
-        //审批人为空
-        if (UtilValidate.isEmpty(assiPartyIds)) {
-            if ("adopt".equals(isEmpty)) {
-                //自动通过
-                statusId = "WEPR_COMPLETE";
-            } else {
-                //TODO: 备用人员或管理员审批
-            }
-        }
-        //提交人为审批人
-        if ("skip".equals(manual.getEqSubmit())) {
-            assiPartyIds.remove(createParty.getString("partyId"));
-            if (UtilValidate.isEmpty(assiPartyIds)) {
-                statusId = "WEPR_COMPLETE";
-            }
-        }
-        delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId,
-                "workEffortName", nodeName, "workEffortTypeId", "APPROVAL", "currentStatusId", statusId,
-                "priority", nodeId, "workEffortParentId", parentWorkEffort.getString("workEffortId"),
-                "revisionNumber", revisionNumber, "topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
-        //分配给人
-        for (String assiPartyId : assiPartyIds) {
-            delegator.create("WorkEffortPartyAssignment", "workEffortPartyAssignmentId", delegator.getNextSeqId("WorkEffortPartyAssignment"),
-                    "workEffortId", workEffortId, "partyId", assiPartyId, "statusId", "WEPR_WAIT");
-        }
-
-    }
-
-    private static void routing(Delegator delegator, TreeNode nextNode, GenericValue parentWorkEffort) throws GenericEntityException {
-        String nodeName = nextNode.getNodeName();
-        long nodeId = nextNode.getNodeId();
-        String workEffortId = delegator.getNextSeqId("WorkEffort");
-        Debug.log("完成路由节点 : " + nodeId + " -> " +  nodeName);
-        Long revisionNumber = parentWorkEffort.getLong("revisionNumber");
-        GenericValue topWorkEffort = FlowHelper.getTopWorkEffort(delegator, revisionNumber);
-        delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId,
-                "workEffortName", nodeName, "workEffortTypeId", "ROUTING", "currentStatusId", "WEPR_COMPLETE",
-                "priority", nodeId, "workEffortParentId", parentWorkEffort.getString("workEffortId"),
-                "revisionNumber", revisionNumber, "topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
-
-        //获取符合条件的分支
-        TreeNode conditionNode = FlowHelper.getConditionNode(delegator, nextNode.getConditionNodes(), revisionNumber);
-        String condNodeName = conditionNode.getNodeName();
-        long condNodeId = conditionNode.getNodeId();
-        Debug.log("完成条件节点 : " + nodeId + " -> " + condNodeName);
-        String condWorkEffortId = delegator.getNextSeqId("WorkEffort");
-        delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", condWorkEffortId,
-                "workEffortName", condNodeName, "workEffortTypeId", "CONDITION", "currentStatusId", "WEPR_COMPLETE",
-                "priority", condNodeId, "workEffortParentId", workEffortId, "revisionNumber", revisionNumber,
-                "topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
-
-    }
-
-    /**
-     * TODO: 处理抄送节点
-     */
-    private static void makeCopy(Delegator delegator, TreeNode nextNode, GenericValue parentWorkEffort) {
-        String nodeName = nextNode.getNodeName();
-        long nodeId = nextNode.getNodeId();
-        Debug.log("抄送节点 start:" + nodeId);
-
-    }
-
 
     /**
      * 审批人执行审批,检查会签/或签,是否完成并通过当前节点

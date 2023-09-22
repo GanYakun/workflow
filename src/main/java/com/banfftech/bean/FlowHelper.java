@@ -1,5 +1,7 @@
 package com.banfftech.bean;
 
+import com.dpbird.odata.OfbizODataException;
+import com.dpbird.odata.Util;
 import com.dpbird.odata.services.OfbizServiceException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +16,8 @@ import org.apache.ofbiz.entity.condition.EntityOperator;
 import org.apache.ofbiz.entity.model.ModelEntity;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.entity.util.EntityUtil;
+import org.apache.ofbiz.service.GenericServiceException;
+import org.apache.ofbiz.service.LocalDispatcher;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -319,8 +323,22 @@ public class FlowHelper {
         //查询审批对象数据
         GenericValue flowMember = EntityQuery.use(delegator).from("WorkFlowMember").where("workEffortId", rootWorkEffort.getString("workEffortId")).queryFirst();
         ModelEntity modelEntity = delegator.getModelEntity(flowMember.getString("memberEntityName"));
-        return EntityQuery.use(delegator).from("Party").where(modelEntity.getFirstPkFieldName(), flowMember.get("memberEntityId")).queryOne();
+        return EntityQuery.use(delegator).from(modelEntity.getEntityName()).where(modelEntity.getFirstPkFieldName(), flowMember.get("memberEntityId")).queryOne();
 
+    }
+
+    /**
+     * 更新审批对象的状态
+     */
+    public static void updateEntityStatus(GenericValue genericValue, LocalDispatcher dispatcher, String statusId)
+            throws OfbizODataException, GenericEntityException, GenericServiceException {
+        Delegator delegator = dispatcher.getDelegator();
+        GenericValue systemUser = Util.getSystemUser(delegator);
+        String updateService = Util.getEntityActionService(null, genericValue.getEntityName(), "update", delegator);
+        HashMap<String, Object> serviceParam = new HashMap<>(genericValue.getPrimaryKey());
+        serviceParam.put("statusId", statusId);
+        serviceParam.put("userLogin", systemUser);
+        dispatcher.runSync(updateService, serviceParam);
     }
 
 }
