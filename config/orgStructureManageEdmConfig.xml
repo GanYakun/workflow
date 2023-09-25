@@ -110,11 +110,16 @@
 
     <!--角色管理-->
     <EntityType Name="Role" OfbizEntity="RoleType" EntitySetName="Roles" EntityCondition="parentTypeId=MAIN_ROLE"
-                AutoProperties="true">
+                AutoProperties="true"
+                Handler="component://gongsconfig/groovyScripts/orgStructureManage/Role.groovy">
         <SelectionFields PropertyPath="description"/>
-        <Property Name="roleTypeId" Computed="true"/>
+        <Property Name="userNumbers" Type="Edm.Int64"/>
+        <Property Name="roleTypeId" Computed="true" />
+        <Property Name="description" Required="true" FieldControl="Mandatory">
+            <Text Path="ParentRoleType/description" TextArrangement="TextFirst"/>
+        </Property>
         <LineItem>
-            <DataField Values="description" Importance="High"/>
+            <DataField Values="description,userNumbers" Importance="High" />
         </LineItem>
         <HeaderInfo TypeName="Role Manage" TypeNamePlural="角色信息">
             <Title Path="roleTypeId"/>
@@ -123,6 +128,15 @@
         <NavigationProperty Name="RolePartyDisplay" Type="RolePartyDisplay"
                             Relations="PartyRole"
                             IsCollection="true"/>
+        <NavigationProperty Name="ParentRoleType" Type="ParentRoleType"
+                            Relations="ParentRoleType"
+                            IsCollection="false"/>
+    </EntityType>
+
+    <!--父级RoleType-->
+    <EntityType Name="ParentRoleType" OfbizEntity="RoleType" EntitySetName="ParentRoleTypes" EntityCondition="roleTypeId=MAIN_ROLE"
+                AutoProperties="true">
+
     </EntityType>
 
 

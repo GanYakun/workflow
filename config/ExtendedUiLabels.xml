@@ -186,6 +186,10 @@ under the License.
         <value xml:lang="en">Role</value>
         <value xml:lang="zh">角色</value>
     </property>
+    <property key="RoleUserNumbers">
+        <value xml:lang="en">UserNumbers</value>
+        <value xml:lang="zh">用户数量</value>
+    </property>
     <!--RolePartyDisplay-->
     <property key="RolePartyDisplayPartyId">
         <value xml:lang="en">MemberName</value>

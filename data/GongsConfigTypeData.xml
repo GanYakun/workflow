@@ -29,7 +29,7 @@ under the License.
     <RoleType description="Organization Manager" hasTable="N" roleTypeId="ORG_MANAGER"/>
 
     <!--MAIN_ROLE(人事,IT,行政,财务等的parentTypeId)-->
-    <RoleType description="Main Role" hasTable="N" parentTypeId="" roleTypeId="MAIN_ROLE"/>
+    <RoleType description="系统角色" hasTable="N" parentTypeId="" roleTypeId="MAIN_ROLE"/>
 
     <!--ORGANIZATION_ROLE(ORGANIZATION_UNIT->DEPARTMENT)-->
     <RoleType description="Organization" hasTable="N" parentTypeId="" roleTypeId="ORGANIZATION_ROLE"/>
