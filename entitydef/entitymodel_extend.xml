@@ -66,6 +66,9 @@ under the License.
         <relation type="many" title="Node" rel-entity-name="WorkEffort">
             <key-map field-name="workEffortId" rel-field-name="topWorkEffortId"/>
         </relation>
+        <relation type="many" rel-entity-name="Approval">
+            <key-map field-name="workEffortId" rel-field-name="topWorkEffortId"/>
+        </relation>
     </extend-entity>
 
 

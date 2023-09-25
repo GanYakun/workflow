@@ -3,15 +3,22 @@
 
     <!--=====================================     主对象EntityType definition     =====================================-->
     <!--审批-->
-    <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true" EntityCondition="partyId=${userLogin.partyId}">
+    <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true"
+                EntityCondition="partyId=${userLogin.partyId}">
         <SelectionFields
                 PropertyPath="createdDate,comments,workEffortName,ProcessEntity/description,MainProcess/description"/>
         <Property Name="mannerEnumId">
             <Text Path="Via/description" TextArrangement="TextOnly"/>
         </Property>
         <LineItem Qualifier="ApprovalList">
-            <DataField Values="workEffortName,ProcessEntity/description,MainProcess/description,createdDate,RootNodeWorkEffort/createdByUserLogin,comments,mannerEnumId"
-                       Importance="High"/>
+            <DataField
+                    Values="workEffortName,ProcessEntity/description,MainProcess/description,createdDate,RootNodeWorkEffort/createdByUserLogin,comments,mannerEnumId"
+                    Importance="High"/>
+        </LineItem>
+        <LineItem Qualifier="RecordApproval">
+            <DataField
+                    Values="workEffortName,MainProcess/description,createdDate,RootNodeWorkEffort/createdByUserLogin,comments,mannerEnumId"
+                    Importance="High"/>
         </LineItem>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
             <DataField Values="createdDate,comments,workEffortName,ProcessEntity/description,MainProcess/description"
@@ -40,7 +47,8 @@
             <Parameter Name="comments" Type="Edm.String" Nullable="false" IsCollection="false"
                        Label="${uiLabelMap.ApprovalComments}"/>
         </Action>
-        <NavigationProperty Name="RootNodeWorkEffort" Type="RootNodeWorkEffort" Relations="TopWorkEffort" IsCollection="false"/>
+        <NavigationProperty Name="RootNodeWorkEffort" Type="RootNodeWorkEffort" Relations="TopWorkEffort"
+                            IsCollection="false"/>
         <NavigationProperty Name="MainProcess" Relations="TopWorkEffort/ParentWorkEffort/MainProcess" Type="MainProcess"
                             IsCollection="false"/>
         <NavigationProperty Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity"
@@ -52,12 +60,13 @@
         <!--关联审批通过枚举-->
         <NavigationProperty Name="Via" Relations="MannerEnumeration" Type="Via" IsCollection="false"/>
         <!--当前审批节点的审批历史-->
-<!--        <NavigationProperty Name="ApprovalStatusItem" Relations="TopWorkEffort/WorkEffort(workEffortTypeId=APPROVAL)/WorkEffortPartyAssignment" Type="ApprovalStatusItem"-->
-<!--                            IsCollection="true"/>-->
+        <NavigationProperty Name="ApprovalRecord" Relations="TopWorkEffort/Approval" Type="Approval"
+                            IsCollection="true"/>
     </EntityType>
 
     <!--根审批节点WorkEffort-->
-    <EntityType Name="RootNodeWorkEffort" OfbizEntity="WorkEffort" EntitySetName="RootNodeWorkEfforts" AutoProperties="true" EntityCondition="workEffortTypeId=ROOT_NODE">
+    <EntityType Name="RootNodeWorkEffort" OfbizEntity="WorkEffort" EntitySetName="RootNodeWorkEfforts"
+                AutoProperties="true" EntityCondition="workEffortTypeId=ROOT_NODE">
         <Property Name="createdByUserLogin" Immutable="true">
             <Text Path="Creator/partyName" TextArrangement="TextOnly"/>
         </Property>

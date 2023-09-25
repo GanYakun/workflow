@@ -9,8 +9,9 @@
     <!-- Enumeration -->
     <Enumeration enumId="M" enumTypeId="GENDER_ENUM_TYPE" description="男"/>
     <Enumeration enumId="F" enumTypeId="GENDER_ENUM_TYPE" description="女"/>
-    <Enumeration enumId="PASS_APPROVE" enumTypeId="PASS_MANNER" description="审批通过"/>
+    <Enumeration enumId="PASS_APPROVE" enumTypeId="PASS_MANNER" description="人工审批"/>
     <Enumeration enumId="PASS_AUTO" enumTypeId="PASS_MANNER" description="自动通过"/>
+    <Enumeration enumId="AUTO_REJECT" enumTypeId="PASS_MANNER" description="自动拒绝"/>
 
     <!-- StatusItem -->
     <StatusItem statusId="ToBeSubmittedApproval" statusTypeId="MEMBER_STATUS" description="待提交审批"/>

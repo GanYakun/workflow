@@ -96,7 +96,7 @@ under the License.
     </property>
     <property key="ApprovalMannerEnumId">
         <value xml:lang="en">Via</value>
-        <value xml:lang="zh">通过方式</value>
+        <value xml:lang="zh">审批类型</value>
     </property>
 <!--C-->
     <!--Company-->
