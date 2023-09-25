@@ -46,6 +46,9 @@
         <relation type="one-nofk" title="Manner" rel-entity-name="Enumeration">
             <key-map field-name="mannerEnumId" rel-field-name="enumId"/>
         </relation>
+        <relation type="one-nofk" rel-entity-name="PartyAndContact">
+            <key-map field-name="partyId"/>
+        </relation>
     </view-entity>
 
 </entitymodel>

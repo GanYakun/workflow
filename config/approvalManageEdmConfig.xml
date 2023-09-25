@@ -10,23 +10,26 @@
         <Property Name="mannerEnumId">
             <Text Path="Via/description" TextArrangement="TextOnly"/>
         </Property>
+        <Property Name="partyId">
+            <Text Path="PartyAndContact/partyName" TextArrangement="TextOnly"/>
+        </Property>
         <LineItem Qualifier="ApprovalList">
             <DataField
-                    Values="workEffortName,ProcessEntity/description,MainProcess/description,createdDate,RootNodeWorkEffort/createdByUserLogin,comments,mannerEnumId"
+                    Values="workEffortName,ProcessEntity/description,MainProcess/version,MainProcess/description,createdDate,RootNodeWorkEffort/createdByUserLogin,comments,mannerEnumId"
                     Importance="High"/>
         </LineItem>
         <LineItem Qualifier="RecordApproval">
             <DataField
-                    Values="workEffortName,MainProcess/description,createdDate,RootNodeWorkEffort/createdByUserLogin,comments,mannerEnumId"
+                    Values="workEffortName,fromDate,thruDate,partyId,comments,mannerEnumId"
                     Importance="High"/>
         </LineItem>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
-            <DataField Values="createdDate,comments,workEffortName,ProcessEntity/description,MainProcess/description"
+            <DataField Values="createdDate,comments,workEffortName,ProcessEntity/description,MainProcess/version,MainProcess/description"
                        Importance="High"/>
         </FieldGroup>
         <FieldGroup Qualifier="Member" Label="待审批成员信息">
             <DataField
-                    Values="Member/partyName,Member/gender,Member/birthDate,Member/nickName,Member/phoneMobile,Member/primaryEmail,Member/externalId"
+                    Values="Member/partyName,Member/gender,Member/birthDate,Member/nickname,Member/phoneMobile,Member/primaryEmail,Member/externalId"
                     Importance="High"/>
         </FieldGroup>
         <!--审批通过Action-->
@@ -62,6 +65,7 @@
         <!--当前审批节点的审批历史-->
         <NavigationProperty Name="ApprovalRecord" Relations="TopWorkEffort/Approval" Type="Approval"
                             IsCollection="true"/>
+        <NavigationProperty Name="PartyAndContact"/>
     </EntityType>
 
     <!--根审批节点WorkEffort-->

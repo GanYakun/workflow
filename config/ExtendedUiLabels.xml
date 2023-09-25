@@ -82,6 +82,10 @@ under the License.
         <value xml:lang="en">CreatedDate</value>
         <value xml:lang="zh">创建时间</value>
     </property>
+    <property key="ApprovalFromDate">
+        <value xml:lang="en">FromDate</value>
+        <value xml:lang="zh">创建时间</value>
+    </property>
     <property key="ApprovalWorkEffortName">
         <value xml:lang="en">WorkEffortName</value>
         <value xml:lang="zh">当前节点</value>
@@ -97,6 +101,14 @@ under the License.
     <property key="ApprovalMannerEnumId">
         <value xml:lang="en">Via</value>
         <value xml:lang="zh">审批类型</value>
+    </property>
+    <property key="ApprovalThruDate">
+        <value xml:lang="en">ApprovalTime</value>
+        <value xml:lang="zh">审批时间</value>
+    </property>
+    <property key="ApprovalPartyId">
+        <value xml:lang="en">ApprovedBy</value>
+        <value xml:lang="zh">审批人</value>
     </property>
 <!--C-->
     <!--Company-->
@@ -180,6 +192,11 @@ under the License.
         <value xml:lang="en">ProcessDescription</value>
         <value xml:lang="zh">流程描述</value>
     </property>
+    <!--MainProcess-->
+    <property key="MainProcessVersion">
+        <value xml:lang="en">Version</value>
+        <value xml:lang="zh">版本号</value>
+    </property>
 <!--R-->
     <!--Role-->
     <property key="RoleDescription">
@@ -190,14 +207,18 @@ under the License.
         <value xml:lang="en">UserNumbers</value>
         <value xml:lang="zh">用户数量</value>
     </property>
+    <property key="RoleParentTypeId">
+        <value xml:lang="en">RoleType</value>
+        <value xml:lang="zh">角色类型</value>
+    </property>
     <!--RolePartyDisplay-->
     <property key="RolePartyDisplayPartyId">
         <value xml:lang="en">MemberName</value>
         <value xml:lang="zh">成员名称</value>
     </property>
     <!--RootNodeWorkEffort-->
-    <property key="RootNodeWorkEffortCreatedByUserLogin">
-        <value xml:lang="en">Creator</value>
-        <value xml:lang="zh">创建人</value>
-    </property>
+<!--    <property key="RootNodeWorkEffortCreatedByUserLogin">-->
+<!--        <value xml:lang="en">Creator</value>-->
+<!--        <value xml:lang="zh">创建人</value>-->
+<!--    </property>-->
 </resource>

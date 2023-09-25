@@ -117,12 +117,13 @@
                 Handler="component://gongsconfig/groovyScripts/orgStructureManage/Role.groovy">
         <SelectionFields PropertyPath="description"/>
         <Property Name="userNumbers" Type="Edm.Int64"/>
-        <Property Name="roleTypeId" Computed="true"/>
-        <Property Name="description" Required="true" FieldControl="Mandatory">
-            <Text Path="ParentRoleType/description" TextArrangement="TextFirst"/>
+        <Property Name="parentTypeId">
+            <Text Path="ParentRoleType/description" TextArrangement="TextOnly"/>
         </Property>
+        <Property Name="roleTypeId" Computed="true"/>
+        <Property Name="description" Required="true" FieldControl="Mandatory"/>
         <LineItem>
-            <DataField Values="description,userNumbers" Importance="High"/>
+            <DataField Values="description,parentTypeId,userNumbers" Importance="High"/>
         </LineItem>
         <HeaderInfo TypeName="Role Manage" TypeNamePlural="角色信息">
             <Title Path="roleTypeId"/>
