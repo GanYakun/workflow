@@ -44,7 +44,7 @@ under the License.
     <EnumerationType enumTypeId="PASS_MANNER"  description="审批通过方式枚举"/>
 
 <!--StatusType-->
-    <StatusType statusTypeId="MEMBER_STATUS"  description="成员状态"/>
+<!--    <StatusType statusTypeId="MEMBER_STATUS"  description="成员状态"/>-->
 
 
     <WorkEffortType workEffortTypeId="WORK_FLOW" description="审批流"/>

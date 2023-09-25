@@ -222,8 +222,8 @@ under the License.
         <value xml:lang="zh">成员名称</value>
     </property>
     <!--RootNodeWorkEffort-->
-<!--    <property key="RootNodeWorkEffortCreatedByUserLogin">-->
-<!--        <value xml:lang="en">Creator</value>-->
-<!--        <value xml:lang="zh">创建人</value>-->
-<!--    </property>-->
+    <property key="RootNodeWorkEffortCreatedByUserLogin">
+        <value xml:lang="en">Creator</value>
+        <value xml:lang="zh">创建人</value>
+    </property>
 </resource>

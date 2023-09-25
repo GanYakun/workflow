@@ -155,12 +155,17 @@ public class GConfigService {
      * @EntityTypeName
      * @ServiceName
      **/
-    public static Map<String, Object> createUserLoginAndPermission(DispatchContext dctx, Map<String, Object> context) throws GenericServiceException {
+    public static Map<String, Object> createUserLoginAndPermission(DispatchContext dctx, Map<String, Object> context) throws GenericServiceException, OfbizServiceException {
         try {
             Delegator delegator = dctx.getDelegator();
             GenericValue userLogin = (GenericValue) context.get("userLogin");
             String userLoginId = (String) context.get("phoneMobile");
+            GenericValue verifyUserLogin = delegator.findOne("UserLogin",UtilMisc.toMap("userLoginId",userLoginId),false);
+            if(UtilValidate.isNotEmpty(verifyUserLogin)){
+                throw new OfbizServiceException("当前组织内已存在相同的手机号码,请更换后重试");
+            }
             context.put("userLoginId", userLoginId);
+            context.put("enabled", "Y");
             context.put("currentPassword", CommonUtils.getEncryptedPassword(delegator, "gongsconfig"));
 
             context.put("groupId", "VISIT");

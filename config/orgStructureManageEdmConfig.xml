@@ -53,15 +53,15 @@
         <Property Name="partyId" Immutable="true">
             <Text Path="partyName" TextArrangement="TextOnly"/>
         </Property>
-        <Property Name="statusId" Immutable="true">
-            <Text Path="MemberStatusItem/description" TextArrangement="TextOnly"/>
-        </Property>
+<!--        <Property Name="statusId" Immutable="true">-->
+<!--            <Text Path="MemberStatusItem/description" TextArrangement="TextOnly"/>-->
+<!--        </Property>-->
         <Property Name="partyName" FieldControl="Mandatory" Required="true"/>
         <Property Name="phoneMobile" FieldControl="Mandatory" Required="true"/>
         <Property Name="primaryEmail" FieldControl="Mandatory" Required="true"/>
         <Property Name="externalId" FieldControl="Mandatory" Required="true" Immutable="true"/>
         <LineItem Qualifier="Member">
-            <DataField Values="partyName,gender,statusId,birthDate,nickname,phoneMobile,primaryEmail,externalId"
+            <DataField Values="partyName,gender,UserLogin/enabled,birthDate,nickname,phoneMobile,primaryEmail,externalId"
                        Importance="High"/>
             <DataFieldForAction Label="变更部门" Action="ChangeDepartment" InvocationGrouping="Isolated"
                                 Criticality="Positive" Inline="false" Importance="High"/>
@@ -87,9 +87,10 @@
         <NavigationProperty Name="DepartmentRelation" Type="PartyRelationship"
                             Relations="ToPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)"
                             IsCollection="false"/>
-        <NavigationProperty Name="MemberStatusItem" Type="MemberStatusItem" Relations="StatusItem"/>
+<!--        <NavigationProperty Name="MemberStatusItem" Type="MemberStatusItem" Relations="StatusItem"/>-->
         <NavigationProperty Name="GenderEnumeration" Type="Gender"
                             Relations="Person/GenderEnumeration"/>
+        <NavigationProperty Name="UserLogin" IsCollection="false"/>
     </EntityType>
 
     <!--性别-->
@@ -199,6 +200,9 @@
         <NavigationProperty Name="Department" Type="Department"
                             Relations="ToPartyRelationship(roleTypeIdFrom=DEPARTMENT)/FromPartyAndPartyGroup"
                             IsCollection="false"/>
+    </EntityType>
+
+    <EntityType Name="UserLogin" EntitySetName="UserLogins" AutoProperties="true">
     </EntityType>
 
 
