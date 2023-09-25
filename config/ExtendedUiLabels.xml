@@ -146,6 +146,11 @@ under the License.
         <value xml:lang="zh">可配置字段数量</value>
         <value xml:lang="zh-TW">可配置字段数量</value>
     </property>
+    <property key="BasicInfo">
+        <value xml:lang="en">Basic Info</value>
+        <value xml:lang="zh">基本信息</value>
+        <value xml:lang="zh-TW">基本信息</value>
+    </property>
 
     <!--D-->
     <!--Department-->

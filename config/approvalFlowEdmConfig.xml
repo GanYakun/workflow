@@ -44,6 +44,9 @@
             <Title Path="processEntityName"/>
             <Description Path="description"/>
         </HeaderInfo>
+        <FieldGroup Qualifier="BasicInfo" Label="BasicInfo">
+            <DataField Values="processEntityTypeId,isOpen,hasActiveFlow" Importance="High"/>
+        </FieldGroup>
         <!-- 初始化字段类型 -->
         <Action Name="InitFieldType" IsBound="true" OfbizService="com.banfftech.event.ApprovalObjectEvent.initFieldType">
             <Parameter Name="processEntity" Type="ProcessEntity" Nullable="false" IsCollection="false"/>
