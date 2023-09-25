@@ -2,6 +2,7 @@ package com.banfftech.event;
 
 import com.dpbird.odata.OfbizODataException;
 import com.dpbird.odata.edm.OdataOfbizEntity;
+import org.apache.ofbiz.base.util.UtilDateTime;
 import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
@@ -72,7 +73,7 @@ public class OrgStructureAppEvent {
         try {
             dispatcher.runSync("banfftech.updateWorkEffortPartyAssignment",
                     UtilMisc.toMap("workEffortPartyAssignmentId",workEffortPartyAssignmentId,"statusId",statusId,
-                            "comments",comments,"mannerEnumId","PASS_APPROVE","userLogin",userLogin));
+                            "comments",comments,"mannerEnumId","PASS_APPROVE", "thruDate", UtilDateTime.nowTimestamp(), "userLogin",userLogin));
         } catch (GenericServiceException e) {
             throw new OfbizODataException(e.getMessage());
         }

@@ -107,6 +107,7 @@ public class ApprovalService {
         for (GenericValue otherAssignment : otherAssignments) {
             otherAssignment.set("statusId", statusId);
             otherAssignment.set("mannerEnumId", "PASS_AUTO");
+            otherAssignment.set("thruDate", UtilDateTime.nowTimestamp());
             otherAssignment.store();
         }
     }

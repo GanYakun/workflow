@@ -71,7 +71,7 @@ public class ExecApproval implements ExecNode {
             //分配给人
             for (String assiPartyId : assiPartyIds) {
                 delegator.create("WorkEffortPartyAssignment", "workEffortPartyAssignmentId", delegator.getNextSeqId("WorkEffortPartyAssignment"),
-                        "workEffortId", workEffortId, "partyId", assiPartyId, "statusId", "WEPR_WAIT");
+                        "workEffortId", workEffortId, "partyId", assiPartyId, "statusId", "WEPR_WAIT", "fromDate", UtilDateTime.nowTimestamp());
             }
         } catch (GenericEntityException e) {
             throw new OfbizServiceException(e.getMessage());
