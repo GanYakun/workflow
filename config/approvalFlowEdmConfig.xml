@@ -79,7 +79,7 @@
         </Property>
     </EntityType>
     
-    <EntityType Name="WorkEffort" EntitySetName="WorkEfforts" Properties="workEffortId,workEffortName">
+    <EntityType Name="WorkEffort" EntitySetName="WorkEfforts" Properties="workEffortId,workEffortName,noteId">
         <NavigationProperty Name="NoteData"/>
     </EntityType>
     <EntityType Name="NoteData" EntitySetName="NoteDatas" AutoProperties="true"/>
