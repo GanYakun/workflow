@@ -126,6 +126,11 @@ under the License.
         <value xml:lang="zh">作为审批条件</value>
         <value xml:lang="zh-TW">作为审批条件</value>
     </property>
+    <property key="ProcessFieldIsOpen">
+        <value xml:lang="en">Is Open</value>
+        <value xml:lang="zh">是否开放</value>
+        <value xml:lang="zh-TW">是否开放</value>
+    </property>
 <!--D-->
     <!--Department-->
     <property key="DepartmentPartyId">

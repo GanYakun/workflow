@@ -60,4 +60,19 @@ under the License.
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
 
+    <service name="banfftech.createProcessField" default-entity-name="ProcessField" engine="entity-auto" invoke="create">
+        <description>Create a ProcessField</description>
+        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="banfftech.updateProcessField" default-entity-name="ProcessField" engine="entity-auto" invoke="update">
+        <description>Update a ProcessField</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="banfftech.deleteProcessField" default-entity-name="ProcessField" engine="entity-auto" invoke="delete">
+        <description>Delete a ProcessField</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+
 </services>
