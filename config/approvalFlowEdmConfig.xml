@@ -46,31 +46,26 @@
             <Parameter Name="processEntity" Type="ProcessEntity" Nullable="false" IsCollection="false"/>
         </Action>
         <NavigationProperty Name="ProcessField"/>
+        <NavigationProperty Name="OpenProcessField" Type="ProcessField" IsCollection="true" Relations="ProcessField(isOpen=Y)"/>
     </EntityType>
 
     <!-- 业务对象字段 -->
     <EntityType Name="ProcessField" AutoProperties="true" EntitySetName="ProcessFields">
         <Property Name="asCondition" Type="Boolean"/>
+        <Property Name="isOpen" Type="Boolean"/>
         <Property Name="processFieldTypeId">
             <Text Path="ProcessFieldType/description" TextArrangement="TextOnly"/>
+            <ValueList CollectionPath="ProcessFieldTypes" WithFixedValues="true" ParameterDisplayOnly="description">
+                <ParameterInOut LocalDataProperty="processFieldTypeId" ValueListProperty="processFieldTypeId"/>
+            </ValueList>
         </Property>
-        <LineItem>
-            <DataField Values="processFieldName,processFieldTypeId,asCondition,valueTypeId,description"/>
-            <DataFieldForAction Label="${uiLabelMap.UpdateData}" Action="UpdateData" InvocationGrouping="Isolated" Criticality="Positive" Inline="true" Importance="High"/>
+        <LineItem Qualifier="EditLineItem">
+            <DataField Values="processFieldName,processFieldTypeId,asCondition,valueTypeId,description,isOpen"/>
+        </LineItem>
+        <LineItem Qualifier="OpenLineItem">
+            <DataField Values="processFieldName,processFieldTypeId,asCondition,description"/>
         </LineItem>
         <NavigationProperty Name="ProcessFieldType"/>
-        <!-- 更新字段描述,类型,可作为审批条件 -->
-        <Action Name="UpdateData" IsBound="true" OfbizService="com.banfftech.event.ApprovalObjectEvent.updateData">
-            <Parameter Name="processField" Type="ProcessField" Nullable="false" IsCollection="false"/>
-            <Parameter Name="processFieldTypeId" Type="String" Nullable="false" IsCollection="false" Label="${uiLabelMap.ProcessFieldProcessFieldTypeId}">
-                <ValueList CollectionPath="ProcessFieldTypes" WithFixedValues="true" ParameterDisplayOnly="description">
-                    <ParameterInOut LocalDataProperty="processFieldTypeId" ValueListProperty="processFieldTypeId"/>
-                </ValueList>
-            </Parameter>
-            <Parameter Name="asCondition" Type="Boolean" Nullable="false" IsCollection="false"/>
-            <Parameter Name="valueTypeId" Type="String" Nullable="false" IsCollection="false" Label="${uiLabelMap.ProcessFieldValueTypeId}"/>
-            <Parameter Name="description" Type="String" Nullable="false" IsCollection="false"/>
-        </Action>
     </EntityType>
     
     <EntityType Name="ProcessFieldType" AutoProperties="true" EntitySetName="ProcessFieldTypes">
