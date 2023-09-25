@@ -15,7 +15,7 @@
         </Property>
         <LineItem Qualifier="ApprovalList">
             <DataField
-                    Values="workEffortName,ProcessEntity/description,MainProcess/version,MainProcess/description,createdDate,RootNodeWorkEffort/createdByUserLogin,comments,mannerEnumId"
+                    Values="workEffortName,MainProcess/version,MainProcess/description,fromDate,thruDate,RootNodeWorkEffort/createdByUserLogin,comments,mannerEnumId"
                     Importance="High"/>
         </LineItem>
         <LineItem Qualifier="RecordApproval">

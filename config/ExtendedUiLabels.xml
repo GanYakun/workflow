@@ -80,15 +80,15 @@ under the License.
     <!--Approval-->
     <property key="ApprovalCreatedDate">
         <value xml:lang="en">CreatedDate</value>
-        <value xml:lang="zh">创建时间</value>
+        <value xml:lang="zh">审批开始时间</value>
     </property>
     <property key="ApprovalFromDate">
         <value xml:lang="en">FromDate</value>
-        <value xml:lang="zh">创建时间</value>
+        <value xml:lang="zh">审批开始时间</value>
     </property>
     <property key="ApprovalWorkEffortName">
         <value xml:lang="en">WorkEffortName</value>
-        <value xml:lang="zh">当前节点</value>
+        <value xml:lang="zh">当前审批节点</value>
     </property>
     <property key="ApprovalComments">
         <value xml:lang="en">comments</value>
@@ -104,7 +104,7 @@ under the License.
     </property>
     <property key="ApprovalThruDate">
         <value xml:lang="en">ApprovalTime</value>
-        <value xml:lang="zh">审批时间</value>
+        <value xml:lang="zh">审批结束时间</value>
     </property>
     <property key="ApprovalPartyId">
         <value xml:lang="en">ApprovedBy</value>
@@ -201,12 +201,12 @@ under the License.
     <!--MainProcess-->
     <property key="MainProcessDescription">
         <value xml:lang="en">ProcessDescription</value>
-        <value xml:lang="zh">流程描述</value>
+        <value xml:lang="zh">审批流程描述</value>
     </property>
     <!--MainProcess-->
     <property key="MainProcessVersion">
         <value xml:lang="en">Version</value>
-        <value xml:lang="zh">版本号</value>
+        <value xml:lang="zh">审批流程版本号</value>
     </property>
 <!--R-->
     <!--Role-->
@@ -230,6 +230,6 @@ under the License.
     <!--RootNodeWorkEffort-->
     <property key="RootNodeWorkEffortCreatedByUserLogin">
         <value xml:lang="en">Creator</value>
-        <value xml:lang="zh">创建人</value>
+        <value xml:lang="zh">审批流程发起人</value>
     </property>
 </resource>
