@@ -31,7 +31,7 @@
         <NavigationProperty Name="DirectMember" Type="Member"
                             Relations="FromPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/ToPartyAndContact"
                             IsCollection="true"/>
-<!--        打算使用语义化Navigation实现-->
+        <!--        打算使用语义化Navigation实现-->
         <NavigationProperty Name="AllMember" Type="Member" IsCollection="true"/>
     </EntityType>
 
@@ -61,7 +61,8 @@
         <Property Name="primaryEmail" FieldControl="Mandatory" Required="true"/>
         <Property Name="externalId" FieldControl="Mandatory" Required="true" Immutable="true"/>
         <LineItem Qualifier="Member">
-            <DataField Values="partyName,gender,statusId,birthDate,nickname,phoneMobile,primaryEmail,externalId" Importance="High"/>
+            <DataField Values="partyName,gender,statusId,birthDate,nickname,phoneMobile,primaryEmail,externalId"
+                       Importance="High"/>
             <DataFieldForAction Label="变更部门" Action="ChangeDepartment" InvocationGrouping="Isolated"
                                 Criticality="Positive" Inline="false" Importance="High"/>
         </LineItem>
@@ -92,7 +93,8 @@
     </EntityType>
 
     <!--性别-->
-    <EntityType Name="Gender" OfbizEntity="Enumeration" EntitySetName="Genders" EntityCondition="enumTypeId=GENDER_ENUM_TYPE"
+    <EntityType Name="Gender" OfbizEntity="Enumeration" EntitySetName="Genders"
+                EntityCondition="enumTypeId=GENDER_ENUM_TYPE"
                 AutoProperties="true">
         <Property Name="enumId">
             <Text Path="description" TextArrangement="TextOnly"/>
@@ -101,7 +103,8 @@
     </EntityType>
 
     <!--成员状态-->
-    <EntityType Name="MemberStatusItem" OfbizEntity="StatusItem" EntitySetName="MemberStatusItem" EntityCondition="statusTypeId=MEMBER_STATUS"
+    <EntityType Name="MemberStatusItem" OfbizEntity="StatusItem" EntitySetName="MemberStatusItem"
+                EntityCondition="statusTypeId=MEMBER_STATUS"
                 AutoProperties="true">
         <Property Name="statusId">
             <Text Path="description" TextArrangement="TextOnly"/>
@@ -114,12 +117,12 @@
                 Handler="component://gongsconfig/groovyScripts/orgStructureManage/Role.groovy">
         <SelectionFields PropertyPath="description"/>
         <Property Name="userNumbers" Type="Edm.Int64"/>
-        <Property Name="roleTypeId" Computed="true" />
+        <Property Name="roleTypeId" Computed="true"/>
         <Property Name="description" Required="true" FieldControl="Mandatory">
             <Text Path="ParentRoleType/description" TextArrangement="TextFirst"/>
         </Property>
         <LineItem>
-            <DataField Values="description,userNumbers" Importance="High" />
+            <DataField Values="description,userNumbers" Importance="High"/>
         </LineItem>
         <HeaderInfo TypeName="Role Manage" TypeNamePlural="角色信息">
             <Title Path="roleTypeId"/>
@@ -133,8 +136,9 @@
                             IsCollection="false"/>
     </EntityType>
 
-    <!--父级RoleType-->
-    <EntityType Name="ParentRoleType" OfbizEntity="RoleType" EntitySetName="ParentRoleTypes" EntityCondition="roleTypeId=MAIN_ROLE"
+    <!--父级RoleType(MAIN_ROLE)-->
+    <EntityType Name="ParentRoleType" OfbizEntity="RoleType" EntitySetName="ParentRoleTypes"
+                EntityCondition="roleTypeId=MAIN_ROLE"
                 AutoProperties="true">
 
     </EntityType>
@@ -146,7 +150,9 @@
             <Text Path="Member/partyName" TextArrangement="TextOnly"/>
         </Property>
         <LineItem>
-            <DataField Values="Member/partyName,Member/gender,Member/birthDate,Member/nickname,Member/phoneMobile,Member/primaryEmail,Member/externalId,Member/Department/partyName" Importance="High"/>
+            <DataField
+                    Values="Member/partyName,Member/gender,Member/birthDate,Member/nickname,Member/phoneMobile,Member/primaryEmail,Member/externalId,Member/Department/partyName"
+                    Importance="High"/>
         </LineItem>
         <NavigationProperty Name="Member" Type="Member" Relations="PartyAndContact"/>
     </EntityType>
@@ -157,7 +163,8 @@
         </LineItem>
         <NavigationProperty Name="FromParty" Type="Party" Relations="FromParty"/>
         <NavigationProperty Name="ToParty" Type="Party" Relations="ToParty"/>
-        <NavigationProperty Name="MemberDepartment" Type="Department" Relations="ToParty/ToPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/FromPartyAndPartyGroup"/>
+        <NavigationProperty Name="MemberDepartment" Type="Department"
+                            Relations="ToParty/ToPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/FromPartyAndPartyGroup"/>
     </EntityType>
 
     <EntityType Name="Party" EntitySetName="Parties" AutoProperties="true">
@@ -165,7 +172,8 @@
 
     <!--用户组-->
     <EntityType Name="UserGroup" OfbizEntity="PartyAndPartyGroup" EntitySetName="UserGroups"
-                EntityCondition="partyTypeId=PARTY_GROUP and PartyRole/roleTypeId=OTHER_ORGANIZATION_U" AutoProperties="true">
+                EntityCondition="partyTypeId=PARTY_GROUP and PartyRole/roleTypeId=OTHER_ORGANIZATION_U"
+                AutoProperties="true">
         <SelectionFields PropertyPath="partyName"/>
         <Property Name="partyName" FieldControl="Mandatory" Required="true"/>
         <Property Name="partyTypeId" DefaultValue="PARTY_GROUP"/>
