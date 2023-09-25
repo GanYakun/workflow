@@ -58,6 +58,7 @@ under the License.
         <field name="processEntityId" type="id"><description>主键</description></field>
         <field name="processEntityName" type="name"><description>ofbiz实体名称</description></field>
         <field name="processEntityTypeId" type="name"><description>实体类型标识</description></field>
+        <field name="isOpen" type="indicator"><description>是否开放</description></field>
         <field name="description" type="value"><description>实体描述</description></field>
         <prim-key field="processEntityId"/>
         <relation type="many" fk-name="PROC_EN_FD" rel-entity-name="ProcessField">

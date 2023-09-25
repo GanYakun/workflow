@@ -99,8 +99,8 @@ under the License.
         <value xml:lang="zh">审批状态</value>
     </property>
     <property key="ApprovalMannerEnumId">
-        <value xml:lang="en">Via</value>
-        <value xml:lang="zh">审批类型</value>
+        <value xml:lang="en">Approval method</value>
+        <value xml:lang="zh">审批方式</value>
     </property>
     <property key="ApprovalThruDate">
         <value xml:lang="en">ApprovalTime</value>
@@ -131,7 +131,13 @@ under the License.
         <value xml:lang="zh">是否开放</value>
         <value xml:lang="zh-TW">是否开放</value>
     </property>
-<!--D-->
+    <property key="ProcessEntityIsOpen">
+        <value xml:lang="en">Is Open</value>
+        <value xml:lang="zh">是否开放</value>
+        <value xml:lang="zh-TW">是否开放</value>
+    </property>
+
+    <!--D-->
     <!--Department-->
     <property key="DepartmentPartyId">
         <value xml:lang="en">DepartmentID</value>
