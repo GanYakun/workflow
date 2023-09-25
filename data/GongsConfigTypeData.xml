@@ -38,6 +38,16 @@ under the License.
     <RoleType description="Department" hasTable="N" parentTypeId="ORGANIZATION_UNIT" roleTypeId="DEPARTMENT"/>
     <RoleType description="Other Organization Unit" hasTable="N" parentTypeId="ORGANIZATION_UNIT" roleTypeId="OTHER_ORGANIZATION_U"/>
 
+    <!--EmplLeaveType(请假类型)-->
+    <EmplLeaveType emplLeaveTypeId="INLAND_EARNED" hasTable="N" description="Inland earned"/>
+    <EmplLeaveType emplLeaveTypeId="LOSS_OF_PAY" hasTable="N" description="Loss of pay"/>
+    <EmplLeaveType emplLeaveTypeId="RESTRICTED_HOLIDAY" hasTable="N" description="Restricted holiday"/>
+    <EmplLeaveType emplLeaveTypeId="SPECIAL_DAY_OFF" hasTable="N" description="Special day off"/>
+
+
+    <!--EmplLeaveReasonType(请假原因类型)-->
+    <EmplLeaveReasonType emplLeaveReasonTypeId="MEDICAL" hasTable="N" description="Medical"/>
+    <EmplLeaveReasonType emplLeaveReasonTypeId="CASUAL" hasTable="N" description="Casual"/>
 
 <!--EnumerationType-->
     <EnumerationType enumTypeId="GENDER_ENUM_TYPE"  description="性别"/>
@@ -62,11 +72,14 @@ under the License.
     <StatusItem statusId="WEPR_REFUSE" statusTypeId="WORKFLOW_STATUS" description="审批不通过"/>
     <StatusItem statusId="WEPR_CANCEL" statusTypeId="WORKFLOW_STATUS" description="取消"/>
 
-
+<!--StatusType-->
     <!-- 主流程状态 -->
     <StatusType statusTypeId="MAIN_PROCESS_STATUS" description="Main Process Status"/>
     <StatusItem statusId="PROCESS_ENABLED" statusTypeId="MAIN_PROCESS_STATUS" description="已发布"/>
     <StatusItem statusId="PROCESS_NOT_ENABLED" statusTypeId="MAIN_PROCESS_STATUS" description="已停用"/>
+
+    <!-- 请假状态 -->
+    <StatusType statusTypeId="LEAVE_STATUS" description="Employee Leave Status"/>
 
     <EnumerationType description="审批流程可见范围枚举值" enumTypeId="PROCESS_RANGE" hasTable="N"/>
     <Enumeration enumId="VISIBLE_ALL" enumTypeId="PROCESS_RANGE" description="全员可见" enumCode="VISIBLE_TO_ALL" sequenceId="01"/>
@@ -84,7 +97,6 @@ under the License.
     <ProcessFieldType description="状态" processFieldTypeId="STATUS"/>
     <ProcessFieldType description="字符串" processFieldTypeId="STRING"/>
     <ProcessFieldType description="类型" processFieldTypeId="TYPE"/>
-
 
 
 

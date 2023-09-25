@@ -82,7 +82,7 @@
             <Parameter Name="type" Type="String" Nullable="false" IsCollection="false"/>
         </Action>
         <NavigationProperty Name="Department" Type="Department"
-                            Relations="ToPartyRelationship(roleTypeIdFrom=DEPARTMENT)/FromPartyAndPartyGroup"
+                            Relations="ToPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/FromPartyAndPartyGroup"
                             IsCollection="false"/>
         <NavigationProperty Name="DepartmentRelation" Type="PartyRelationship"
                             Relations="ToPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)"

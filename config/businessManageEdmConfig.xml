@@ -1,0 +1,37 @@
+<ofbiz-edm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd" ImportGlobal="false">
+
+    <!--=====================================     主对象EntityType definition     =====================================-->
+    <!--请假审批-->
+    <EntityType Name="LeaveApproval" OfbizEntity="EmplLeave" EntitySetName="LeaveApprovals" AutoProperties="true">
+        <Property Name="emplLeaveId" Computed="true"/>
+        <Property Name="patyId" Required="true" FieldControl="Mandatory"/>
+        <Property Name="emplLeaveReasonTypeId" Required="true" FieldControl="Mandatory"/>
+        <Property Name="statusId" DefaultValue="Created"/>
+        <NavigationProperty Name="LeaveType" Relations="EmplLeaveType" Type="LeaveType"
+                            IsCollection="false"/>
+        <NavigationProperty Name="LeaveReasonType" Relations="EmplLeaveReasonType" Type="LeaveReasonType"
+                            IsCollection="false"/>
+        <NavigationProperty Name="LeaveStatus" Relations="StatusItem" Type="LeaveStatus"
+                            IsCollection="false"/>
+    </EntityType>
+
+    <!--请假类型-->
+    <EntityType Name="LeaveType" OfbizEntity="EmplLeaveType" EntitySetName="LeaveTypes" AutoProperties="true">
+
+    </EntityType>
+
+    <!--请假原因-->
+    <EntityType Name="LeaveReasonType" OfbizEntity="EmplLeaveReasonType" EntitySetName="LeaveReasonTypes"
+                AutoProperties="true">
+
+    </EntityType>
+
+    <!--请假状态-->
+    <EntityType Name="LeaveStatus" OfbizEntity="StatusItem" EntitySetName="LeaveStatusItems"
+                EntityCondition="statusTypeId=LEAVE_STATUS" AutoProperties="true">
+
+    </EntityType>
+    <!--=====================================     子对象EntityType definition     =====================================-->
+    <!--=====================================    Action Definition End   =====================================-->
+</ofbiz-edm>
