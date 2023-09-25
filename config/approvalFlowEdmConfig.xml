@@ -34,9 +34,7 @@
     <!-- 业务对象 -->
     <EntityType Name="ProcessEntity" AutoProperties="true" EntitySetName="ProcessEntities">
         <SelectionFields PropertyPath="processEntityId,processEntityName,description"/>
-        <LineItem>
-            <DataField Values="processEntityId,processEntityName,processEntityTypeId,description"/>
-        </LineItem>
+        <Property Name="isOpen" Type="Boolean"/>
         <HeaderInfo>
             <Title Path="processEntityName"/>
             <Description Path="description"/>
