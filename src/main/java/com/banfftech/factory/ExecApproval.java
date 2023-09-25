@@ -10,6 +10,7 @@ import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,8 +54,8 @@ public class ExecApproval implements ExecNode {
                     //自动通过
                     statusId = "WEPR_COMPLETE";
                 } else {
-                    //管理员审批
-                    assiPartyIds = UtilMisc.toList("admin");
+                    //组织管理员审批
+                    assiPartyIds = UtilMisc.toList("org_admin");
                 }
             }
             //提交人为审批人

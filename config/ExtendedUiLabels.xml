@@ -136,6 +136,16 @@ under the License.
         <value xml:lang="zh">是否开放</value>
         <value xml:lang="zh-TW">是否开放</value>
     </property>
+    <property key="ProcessEntityHasActiveFlow">
+        <value xml:lang="en">Has Active Flow</value>
+        <value xml:lang="zh">是否定义流程</value>
+        <value xml:lang="zh-TW">是否定义流程</value>
+    </property>
+    <property key="ProcessEntityConfigFieldTotal">
+        <value xml:lang="en">Config Field Total</value>
+        <value xml:lang="zh">可配置字段数量</value>
+        <value xml:lang="zh-TW">可配置字段数量</value>
+    </property>
 
     <!--D-->
     <!--Department-->

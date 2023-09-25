@@ -32,9 +32,14 @@
     </EntityType>
 
     <!-- 业务对象 -->
-    <EntityType Name="ProcessEntity" AutoProperties="true" EntitySetName="ProcessEntities">
+    <EntityType Name="ProcessEntity" AutoProperties="true" EntitySetName="ProcessEntities"
+                Handler="component://gongsconfig/groovyScripts/processEntity/generateFields.groovy">
         <SelectionFields PropertyPath="processEntityId,processEntityName,description"/>
         <Property Name="isOpen" Type="Boolean"/>
+        <!-- 是否定义有效流程 -->
+        <Property Name="hasActiveFlow" Type="Boolean"/>
+        <!-- 可配置字段数量 -->
+        <Property Name="configFieldTotal" Type="Edm.Decimal"/>
         <HeaderInfo>
             <Title Path="processEntityName"/>
             <Description Path="description"/>
