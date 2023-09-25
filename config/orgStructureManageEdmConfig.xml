@@ -132,7 +132,7 @@
             <Text Path="Member/partyName" TextArrangement="TextOnly"/>
         </Property>
         <LineItem>
-            <DataField Values="Member/partyName,Member/gender,Member/birthDate,Member/nickName,Member/phoneMobile,Member/primaryEmail,Member/externalId,Member/Department/partyName" Importance="High"/>
+            <DataField Values="Member/partyName,Member/gender,Member/birthDate,Member/nickname,Member/phoneMobile,Member/primaryEmail,Member/externalId,Member/Department/partyName" Importance="High"/>
         </LineItem>
         <NavigationProperty Name="Member" Type="Member" Relations="PartyAndContact"/>
     </EntityType>
