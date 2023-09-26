@@ -218,13 +218,17 @@ under the License.
         <value xml:lang="en">PartyName</value>
         <value xml:lang="zh">员工姓名</value>
     </property>
-    <property key="LeaveApprovalLeaveTypeId">
-        <value xml:lang="en">LeaveType</value>
-        <value xml:lang="zh">请假类型</value>
-    </property>
+<!--    <property key="LeaveApprovalLeaveTypeId">-->
+<!--        <value xml:lang="en">LeaveType</value>-->
+<!--        <value xml:lang="zh">请假类型</value>-->
+<!--    </property>-->
     <property key="LeaveApprovalEmplLeaveReasonTypeId">
         <value xml:lang="en">EmplLeaveReason</value>
-        <value xml:lang="zh">请假原因</value>
+        <value xml:lang="zh">请假类型</value>
+    </property>
+    <property key="LeaveApprovalDescription">
+        <value xml:lang="en">Description</value>
+        <value xml:lang="zh">请假描述</value>
     </property>
     <property key="LeaveApprovalFromDate">
         <value xml:lang="en">FromDate</value>

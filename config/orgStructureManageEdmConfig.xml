@@ -36,7 +36,8 @@
     </EntityType>
 
     <!--成员-->
-    <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members" EntityCondition="partyTypeId=PERSON and PartyRole/roleTypeId=ORD_EMPLOYEE"
+    <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members"
+                EntityCondition="partyTypeId=PERSON and PartyRole/roleTypeId=ORD_EMPLOYEE"
                 AutoProperties="true"
                 Handler="component://gongsconfig/groovyScripts/orgStructureManage/Member.groovy">
         <SelectionFields PropertyPath="birthDate,gender"/>
@@ -58,8 +59,9 @@
         <Property Name="primaryEmail" FieldControl="Mandatory" Required="true"/>
         <Property Name="externalId" FieldControl="Mandatory" Required="true" Immutable="true"/>
         <LineItem Qualifier="Member">
-            <DataField Values="partyName,gender,UserLogin/enabled,birthDate,nickname,phoneMobile,primaryEmail,externalId"
-                       Importance="High"/>
+            <DataField
+                    Values="partyName,gender,UserLogin/enabled,birthDate,nickname,phoneMobile,primaryEmail,externalId"
+                    Importance="High"/>
             <DataFieldForAction Label="变更部门" Action="ChangeDepartment" InvocationGrouping="Isolated"
                                 Criticality="Positive" Inline="false" Importance="High"/>
         </LineItem>
@@ -80,7 +82,7 @@
         <NavigationProperty Name="DepartmentRelation" Type="PartyRelationship"
                             Relations="ToPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)"
                             IsCollection="false"/>
-<!--        <NavigationProperty Name="MemberStatusItem" Type="MemberStatusItem" Relations="StatusItem"/>-->
+        <!--        <NavigationProperty Name="MemberStatusItem" Type="MemberStatusItem" Relations="StatusItem"/>-->
         <NavigationProperty Name="GenderEnumeration" Type="Gender"
                             Relations="Person/GenderEnumeration"/>
         <NavigationProperty Name="UserLogin" IsCollection="false"/>
@@ -162,9 +164,6 @@
                             Relations="ToParty/ToPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/FromPartyAndPartyGroup"/>
     </EntityType>
 
-    <EntityType Name="Party" EntitySetName="Parties" AutoProperties="true">
-    </EntityType>
-
     <!--用户组-->
     <EntityType Name="UserGroup" OfbizEntity="PartyAndPartyGroup" EntitySetName="UserGroups"
                 EntityCondition="partyTypeId=PARTY_GROUP and PartyRole/roleTypeId=OTHER_ORGANIZATION_U"
@@ -186,6 +185,11 @@
                             IsCollection="true"/>
     </EntityType>
 
+
+    <EntityType Name="Party" EntitySetName="Parties" AutoProperties="true">
+
+    </EntityType>
+
     <EntityType Name="PartyAndContact" EntitySetName="PartyAndContacts" AutoProperties="true">
         <LineItem>
             <DataField Values="partyName,Department/partyName" Importance="High"/>
@@ -196,6 +200,7 @@
     </EntityType>
 
     <EntityType Name="UserLogin" EntitySetName="UserLogins" AutoProperties="true">
+
     </EntityType>
 
     <ComplexType Name="ApproverData">
