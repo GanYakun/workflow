@@ -13,7 +13,7 @@
     <EntityType Name="LeaveApproval" OfbizEntity="EmplLeave" EntitySetName="LeaveApprovals" AutoProperties="true"
                 Handler="component://gongsconfig/groovyScripts/businessManage/LeaveApproval.groovy"
                 EntityCondition="partyId=${userLogin.partyId}">
-        <SelectionFields PropertyPath="emplLeaveReasonTypeId,description,fromDate,thruDate,leaveStatus"/>
+        <SelectionFields PropertyPath="emplLeaveReasonTypeId,description,fromDate,thruDate,statusId"/>
         <Property Name="isHiddenSubmitApproval" Type="Boolean"/>
         <Property Name="emplLeaveId" Computed="true"/>
         <Property Name="leaveTypeId">
@@ -41,11 +41,11 @@
             <Parameter Name="approverData" Type="String" Nullable="true" IsCollection="false"/>
         </Action>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
-            <DataField Values="partyId,LeaveMember/externalId,LeaveMember/phoneMobile,LeaveMember/Department/partyName,emplLeaveReasonTypeId,description,fromDate,thruDate,statusId"
+            <DataField Values="partyId,emplLeaveReasonTypeId,description,fromDate,thruDate,statusId,LeaveMember/externalId,LeaveMember/phoneMobile,LeaveMember/Department/partyName"
                        Importance="High"/>
         </FieldGroup>
         <LineItem>
-            <DataField Values="partyId,LeaveMember/externalId,LeaveMember/phoneMobile,LeaveMember/Department/partyName,emplLeaveReasonTypeId,description,fromDate,thruDate,statusId"
+            <DataField Values="partyId,emplLeaveReasonTypeId,description,fromDate,thruDate,statusId,LeaveMember/externalId,LeaveMember/phoneMobile,LeaveMember/Department/partyName"
                        Importance="High"/>
             <DataFieldForAction Label="提交审批" Action="SubmitApproval" InvocationGrouping="Isolated"
                                 Criticality="Positive" Inline="true" Importance="High" Hidden="isHiddenSubmitApproval"/>
@@ -108,6 +108,15 @@
         <Property Name="partyId" Immutable="true">
             <Text Path="partyName" TextArrangement="TextOnly"/>
         </Property>
+        <NavigationProperty Name="Department" Type="Department"
+                            Relations="ToPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/FromPartyAndPartyGroup"
+                            IsCollection="false"/>
     </EntityType>
+
+    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments"
+                AutoProperties="true">
+    </EntityType>
+
+
     <!--=====================================     其他对象EntityType definition End    =====================================-->
 </ofbiz-edm>
