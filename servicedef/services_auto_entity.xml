@@ -75,4 +75,20 @@ under the License.
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
 
+
+    <service name="banfftech.createEmplLeave" default-entity-name="EmplLeave" engine="entity-auto" invoke="create">
+        <description>Create a EmplLeave</description>
+        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="banfftech.updateEmplLeave" default-entity-name="EmplLeave" engine="entity-auto" invoke="update">
+        <description>Update a EmplLeave</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="banfftech.deleteEmplLeave" default-entity-name="EmplLeave" engine="entity-auto" invoke="delete">
+        <description>Delete a EmplLeave</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+
 </services>

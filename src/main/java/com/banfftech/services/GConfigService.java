@@ -164,10 +164,10 @@ public class GConfigService {
             if(UtilValidate.isNotEmpty(verifyUserLogin)){
                 throw new OfbizServiceException("当前组织内已存在相同的手机号码,请更换后重试");
             }
+
             context.put("userLoginId", userLoginId);
             context.put("enabled", "Y");
             context.put("currentPassword", CommonUtils.getEncryptedPassword(delegator, "gongsconfig"));
-
             context.put("groupId", "VISIT");
             context.put("fromDate", UtilDateTime.nowTimestamp());
 

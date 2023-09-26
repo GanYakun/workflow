@@ -78,8 +78,8 @@ under the License.
     <StatusItem statusId="PROCESS_ENABLED" statusTypeId="MAIN_PROCESS_STATUS" description="已发布"/>
     <StatusItem statusId="PROCESS_NOT_ENABLED" statusTypeId="MAIN_PROCESS_STATUS" description="已停用"/>
 
-    <!-- 请假状态 -->
-    <StatusType statusTypeId="LEAVE_STATUS" description="Employee Leave Status"/>
+    <!-- 审批通用状态类型 -->
+    <StatusType statusTypeId="APPROVAL" description="Approval"/>
 
     <EnumerationType description="审批流程可见范围枚举值" enumTypeId="PROCESS_RANGE" hasTable="N"/>
     <Enumeration enumId="VISIBLE_ALL" enumTypeId="PROCESS_RANGE" description="全员可见" enumCode="VISIBLE_TO_ALL" sequenceId="01"/>

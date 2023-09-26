@@ -212,6 +212,41 @@ under the License.
         <value xml:lang="en">IsManager</value>
         <value xml:lang="zh">是否为负责人</value>
     </property>
+<!--L-->
+    <!--LeaveApproval-->
+    <property key="LeaveApprovalPartyId">
+        <value xml:lang="en">PartyName</value>
+        <value xml:lang="zh">员工姓名</value>
+    </property>
+    <property key="LeaveApprovalLeaveTypeId">
+        <value xml:lang="en">LeaveType</value>
+        <value xml:lang="zh">请假类型</value>
+    </property>
+    <property key="LeaveApprovalEmplLeaveReasonTypeId">
+        <value xml:lang="en">EmplLeaveReason</value>
+        <value xml:lang="zh">请假原因</value>
+    </property>
+    <property key="LeaveApprovalFromDate">
+        <value xml:lang="en">FromDate</value>
+        <value xml:lang="zh">开始日期</value>
+    </property>
+    <property key="LeaveApprovalThruDate">
+        <value xml:lang="en">ThruDate</value>
+        <value xml:lang="zh">截止日期</value>
+    </property>
+    <property key="LeaveApprovalThruDate">
+        <value xml:lang="en">ThruDate</value>
+        <value xml:lang="zh">截止日期</value>
+    </property>
+    <property key="LeaveApprovalThruDate">
+        <value xml:lang="en">ThruDate</value>
+        <value xml:lang="zh">截止日期</value>
+    </property>
+    <property key="LeaveApprovalLeaveStatus">
+        <value xml:lang="en">LeaveStatus</value>
+        <value xml:lang="zh">申请状态</value>
+    </property>
+
 <!--M-->
     <!--MainProcess-->
     <property key="MainProcessDescription">
