@@ -177,19 +177,19 @@ public class ApprovalEvent {
             Manual manual = nodeUserList.getManual();
             Map<String, Object> optionMap = UtilGenerics.checkMap(manual.getApprover().getValue());
             //人员范围类型
-            List<Map<String, Object>> approverMap = new ArrayList<>();
+            JSONObject selectJson = new JSONObject();
             if (optionMap.get("value") instanceof String) {
                 //公司id, 获取公司全部人员
                 List<GenericValue> allMembers = new ArrayList<>();
                 ServiceUtils.getDepartmentALlMembers(delegator, (String) optionMap.get("value"), allMembers);
                 for (GenericValue member : allMembers) {
-                    approverMap.add(UtilMisc.toMap("label", member.getString("partyName"), "value", member.getString("partyId")));
+                    selectJson.put(member.getString("partyId"), member.getString("partyName"));
                 }
             } else if ("party".equals(optionMap.get("type"))) {
                 List<GenericValue> parties = EntityQuery.use(delegator).from("Party").select("partyId", "partyName")
                         .where(EntityCondition.makeCondition("partyId", EntityOperator.IN, optionMap.get("value"))).queryList();
                 for (GenericValue party : parties) {
-                    approverMap.add(UtilMisc.toMap("label", party.getString("partyName"), "value", party.getString("partyId")));
+                    selectJson.put(party.getString("partyId"), party.getString("partyName"));
                 }
             } else if ("role".equals(optionMap.get("type"))) {
                 //根据角色查询人员
@@ -199,13 +199,13 @@ public class ApprovalEvent {
                 List<GenericValue> parties = EntityQuery.use(delegator).from("Party").select("partyId", "partyName")
                         .where(EntityCondition.makeCondition("partyId", EntityOperator.IN, partyIds)).queryList();
                 for (GenericValue party : parties) {
-                    approverMap.add(UtilMisc.toMap("label", party.getString("partyName"), "value", party.getString("partyId")));
+                    selectJson.put(party.getString("partyId"), party.getString("partyName"));
                 }
             }
             Map<String, Object> item = new HashMap<>();
             item.put("nodeId", customerDefNode.getNodeId());
             item.put("nodeName", customerDefNode.getNodeName());
-            item.put("selectList", approverMap);
+            item.put("selectList", selectJson.toString());
             resultList.add(item);
         }
         return resultList;
