@@ -5,6 +5,11 @@ import com.dpbird.odata.Util;
 import com.dpbird.odata.services.OfbizServiceException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import org.apache.ofbiz.base.conversion.ConversionException;
+import org.apache.ofbiz.base.conversion.JSONConverters;
+import org.apache.ofbiz.base.lang.JSON;
 import org.apache.ofbiz.base.util.UtilDateTime;
 import org.apache.ofbiz.base.util.UtilGenerics;
 import org.apache.ofbiz.base.util.UtilMisc;
@@ -21,6 +26,7 @@ import org.apache.ofbiz.entity.util.EntityUtil;
 import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -283,49 +289,59 @@ public class FlowHelper {
      * @param revisionNumber 审批流程编号
      * @return 返回所有审批人的partyId
      */
-    public static List<String> getApprover(Delegator delegator, String approverType, Object approverValue, Long revisionNumber) throws GenericEntityException, OfbizServiceException {
-        GenericValue rootWorkEffort = EntityQuery.use(delegator).from("WorkEffort")
-                .where("workEffortTypeId", "ROOT_NODE", "revisionNumber", revisionNumber).queryFirst();
-        //发起人
-        String createdByUserLogin = rootWorkEffort.getString("createdByUserLogin");
-        GenericValue createUser = delegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", createdByUserLogin), false);
+    public static List<String> getApprover(Delegator delegator, String approverType, Object approverValue, Long revisionNumber, long nodeId) throws OfbizServiceException {
         List<String> assignmentPartyIds = new ArrayList<>();
-        if ("manager".equals(approverType)) {
-            //查询提交人的部门负责人
-            GenericValue manager = EntityQuery.use(delegator).from("PartyRelationship")
-                    .where("partyIdTo", createUser.getString("partyId"), "roleTypeIdTo", "MANAGER").queryFirst();
-            if (UtilValidate.isNotEmpty(manager)) {
-                assignmentPartyIds.add(manager.getString("partyIdFrom"));
+        try {
+            GenericValue rootWorkEffort = EntityQuery.use(delegator).from("WorkEffort")
+                    .where("workEffortTypeId", "ROOT_NODE", "revisionNumber", revisionNumber).queryFirst();
+            //发起人
+            String createdByUserLogin = rootWorkEffort.getString("createdByUserLogin");
+            GenericValue createUser = delegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", createdByUserLogin), false);
+            if ("manager".equals(approverType)) {
+                //查询提交人的部门负责人
+                GenericValue manager = EntityQuery.use(delegator).from("PartyRelationship")
+                        .where("partyIdTo", createUser.getString("partyId"), "roleTypeIdTo", "MANAGER").queryFirst();
+                if (UtilValidate.isNotEmpty(manager)) {
+                    assignmentPartyIds.add(manager.getString("partyIdFrom"));
+                }
+                return assignmentPartyIds;
             }
-            return assignmentPartyIds;
-        }
-        if ("roleTypeId".equals(approverType)) {
-            //查询角色人员
-            List<String> partyIds = EntityQuery.use(delegator).from("PartyRole")
-                    .where(EntityCondition.makeCondition("roleTypeId", EntityOperator.IN, approverValue)).getFieldList("partyId");
-            assignmentPartyIds.addAll(partyIds);
-        }
-        if ("partyGroup".equals(approverType)) {
-            //查询用户组人员
-            List<String> partyIds = EntityQuery.use(delegator).from("PartyRelationship")
-                    .where(EntityCondition.makeCondition("partyIdFrom", EntityOperator.IN, approverValue)).getFieldList("partyIdTo");
-            assignmentPartyIds.addAll(partyIds);
-        }
-        if ("party".equals(approverType)) {
-            //指定成员
-            return UtilGenerics.checkList(approverValue);
-        }
-        if ("optional".equals(approverType)) {
-            //TODO: 查找参数
-//            Map<String, Object> optionMap = UtilGenerics.checkMap(approverValue);
-//            String type = (String) optionMap.get("type");
-//            List<Object> value = UtilGenerics.checkList(optionMap.get("value"));
-
-
-        }
-        if ("self".equals(approverType)) {
-            //提交人本人
-            assignmentPartyIds.add(createUser.getString("partyId"));
+            if ("roleTypeId".equals(approverType)) {
+                //查询角色人员
+                List<String> partyIds = EntityQuery.use(delegator).from("PartyRole")
+                        .where(EntityCondition.makeCondition("roleTypeId", EntityOperator.IN, approverValue)).getFieldList("partyId");
+                assignmentPartyIds.addAll(partyIds);
+            }
+            if ("partyGroup".equals(approverType)) {
+                //查询用户组人员
+                List<String> partyIds = EntityQuery.use(delegator).from("PartyRelationship")
+                        .where(EntityCondition.makeCondition("partyIdFrom", EntityOperator.IN, approverValue)).getFieldList("partyIdTo");
+                assignmentPartyIds.addAll(partyIds);
+            }
+            if ("party".equals(approverType)) {
+                //指定成员
+                return UtilGenerics.checkList(approverValue);
+            }
+            if ("self".equals(approverType)) {
+                //提交人本人
+                assignmentPartyIds.add(createUser.getString("partyId"));
+            }
+            if ("optional".equals(approverType)) {
+                //用户自选
+                GenericValue runtimeData = rootWorkEffort.getRelatedOne("RuntimeData", false);
+                if (UtilValidate.isNotEmpty(runtimeData.getString("runtimeInfo"))) {
+                    String runtimeInfo = runtimeData.getString("runtimeInfo");
+                    JSONArray jsonArray = JSONArray.fromObject(runtimeInfo);
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JSONObject approver = jsonArray.getJSONObject(i);
+                        if (approver.getLong("nodeId") == nodeId) {
+                            assignmentPartyIds.add(approver.getString("partyId"));
+                        }
+                    }
+                }
+            }
+        } catch (GenericEntityException e) {
+            throw new OfbizServiceException(e.getMessage());
         }
         return assignmentPartyIds;
     }

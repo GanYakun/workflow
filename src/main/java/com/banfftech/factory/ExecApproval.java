@@ -46,7 +46,8 @@ public class ExecApproval implements ExecNode {
             String isEmpty = manual.getIsEmpty();
             //审批人
             Approver approver = manual.getApprover();
-            List<String> assiPartyIds = FlowHelper.getApprover(delegator, approver.getType(), approver.getValue(), parentWorkEffort.getLong("revisionNumber"));
+            List<String> assiPartyIds = FlowHelper.getApprover(delegator, approver.getType(), approver.getValue(),
+                    parentWorkEffort.getLong("revisionNumber"), nodeId);
             String statusId = "WEPR_WAIT";
             //审批人为空
             if (UtilValidate.isEmpty(assiPartyIds)) {
