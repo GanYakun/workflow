@@ -246,7 +246,7 @@ under the License.
         <value xml:lang="en">ThruDate</value>
         <value xml:lang="zh">截止日期</value>
     </property>
-    <property key="LeaveApprovalLeaveStatus">
+    <property key="LeaveApprovalStatusId">
         <value xml:lang="en">LeaveStatus</value>
         <value xml:lang="zh">申请状态</value>
     </property>

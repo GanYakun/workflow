@@ -1,6 +1,6 @@
 <ofbiz-edm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd" ImportGlobal="false">
-
+    <ImportEdm Path="component://gongsconfig/config/businessManageEdmConfig.xml"/>
     <!--=====================================     主对象EntityType definition     =====================================-->
     <!--审批-->
     <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true"
@@ -57,6 +57,8 @@
         <NavigationProperty Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity"
                             Type="ProcessEntity" IsCollection="false"/>
         <NavigationProperty Name="Member" Relations="TopWorkEffort/WorkFlowMember/PartyAndContact" Type="Member"
+                            IsCollection="false"/>
+        <NavigationProperty Name="LeaveApproval" Relations="TopWorkEffort/WorkFlowMember/EmplLeave" Type="LeaveApproval"
                             IsCollection="false"/>
         <NavigationProperty Name="ApprovalStatusItem" Relations="ApprovalStatusItem" Type="ApprovalStatusItem"
                             IsCollection="false"/>

@@ -23,37 +23,6 @@ import java.util.Map;
  */
 public class OrgStructureAppEvent {
     /**
-     * @Author yyp
-     * @Description //TODO
-     * @Date 14:58 2023/9/14
-     * @Edmconfig
-     * @ActionName
-     **/
-    public static Object setEmployeesRole(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws OfbizODataException {
-        Delegator delegator = (Delegator) oDataContext.get("delegator");
-        LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
-        GenericValue userLogin = (GenericValue) oDataContext.get("userLogin");
-        OdataOfbizEntity odataOfbizEntity = (OdataOfbizEntity) actionParameters.get("member");
-        GenericValue member = odataOfbizEntity.getGenericValue();
-        String partyId = (String) member.get("partyId");
-        try {
-            GenericValue managerRole = delegator.findOne("PartyRole",
-                    UtilMisc.toMap("partyId", partyId, "roleTypeId", "MANAGER"), false);
-            if (UtilValidate.isNotEmpty(managerRole)) {
-                dispatcher.runSync("banfftech.deletePartyRole",
-                        UtilMisc.toMap("partyId", partyId, "roleTypeId", "MANAGER", "userLogin", userLogin));
-            } else {
-                dispatcher.runSync("banfftech.createPartyRole",
-                        UtilMisc.toMap("partyId", partyId, "roleTypeId", "MANAGER", "userLogin", userLogin));
-            }
-        } catch (GenericEntityException | GenericServiceException e) {
-            throw new OfbizODataException(e.getMessage());
-        }
-        return member;
-    }
-
-
-    /**
     * @Author yyp
     * @Description 审批通过和不通过
     * @Date 14:15 2023/9/21

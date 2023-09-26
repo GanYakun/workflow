@@ -65,17 +65,6 @@
             <DataFieldForAction Label="变更部门" Action="ChangeDepartment" InvocationGrouping="Isolated"
                                 Criticality="Positive" Inline="false" Importance="High"/>
         </LineItem>
-        <Action Name="SetAsDepartmentManager" IsBound="true"
-                OfbizService="com.banfftech.event.OrgStructureAppEvent.setEmployeesRole">
-            <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>
-            <ReturnType Type="Member"/>
-        </Action>
-        <!--设为普通员工-->
-        <Action Name="SetAsOrdinaryEmployee" IsBound="true"
-                OfbizService="com.banfftech.event.OrgStructureAppEvent.setEmployeesRole">
-            <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>
-            <ReturnType Type="Member"/>
-        </Action>
         <NavigationProperty Name="Department" Type="Department"
                             Relations="ToPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/FromPartyAndPartyGroup"
                             IsCollection="false"/>

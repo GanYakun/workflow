@@ -1,14 +1,14 @@
 <ofbiz-edm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd" ImportGlobal="false">
     <!-- EdmConfig引用 -->
-    <ImportEdm Path="component://gongsconfig/config/orgStructureManageEdmConfig.xml"/>
+<!--    <ImportEdm Path="component://gongsconfig/config/orgStructureManageEdmConfig.xml"/>-->
     <ComplexType Name="ApproverData">
         <Property Name="nodeId" Type="Edm.Decimal"/>
         <Property Name="nodeName" Type="String"/>
         <Property Name="selectList" Type="String"/>
     </ComplexType>
-    <!--=====================================     主对象EntityType definition     =====================================-->
-    <!--请假审批-->
+    <!--=====================================     业务主对象EntityType definition Begin    =====================================-->
+    <!--请假申请-->
     <!--需要将EntityType的名字改成LeaveApply-->
     <EntityType Name="LeaveApproval" OfbizEntity="EmplLeave" EntitySetName="LeaveApprovals" AutoProperties="true"
                 Handler="component://gongsconfig/groovyScripts/businessManage/LeaveApproval.groovy"
@@ -28,7 +28,7 @@
         <Property Name="emplLeaveReasonTypeId" Required="true" FieldControl="Mandatory">
             <Text Path="LeaveReasonType/description" TextArrangement="TextOnly"/>
         </Property>
-        <Property Name="leaveStatus" DefaultValue="APPROVAL_CREATED">
+        <Property Name="statusId" DefaultValue="APPROVAL_CREATED">
             <Text Path="LeaveStatus/description" TextArrangement="TextOnly"/>
         </Property>
         <Function Name="GetApproverData" OfbizService="com.banfftech.event.ApprovalEvent.getApproverData"
@@ -41,11 +41,11 @@
             <Parameter Name="approverData" Type="String" Nullable="true" IsCollection="false"/>
         </Action>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
-            <DataField Values="partyId,comments,workEffortName,ProcessEntity/description,MainProcess/version,MainProcess/description"
+            <DataField Values="partyId,LeaveMember/externalId,LeaveMember/phoneMobile,LeaveMember/Department/partyName,emplLeaveReasonTypeId,description,fromDate,thruDate,statusId"
                        Importance="High"/>
         </FieldGroup>
         <LineItem>
-            <DataField Values="partyId,LeaveMember/externalId,LeaveMember/phoneMobile,LeaveMember/Department/partyName,emplLeaveReasonTypeId,description,fromDate,thruDate,leaveStatus"
+            <DataField Values="partyId,LeaveMember/externalId,LeaveMember/phoneMobile,LeaveMember/Department/partyName,emplLeaveReasonTypeId,description,fromDate,thruDate,statusId"
                        Importance="High"/>
             <DataFieldForAction Label="提交审批" Action="SubmitApproval" InvocationGrouping="Isolated"
                                 Criticality="Positive" Inline="true" Importance="High" Hidden="isHiddenSubmitApproval"/>
@@ -54,12 +54,17 @@
                             IsCollection="false"/>
         <NavigationProperty Name="LeaveReasonType" Relations="EmplLeaveReasonType" Type="LeaveReasonType"
                             IsCollection="false"/>
-        <NavigationProperty Name="LeaveStatus" Relations="StatusItem" Type="LeaveStatus"
+        <NavigationProperty Name="LeaveStatus" Relations="CurrentStatusItem" Type="LeaveStatus"
                             IsCollection="false"/>
         <NavigationProperty Name="LeaveMember" Relations="Party/PartyAndContact" Type="Member"
                             IsCollection="false"/>
     </EntityType>
 
+    <!--=====================================     业务主对象EntityType definition End    =====================================-->
+
+
+
+    <!--=====================================     业务子对象EntityType definition End    =====================================-->
     <!--请假类型-->
     <EntityType Name="LeaveType" OfbizEntity="EmplLeaveType" EntitySetName="LeaveTypes" AutoProperties="true">
         <ValueList CollectionPath="LeaveTypes" WithFixedValues="true"/>
@@ -85,6 +90,24 @@
             <Text Path="description" TextArrangement="TextOnly"/>
         </Property>
     </EntityType>
-    <!--=====================================     子对象EntityType definition     =====================================-->
-    <!--=====================================    Action Definition End   =====================================-->
+    <!--=====================================     业务子对象EntityType definition End    =====================================-->
+
+    <!--=====================================     其他对象EntityType definition End    =====================================-->
+    <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members"
+                EntityCondition="partyTypeId=PERSON and PartyRole/roleTypeId=ORD_EMPLOYEE"
+                AutoProperties="true">
+        <RelAlias Name="Person" Relations="Person"/>
+        <Property Name="gender" RelAlias="Person" Field="gender" FieldControl="Mandatory" Required="true">
+            <Text Path="GenderEnumeration/description" TextArrangement="TextOnly"/>
+        </Property>
+        <Property Name="birthDate" RelAlias="Person" Field="birthDate" FieldControl="Mandatory" Required="true"/>
+        <Property Name="nickname" RelAlias="Person" Field="nickname" FieldControl="Mandatory" Required="true"/>
+        <Property Name="partyTypeId" DefaultValue="PERSON"/>
+        <Property Name="isManager" Type="Boolean"/>
+        <Property Name="isNotManager" Type="Boolean"/>
+        <Property Name="partyId" Immutable="true">
+            <Text Path="partyName" TextArrangement="TextOnly"/>
+        </Property>
+    </EntityType>
+    <!--=====================================     其他对象EntityType definition End    =====================================-->
 </ofbiz-edm>
