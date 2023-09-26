@@ -147,4 +147,33 @@ public class ServiceUtils {
 //        }
 //    }
 
+
+
+    public static void getDepartmentALlMembers(Delegator delegator, String departmentId, List<GenericValue> allMembers)
+            throws OfbizODataException {
+        //获取该部门的所有子部门
+        try {
+            List<GenericValue> subDepartments = EntityQuery.use(delegator).from("PartyRelationship")
+                    .where(UtilMisc.toMap("partyIdFrom", departmentId, "roleTypeIdTo", "DEPARTMENT"))
+                    .queryList();
+
+            //获取当前部门的所有成员列表
+            List<GenericValue> membersId = EntityQuery.use(delegator).from("PartyRelationship")
+                    .where(UtilMisc.toMap("partyIdFrom", departmentId, "roleTypeIdTo", "ORD_EMPLOYEE"))
+                    .getFieldList("partyIdTo");
+
+            EntityCondition membersIdCondition = EntityCondition.makeCondition("partyId", EntityOperator.IN, membersId);
+            List<GenericValue> members = EntityQuery.use(delegator).from("PartyAndContact").where(membersIdCondition).queryList();
+            allMembers.addAll(members);
+
+            if (UtilValidate.isNotEmpty(subDepartments)) {
+                for (GenericValue subDepartment : subDepartments) {
+                    getDepartmentALlMembers(delegator, subDepartment.getString("partyIdTo"), allMembers);
+                }
+            }
+        } catch (GenericEntityException e) {
+            throw new OfbizODataException(e.getMessage());
+        }
+    }
+
 }

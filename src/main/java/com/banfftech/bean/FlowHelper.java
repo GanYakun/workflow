@@ -6,6 +6,7 @@ import com.dpbird.odata.services.OfbizServiceException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.ofbiz.base.util.UtilDateTime;
+import org.apache.ofbiz.base.util.UtilGenerics;
 import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
@@ -282,7 +283,7 @@ public class FlowHelper {
      * @param revisionNumber 审批流程编号
      * @return 返回所有审批人的partyId
      */
-    public static List<String> getApprover(Delegator delegator, String approverType, List<String> approverValue, Long revisionNumber) throws GenericEntityException, OfbizServiceException {
+    public static List<String> getApprover(Delegator delegator, String approverType, Object approverValue, Long revisionNumber) throws GenericEntityException, OfbizServiceException {
         GenericValue rootWorkEffort = EntityQuery.use(delegator).from("WorkEffort")
                 .where("workEffortTypeId", "ROOT_NODE", "revisionNumber", revisionNumber).queryFirst();
         //发起人
@@ -312,10 +313,15 @@ public class FlowHelper {
         }
         if ("party".equals(approverType)) {
             //指定成员
-            return approverValue;
+            return UtilGenerics.checkList(approverValue);
         }
         if ("optional".equals(approverType)) {
-            //TODO: 提交人自选
+            //TODO: 查找参数
+//            Map<String, Object> optionMap = UtilGenerics.checkMap(approverValue);
+//            String type = (String) optionMap.get("type");
+//            List<Object> value = UtilGenerics.checkList(optionMap.get("value"));
+
+
         }
         if ("self".equals(approverType)) {
             //提交人本人
@@ -327,12 +333,13 @@ public class FlowHelper {
     /**
      * 刷新缓存
      */
-    public static void flushTreeNodeCache(GenericValue noteData) {
+    public static void flushTreeNodeCache(GenericValue noteData) throws OfbizODataException {
         try {
             TreeNode treeNode = new ObjectMapper().readValue(noteData.getString("noteInfo"), TreeNode.class);
             FLOW_TREES.put(noteData.getString("noteId"), treeNode);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            throw new OfbizODataException(e.getMessage());
         }
     }
 
@@ -362,6 +369,67 @@ public class FlowHelper {
         serviceParam.put("statusId", statusId);
         serviceParam.put("userLogin", systemUser);
         dispatcher.runSync(updateService, serviceParam);
+    }
+
+    /**
+     * 根据实体和类型获取模板WorkEffort
+     */
+    public static GenericValue getTemplateWorkEffort(Delegator delegator, String entityName, String type) throws OfbizODataException, GenericEntityException {
+        GenericValue processEntity = EntityQuery.use(delegator).from("ProcessEntity")
+                .where("processEntityName", entityName, "processEntityTypeId", type).queryFirst();
+        if (UtilValidate.isEmpty(processEntity)) {
+            throw new OfbizODataException("业务对象不存在: " + entityName);
+        }
+        //获取主流程对象
+        GenericValue mainProcess = EntityQuery.use(delegator).from("MainProcess")
+                .where(UtilMisc.toMap("statusId", "PROCESS_ENABLED", "processEntityId", processEntity.getString("processEntityId"))).queryFirst();
+        if (UtilValidate.isEmpty(mainProcess) || UtilValidate.isEmpty(mainProcess.getString("workFlowId"))) {
+            throw new OfbizODataException("未找到有效的审批流程");
+        }
+        return mainProcess.getRelatedOne("WorkEffort", false);
+    }
+
+    /**
+     * 获取所有需要用户自选的节点
+     */
+    public static List<TreeNode> getCustomerDefNodes(Delegator delegator, String entityName, String typeId)
+            throws OfbizODataException, GenericEntityException, JsonProcessingException {
+        GenericValue templateWorkEffort = getTemplateWorkEffort(delegator, entityName, typeId);
+        GenericValue noteData = templateWorkEffort.getRelatedOne("NoteData", false);
+        TreeNode treeNode = FLOW_TREES.get(noteData.getString("noteId"));
+        if (UtilValidate.isEmpty(treeNode)) {
+            treeNode = new ObjectMapper().readValue(noteData.getString("noteInfo"), TreeNode.class);
+            FLOW_TREES.put(noteData.getString("noteId"), treeNode);
+        }
+        return getCustomerDefNodes(treeNode, new ArrayList<>());
+    }
+
+    /**
+     * 获取所有需要用户自选的节点
+     */
+    public static List<TreeNode> getCustomerDefNodes(TreeNode treeNode, List<TreeNode> result) {
+        if (UtilValidate.isEmpty(treeNode)) {
+            return result;
+        }
+        if (treeNode.getType() == 1) {
+            NodeUser nodeUserList = treeNode.getNodeUserList();
+            if ("manual".equals(nodeUserList.getApprovalType())) {
+                Manual manual = nodeUserList.getManual();
+                String type = manual.getApprover().getType();
+                if ("optional".equals(type)) {
+                    result.add(treeNode);
+                }
+            }
+        }
+        getCustomerDefNodes(treeNode.getChildNode(), result);
+        List<TreeNode> conditionNodes = treeNode.getConditionNodes();
+        if (UtilValidate.isNotEmpty(conditionNodes)) {
+            for (TreeNode conditionNode : treeNode.getConditionNodes()) {
+                getCustomerDefNodes(conditionNode, result);
+            }
+        }
+        return result;
+
     }
 
 }

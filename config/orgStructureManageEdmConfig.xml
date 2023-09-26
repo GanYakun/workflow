@@ -74,10 +74,6 @@
             <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>
             <ReturnType Type="Member"/>
         </Action>
-        <Action Name="SubmitApproval" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.submitApproval">
-            <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>
-            <Parameter Name="type" Type="String" Nullable="false" IsCollection="false"/>
-        </Action>
         <NavigationProperty Name="Department" Type="Department"
                             Relations="ToPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/FromPartyAndPartyGroup"
                             IsCollection="false"/>
@@ -202,6 +198,19 @@
     <EntityType Name="UserLogin" EntitySetName="UserLogins" AutoProperties="true">
     </EntityType>
 
+    <ComplexType Name="ApproverData">
+        <Property Name="nodeId" Type="Edm.Decimal"/>
+        <Property Name="nodeName" Type="String"/>
+        <Property Name="selectIdList" Type="String" IsCollection="true"/>
+    </ComplexType>
+    <Function Name="GetApproverData" OfbizService="com.banfftech.event.ApprovalEvent.getApproverData" IsBound="true">
+        <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>
+        <ReturnType Type="ApproverData" IsCollection="true"/>
+    </Function>
+    <Action Name="SubmitApproval" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.submitApproval">
+        <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>
+        <Parameter Name="approverData" Type="String" Nullable="true" IsCollection="false"/>
+    </Action>
 
     <!--=====================================     子对象EntityType definition     =====================================-->
     <!--=====================================    Action Definition End   =====================================-->

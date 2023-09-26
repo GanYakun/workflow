@@ -1,23 +1,45 @@
 package com.banfftech.event;
 
 import com.banfftech.bean.FlowHelper;
+import com.banfftech.bean.Manual;
+import com.banfftech.bean.NodeUser;
+import com.banfftech.bean.TreeNode;
+import com.banfftech.util.ServiceUtils;
+import com.dpbird.odata.OfbizAppEdmProvider;
+import com.dpbird.odata.OfbizMapOdata;
 import com.dpbird.odata.OfbizODataException;
+import com.dpbird.odata.Util;
 import com.dpbird.odata.edm.OdataOfbizEntity;
+import com.dpbird.odata.edm.OfbizCsdlEntityType;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import net.sf.json.JSONObject;
 import org.apache.ofbiz.base.util.UtilDateTime;
+import org.apache.ofbiz.base.util.UtilGenerics;
 import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.entity.condition.EntityCondition;
+import org.apache.ofbiz.entity.condition.EntityOperator;
 import org.apache.ofbiz.entity.model.ModelEntity;
 import org.apache.ofbiz.entity.util.EntityQuery;
+import org.apache.ofbiz.entity.util.EntityUtil;
 import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
+import org.apache.olingo.commons.api.data.ComplexValue;
+import org.apache.olingo.commons.api.data.Property;
+import org.apache.olingo.commons.api.data.ValueType;
 import org.apache.olingo.commons.api.edm.EdmBindingTarget;
+import org.apache.olingo.commons.api.edm.EdmEntityType;
+import org.apache.olingo.commons.api.edm.FullQualifiedName;
+import org.apache.olingo.commons.api.edm.provider.CsdlEntityType;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,7 +54,7 @@ public class ApprovalEvent {
      * 流程设计发布,客户端会传递完整的流程json,保存它
      */
     public static void saveProcess(Map<String, Object> oDataContext, Map<String, Object> actionParameters,
-                                   EdmBindingTarget edmBindingTarget) throws GenericEntityException {
+                                   EdmBindingTarget edmBindingTarget) throws GenericEntityException, OfbizODataException {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.get("mainProcess");
         GenericValue genericValue = ofbizEntity.getGenericValue();
@@ -103,33 +125,28 @@ public class ApprovalEvent {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
         LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
         GenericValue userLogin = (GenericValue) oDataContext.get("userLogin");
-        OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.values().iterator().next();
-        String typeId = (String) actionParameters.get("type");
+        OfbizAppEdmProvider edmProvider = (OfbizAppEdmProvider) oDataContext.get("edmProvider");
+        HttpServletRequest request = (HttpServletRequest) oDataContext.get("httpServletRequest");
+        OfbizCsdlEntityType csdlEntityType = (OfbizCsdlEntityType) edmProvider.getEntityType(edmBindingTarget.getEntityType().getFullQualifiedName());
+
+        OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.values().stream().filter(v -> v instanceof OdataOfbizEntity).findFirst().get();
+        String approverData = (String) actionParameters.get("approverData");
         GenericValue genericValue = ofbizEntity.getGenericValue();
         String entityName = genericValue.getEntityName();
-        GenericValue processEntity = EntityQuery.use(delegator).from("ProcessEntity")
-                .where("processEntityName", entityName, "processEntityTypeId", typeId).queryFirst();
-        if (UtilValidate.isEmpty(processEntity)) {
-            throw new OfbizODataException("业务对象不存在: " + entityName);
-        }
-        //获取主流程对象
-        GenericValue mainProcess = EntityQuery.use(delegator).from("MainProcess")
-                .where(UtilMisc.toMap("statusId", "PROCESS_ENABLED", "processEntityId", processEntity.getString("processEntityId"))).queryFirst();
-        if (UtilValidate.isEmpty(mainProcess) || UtilValidate.isEmpty(mainProcess.getString("workFlowId"))) {
-            throw new OfbizODataException("未找到有效的审批流程");
-        }
-        GenericValue templateWorkEffort = mainProcess.getRelatedOne("WorkEffort", false);
+        GenericValue templateWorkEffort = FlowHelper.getTemplateWorkEffort(delegator, entityName, getTypeId(csdlEntityType,request));
         GenericValue noteData = templateWorkEffort.getRelatedOne("NoteData", false);
         String flowJson = noteData.getString("noteInfo");
         JSONObject jsonObject = JSONObject.fromObject(flowJson);
-
+        //用户自选参数
+        String runtimeDataId = delegator.getNextSeqId("RuntimeData");
+        delegator.create("RuntimeData", UtilMisc.toMap("runtimeDataId", runtimeDataId, "runtimeInfo", approverData));
         //创建根节点
         String workEffortId = delegator.getNextSeqId("WorkEffort");
         GenericValue rootWorkEffort = delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId,
                 "workEffortName", jsonObject.getString("nodeName"), "workEffortTypeId", "ROOT_NODE",
                 "priority", jsonObject.getLong("nodeId"), "workEffortParentId", templateWorkEffort.getString("workEffortId"),
                 "revisionNumber", delegator.getNextSeqIdLong("RevisionNumber"), "createdByUserLogin",  userLogin.getString("userLoginId"),
-                "createdDate", UtilDateTime.nowTimestamp()));
+                "createdDate", UtilDateTime.nowTimestamp(), "runtimeDataId", runtimeDataId));
         //把审批对象关联到根节点
         ModelEntity modelEntity = genericValue.getModelEntity();
         //重复提交
@@ -140,6 +157,60 @@ public class ApprovalEvent {
         rootWorkEffort.store();
         //修改业务对象状态 审批中
         FlowHelper.updateEntityStatus(genericValue, dispatcher, "PendingApproval");
+    }
+
+    /**
+     * 获取用户自选参数
+     */
+    public static Object getApproverData(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget)
+            throws GenericEntityException, OfbizODataException, JsonProcessingException {
+        Delegator delegator = (Delegator) oDataContext.get("delegator");
+        OfbizAppEdmProvider edmProvider = (OfbizAppEdmProvider) oDataContext.get("edmProvider");
+        HttpServletRequest request = (HttpServletRequest) oDataContext.get("httpServletRequest");
+        OfbizCsdlEntityType csdlEntityType = (OfbizCsdlEntityType) edmProvider.getEntityType(edmBindingTarget.getEntityType().getFullQualifiedName());
+        OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.values().stream().filter(v -> v instanceof OdataOfbizEntity).findFirst().get();
+        GenericValue genericValue = ofbizEntity.getGenericValue();
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        List<TreeNode> customerDefNodes = FlowHelper.getCustomerDefNodes(delegator, genericValue.getEntityName(), getTypeId(csdlEntityType,request));
+        for (TreeNode customerDefNode : customerDefNodes) {
+            NodeUser nodeUserList = customerDefNode.getNodeUserList();
+            Manual manual = nodeUserList.getManual();
+            Map<String, Object> optionMap = UtilGenerics.checkMap(manual.getApprover().getValue());
+            //人员范围类型
+            List<String> approver = new ArrayList<>();
+            if (optionMap.get("value") instanceof String) {
+                //公司id, 获取公司全部人员
+                List<GenericValue> allMembers = new ArrayList<>();
+                ServiceUtils.getDepartmentALlMembers(delegator, (String) optionMap.get("value"), allMembers);
+                if (UtilValidate.isNotEmpty(allMembers)) {
+                    approver = EntityUtil.getFieldListFromEntityList(allMembers, "partyId", true);
+                }
+            } else if ("party".equals(optionMap.get("type"))){
+                approver = UtilGenerics.checkList(optionMap.get("value"));
+            } else if ("role".equals(optionMap.get("type"))) {
+                //根据角色查询人员
+                List<String> roles = UtilGenerics.checkList(optionMap.get("value"));
+                approver = EntityQuery.use(delegator).from("PartyRole")
+                        .where(EntityCondition.makeCondition("roleTypeId", EntityOperator.IN, roles)).getFieldList("partyId");
+            }
+            Map<String, Object> item = new HashMap<>();
+            item.put("nodeId", customerDefNode.getNodeId());
+            item.put("nodeName", customerDefNode.getNodeName());
+            item.put("selectIdList", approver);
+            resultList.add(item);
+        }
+        return resultList;
+    }
+
+    private static String getTypeId(OfbizCsdlEntityType csdlEntityType, HttpServletRequest request) {
+        Map<String, Object> conditionMap = Util.parseConditionMap(csdlEntityType.getEntityConditionStr(), request);
+        for (Map.Entry<String, Object> entry : conditionMap.entrySet()) {
+            String key = entry.getKey();
+            if (key.endsWith("TypeId")) {
+                return (String) entry.getValue();
+            }
+        }
+        return null;
     }
 
 }
