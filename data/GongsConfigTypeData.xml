@@ -46,10 +46,17 @@ under the License.
 
 
     <!--EmplLeaveReasonType(请假原因类型)-->
-    <EmplLeaveReasonType emplLeaveReasonTypeId="MEDICAL" hasTable="N" description="Medical"/>
-    <EmplLeaveReasonType emplLeaveReasonTypeId="CASUAL" hasTable="N" description="Casual"/>
+<!--    <EmplLeaveReasonType emplLeaveReasonTypeId="MEDICAL" hasTable="N" description="Medical"/>-->
+<!--    <EmplLeaveReasonType emplLeaveReasonTypeId="CASUAL" hasTable="N" description="Casual"/>-->
+    <EmplLeaveReasonType emplLeaveReasonTypeId="ANNUAL_LEAVE" hasTable="N" description="年假"/>
+    <EmplLeaveReasonType emplLeaveReasonTypeId="SICK_LEAVE" hasTable="N" description="病假"/>
+    <EmplLeaveReasonType emplLeaveReasonTypeId="Personal Leave" hasTable="N" description="事假"/>
+    <EmplLeaveReasonType emplLeaveReasonTypeId="MARRIAGE_LEAVE" hasTable="N" description="婚假"/>
+    <EmplLeaveReasonType emplLeaveReasonTypeId="MATERNITY_LEAVE" hasTable="N" description="孕假"/>
+    <EmplLeaveReasonType emplLeaveReasonTypeId="PATERNITY_LEAVE" hasTable="N" description="陪产假"/>
+    <EmplLeaveReasonType emplLeaveReasonTypeId="CHILDCARE_LEAVE" hasTable="N" description="育儿假"/>
 
-<!--EnumerationType-->
+    <!--EnumerationType-->
     <EnumerationType enumTypeId="GENDER_ENUM_TYPE"  description="性别"/>
     <EnumerationType enumTypeId="PASS_MANNER"  description="审批通过方式枚举"/>
 

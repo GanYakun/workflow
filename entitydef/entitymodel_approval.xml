@@ -102,6 +102,9 @@ under the License.
         <relation type="one-nofk" fk-name="WF_MEM_PTY" rel-entity-name="PartyAndContact">
             <key-map field-name="memberEntityId" rel-field-name="partyId"/>
         </relation>
+        <relation type="one-nofk" fk-name="WF_MEM_EMPL" rel-entity-name="EmplLeave">
+            <key-map field-name="memberEntityId" rel-field-name="emplLeaveId"/>
+        </relation>
     </entity>
 
 

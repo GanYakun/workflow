@@ -5,11 +5,7 @@
     <ComplexType Name="ApproverData">
         <Property Name="nodeId" Type="Edm.Decimal"/>
         <Property Name="nodeName" Type="String"/>
-        <Property Name="selectList" Type="ApproverItem" IsCollection="true"/>
-    </ComplexType>
-    <ComplexType Name="ApproverItem">
-        <Property Name="label" Type="String"/>
-        <Property Name="value" Type="String"/>
+        <Property Name="selectList" Type="String"/>
     </ComplexType>
     <!--=====================================     主对象EntityType definition     =====================================-->
     <!--请假审批-->
@@ -44,6 +40,10 @@
             <Parameter Name="leaveApproval" Type="LeaveApproval" Nullable="false" IsCollection="false"/>
             <Parameter Name="approverData" Type="String" Nullable="true" IsCollection="false"/>
         </Action>
+        <FieldGroup Qualifier="BaseInfo" Label="基本信息">
+            <DataField Values="partyId,comments,workEffortName,ProcessEntity/description,MainProcess/version,MainProcess/description"
+                       Importance="High"/>
+        </FieldGroup>
         <LineItem>
             <DataField Values="partyId,LeaveMember/externalId,LeaveMember/phoneMobile,LeaveMember/Department/partyName,emplLeaveReasonTypeId,description,fromDate,thruDate,leaveStatus"
                        Importance="High"/>
