@@ -15,8 +15,10 @@
     <!--请假审批-->
     <!--需要将EntityType的名字改成LeaveApply-->
     <EntityType Name="LeaveApproval" OfbizEntity="EmplLeave" EntitySetName="LeaveApprovals" AutoProperties="true"
+                Handler="component://gongsconfig/groovyScripts/businessManage/LeaveApproval.groovy"
                 EntityCondition="partyId=${userLogin.partyId}">
         <SelectionFields PropertyPath="emplLeaveReasonTypeId,description,fromDate,thruDate,leaveStatus"/>
+        <Property Name="isHiddenSubmitApproval" Type="Boolean"/>
         <Property Name="emplLeaveId" Computed="true"/>
         <Property Name="leaveTypeId">
             <Text Path="LeaveType/description" TextArrangement="TextOnly"/>
@@ -46,7 +48,7 @@
             <DataField Values="partyId,LeaveMember/externalId,LeaveMember/phoneMobile,LeaveMember/Department/partyName,emplLeaveReasonTypeId,description,fromDate,thruDate,leaveStatus"
                        Importance="High"/>
             <DataFieldForAction Label="提交审批" Action="SubmitApproval" InvocationGrouping="Isolated"
-                                Criticality="Positive" Inline="true" Importance="High"/>
+                                Criticality="Positive" Inline="true" Importance="High" Hidden="isHiddenSubmitApproval"/>
         </LineItem>
         <NavigationProperty Name="LeaveType" Relations="EmplLeaveType" Type="LeaveType"
                             IsCollection="false"/>
