@@ -201,7 +201,11 @@
     <ComplexType Name="ApproverData">
         <Property Name="nodeId" Type="Edm.Decimal"/>
         <Property Name="nodeName" Type="String"/>
-        <Property Name="selectIdList" Type="String" IsCollection="true"/>
+        <Property Name="selectList" Type="ApproverItem" IsCollection="true"/>
+    </ComplexType>
+    <ComplexType Name="ApproverItem">
+        <Property Name="label" Type="String"/>
+        <Property Name="value" Type="String"/>
     </ComplexType>
     <Function Name="GetApproverData" OfbizService="com.banfftech.event.ApprovalEvent.getApproverData" IsBound="true">
         <Parameter Name="member" Type="Member" Nullable="false" IsCollection="false"/>
