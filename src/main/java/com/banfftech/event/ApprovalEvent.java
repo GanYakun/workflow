@@ -222,4 +222,20 @@ public class ApprovalEvent {
         return null;
     }
 
+
+    /**
+     * 类型选项数据
+     */
+    public static Object getTypeData(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws GenericEntityException {
+        Delegator delegator = (Delegator) oDataContext.get("delegator");
+        String typeFieldName = (String) actionParameters.get("typeFieldName");
+        String typeEntityName =  Util.firstUpperCase(typeFieldName.substring(0, typeFieldName.length() - 2));
+        List<GenericValue> genericValues = EntityQuery.use(delegator).from(typeEntityName).queryList();
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        for (GenericValue genericValue : genericValues) {
+            resultList.add(UtilMisc.toMap("label", genericValue.getString("description"), "value", genericValue.getString(typeFieldName)));
+        }
+        return resultList;
+    }
+
 }

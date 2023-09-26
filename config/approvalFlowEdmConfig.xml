@@ -103,4 +103,19 @@
     <EntityType Name="RangeEnumeration" OfbizEntity="Enumeration" EntitySetName="RangeEnumerations" AutoProperties="true" EntityCondition="enumTypeId=PROCESS_RANGE"/>
     <EntityType Name="Enumeration" EntitySetName="Enumerations" AutoProperties="true"/>
 
+
+    <ComplexType Name="ValueItem">
+        <Property Name="label" Type="String"/>
+        <Property Name="value" Type="String"/>
+    </ComplexType>
+    <!-- 获取类型字段可选值列表 -->
+    <Function Name="GetTypeData" OfbizService="com.banfftech.event.ApprovalEvent.getTypeData" IsBound="false">
+        <Parameter Name="typeFieldName" Type="String" Nullable="false" IsCollection="false"/>
+        <ReturnType Type="ValueItem" IsCollection="true"/>
+    </Function>
+    <EntityContainer>
+        <FunctionImport Function="GetTypeData" Name="GetTypeData"/>
+    </EntityContainer>
+
+
 </ofbiz-edm>
