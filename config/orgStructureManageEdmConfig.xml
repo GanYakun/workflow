@@ -36,7 +36,7 @@
     </EntityType>
 
     <!--成员-->
-    <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members" EntityCondition="partyTypeId=PERSON"
+    <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members" EntityCondition="partyTypeId=PERSON and PartyRole/roleTypeId=ORD_EMPLOYEE"
                 AutoProperties="true"
                 Handler="component://gongsconfig/groovyScripts/orgStructureManage/Member.groovy">
         <SelectionFields PropertyPath="birthDate,gender"/>
@@ -53,9 +53,6 @@
         <Property Name="partyId" Immutable="true">
             <Text Path="partyName" TextArrangement="TextOnly"/>
         </Property>
-<!--        <Property Name="statusId" Immutable="true">-->
-<!--            <Text Path="MemberStatusItem/description" TextArrangement="TextOnly"/>-->
-<!--        </Property>-->
         <Property Name="partyName" FieldControl="Mandatory" Required="true"/>
         <Property Name="phoneMobile" FieldControl="Mandatory" Required="true"/>
         <Property Name="primaryEmail" FieldControl="Mandatory" Required="true"/>
