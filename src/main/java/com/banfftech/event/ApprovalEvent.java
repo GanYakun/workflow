@@ -81,8 +81,8 @@ public class ApprovalEvent {
             FlowHelper.flushTreeNodeCache(noteData);
         }
         //停用所有相同业务对象的流程
-        delegator.storeByCondition("MainProcess", UtilMisc.toMap("statusId","PROCESS_NOT_ENABLED"),
-                EntityCondition.makeCondition("processEntityId",genericValue.getString("processEntityId")));
+        delegator.storeByCondition("MainProcess", UtilMisc.toMap("statusId", "PROCESS_NOT_ENABLED"),
+                EntityCondition.makeCondition("processEntityId", genericValue.getString("processEntityId")));
         //启用当前流程
         process.set("statusId", "PROCESS_ENABLED");
         process.store();
@@ -99,8 +99,8 @@ public class ApprovalEvent {
         LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.get("mainProcess");
         //停用所有相同业务对象的流程
-        delegator.storeByCondition("MainProcess", UtilMisc.toMap("statusId","PROCESS_NOT_ENABLED"),
-                EntityCondition.makeCondition("processEntityId",ofbizEntity.getPropertyValue("processEntityId")));
+        delegator.storeByCondition("MainProcess", UtilMisc.toMap("statusId", "PROCESS_NOT_ENABLED"),
+                EntityCondition.makeCondition("processEntityId", ofbizEntity.getPropertyValue("processEntityId")));
         //启用当前流程
         delegator.storeByCondition("MainProcess", UtilMisc.toMap("statusId", "PROCESS_ENABLED"),
                 EntityCondition.makeCondition(ofbizEntity.getGenericValue().getPrimaryKey()));
@@ -110,7 +110,7 @@ public class ApprovalEvent {
      * 停用
      */
     public static void stopFlow(Map<String, Object> oDataContext, Map<String, Object> actionParameters,
-                                   EdmBindingTarget edmBindingTarget) throws GenericEntityException {
+                                EdmBindingTarget edmBindingTarget) throws GenericEntityException {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
         LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.get("mainProcess");
@@ -133,7 +133,7 @@ public class ApprovalEvent {
         String approverData = (String) actionParameters.get("approverData");
         GenericValue genericValue = ofbizEntity.getGenericValue();
         String entityName = genericValue.getEntityName();
-        GenericValue templateWorkEffort = FlowHelper.getTemplateWorkEffort(delegator, entityName, getTypeId(csdlEntityType,request));
+        GenericValue templateWorkEffort = FlowHelper.getTemplateWorkEffort(delegator, entityName, getTypeId(csdlEntityType, request));
         GenericValue noteData = templateWorkEffort.getRelatedOne("NoteData", false);
         String flowJson = noteData.getString("noteInfo");
         JSONObject jsonObject = JSONObject.fromObject(flowJson);
@@ -145,7 +145,7 @@ public class ApprovalEvent {
         GenericValue rootWorkEffort = delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId,
                 "workEffortName", jsonObject.getString("nodeName"), "workEffortTypeId", "ROOT_NODE",
                 "priority", jsonObject.getLong("nodeId"), "workEffortParentId", templateWorkEffort.getString("workEffortId"),
-                "revisionNumber", delegator.getNextSeqIdLong("RevisionNumber"), "createdByUserLogin",  userLogin.getString("userLoginId"),
+                "revisionNumber", delegator.getNextSeqIdLong("RevisionNumber"), "createdByUserLogin", userLogin.getString("userLoginId"),
                 "createdDate", UtilDateTime.nowTimestamp(), "runtimeDataId", runtimeDataId));
         //把审批对象关联到根节点
         ModelEntity modelEntity = genericValue.getModelEntity();
@@ -171,32 +171,41 @@ public class ApprovalEvent {
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.values().stream().filter(v -> v instanceof OdataOfbizEntity).findFirst().get();
         GenericValue genericValue = ofbizEntity.getGenericValue();
         List<Map<String, Object>> resultList = new ArrayList<>();
-        List<TreeNode> customerDefNodes = FlowHelper.getCustomerDefNodes(delegator, genericValue.getEntityName(), getTypeId(csdlEntityType,request));
+        List<TreeNode> customerDefNodes = FlowHelper.getCustomerDefNodes(delegator, genericValue.getEntityName(), getTypeId(csdlEntityType, request));
         for (TreeNode customerDefNode : customerDefNodes) {
             NodeUser nodeUserList = customerDefNode.getNodeUserList();
             Manual manual = nodeUserList.getManual();
             Map<String, Object> optionMap = UtilGenerics.checkMap(manual.getApprover().getValue());
             //人员范围类型
-            List<String> approver = new ArrayList<>();
+            List<Map<String, Object>> approverMap = new ArrayList<>();
             if (optionMap.get("value") instanceof String) {
                 //公司id, 获取公司全部人员
                 List<GenericValue> allMembers = new ArrayList<>();
                 ServiceUtils.getDepartmentALlMembers(delegator, (String) optionMap.get("value"), allMembers);
-                if (UtilValidate.isNotEmpty(allMembers)) {
-                    approver = EntityUtil.getFieldListFromEntityList(allMembers, "partyId", true);
+                for (GenericValue member : allMembers) {
+                    approverMap.add(UtilMisc.toMap("label", member.getString("partyName"), "value", member.getString("partyId")));
                 }
-            } else if ("party".equals(optionMap.get("type"))){
-                approver = UtilGenerics.checkList(optionMap.get("value"));
+            } else if ("party".equals(optionMap.get("type"))) {
+                List<GenericValue> parties = EntityQuery.use(delegator).from("Party").select("partyId", "partyName")
+                        .where(EntityCondition.makeCondition("partyId", EntityOperator.IN, optionMap.get("value"))).queryList();
+                for (GenericValue party : parties) {
+                    approverMap.add(UtilMisc.toMap("label", party.getString("partyName"), "value", party.getString("partyId")));
+                }
             } else if ("role".equals(optionMap.get("type"))) {
                 //根据角色查询人员
                 List<String> roles = UtilGenerics.checkList(optionMap.get("value"));
-                approver = EntityQuery.use(delegator).from("PartyRole")
+                List<String> partyIds = EntityQuery.use(delegator).from("PartyRole")
                         .where(EntityCondition.makeCondition("roleTypeId", EntityOperator.IN, roles)).getFieldList("partyId");
+                List<GenericValue> parties = EntityQuery.use(delegator).from("Party").select("partyId", "partyName")
+                        .where(EntityCondition.makeCondition("partyId", EntityOperator.IN, partyIds)).queryList();
+                for (GenericValue party : parties) {
+                    approverMap.add(UtilMisc.toMap("label", party.getString("partyName"), "value", party.getString("partyId")));
+                }
             }
             Map<String, Object> item = new HashMap<>();
             item.put("nodeId", customerDefNode.getNodeId());
             item.put("nodeName", customerDefNode.getNodeName());
-            item.put("selectIdList", approver);
+            item.put("selectList", approverMap);
             resultList.add(item);
         }
         return resultList;
