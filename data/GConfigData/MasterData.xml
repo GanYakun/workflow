@@ -33,6 +33,7 @@
     <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_COMPLETE"/>
     <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_REFUSE"/>
     <StatusValidChange statusId="APPROVAL_CREATED" statusIdTo="APPROVAL_SUBMITTED"/>
+    <StatusValidChange statusId="APPROVAL_CREATED" statusIdTo="APPROVAL_APPROVED"/>
     <StatusValidChange statusId="APPROVAL_SUBMITTED" statusIdTo="APPROVAL_CREATED"/>
     <StatusValidChange statusId="APPROVAL_SUBMITTED" statusIdTo="APPROVAL_REJECTED"/>
     <StatusValidChange statusId="APPROVAL_SUBMITTED" statusIdTo="APPROVAL_APPROVED"/>

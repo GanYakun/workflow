@@ -15,6 +15,7 @@
                 EntityCondition="partyId=${userLogin.partyId}">
         <SelectionFields PropertyPath="emplLeaveReasonTypeId,description,fromDate,thruDate,statusId"/>
         <Property Name="isHiddenSubmitApproval" Type="Boolean"/>
+        <Property Name="isHiddenCancelApproval" Type="Boolean"/>
         <Property Name="emplLeaveId" Computed="true"/>
         <Property Name="leaveTypeId">
             <Text Path="LeaveType/description" TextArrangement="TextOnly"/>
@@ -52,6 +53,8 @@
                        Importance="High"/>
             <DataFieldForAction Label="提交审批" Action="SubmitApproval" InvocationGrouping="Isolated"
                                 Criticality="Positive" Inline="true" Importance="High" Hidden="isHiddenSubmitApproval"/>
+            <DataFieldForAction Label="撤销审批" Action="CancelApproval" InvocationGrouping="Isolated"
+                                Criticality="Positive" Inline="true" Importance="High" Hidden="isHiddenCancelApproval"/>
         </LineItem>
         <NavigationProperty Name="LeaveType" Relations="EmplLeaveType" Type="LeaveType"
                             IsCollection="false"/>
