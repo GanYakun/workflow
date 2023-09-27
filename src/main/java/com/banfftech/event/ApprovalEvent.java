@@ -156,7 +156,7 @@ public class ApprovalEvent {
         rootWorkEffort.set("currentStatusId", "WEPR_WAIT");
         rootWorkEffort.store();
         //修改业务对象状态 审批中
-        FlowHelper.updateEntityStatus(genericValue, dispatcher, "PendingApproval");
+        FlowHelper.updateEntityStatus(genericValue, dispatcher, "APPROVAL_SUBMITTED");
     }
 
     /**

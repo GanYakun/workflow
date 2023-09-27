@@ -45,7 +45,7 @@ public class ApprovalService {
         TreeNode nextNode = FlowHelper.getNextNode(delegator, workEffort);
         if (nextNode == null) {
             //流程结束 修改业务对象和根节点状态
-            String statusId = workEffort.getString("currentStatusId").equals("WEPR_COMPLETE") ? "Approved" : "Disapproved";
+            String statusId = workEffort.getString("currentStatusId").equals("WEPR_COMPLETE") ? "APPROVAL_APPROVED" : "APPROVAL_REJECTED";
             GenericValue approvalObj = FlowHelper.getApprovalObj(workEffort, delegator);
             FlowHelper.updateEntityStatus(approvalObj, dispatcher, statusId);
             GenericValue topWorkEffort = FlowHelper.getTopWorkEffort(delegator, workEffort.getLong("revisionNumber"));

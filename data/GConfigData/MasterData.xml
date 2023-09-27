@@ -32,9 +32,10 @@
     <!--StatusValidChange(状态改变约束)-->
     <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_COMPLETE"/>
     <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_REFUSE"/>
-    <StatusValidChange statusId="Disapproved" statusIdTo="PendingApproval"/>
-    <StatusValidChange statusId="ToBeSubmittedApproval" statusIdTo="PendingApproval"/>
-    <StatusValidChange statusId="PendingApproval" statusIdTo="Approved"/>
+    <StatusValidChange statusId="APPROVAL_CREATED" statusIdTo="APPROVAL_SUBMITTED"/>
+    <StatusValidChange statusId="APPROVAL_SUBMITTED" statusIdTo="APPROVAL_REJECTED"/>
+    <StatusValidChange statusId="APPROVAL_SUBMITTED" statusIdTo="APPROVAL_APPROVED"/>
+    <StatusValidChange statusId="APPROVAL_REJECTED" statusIdTo="APPROVAL_SUBMITTED"/>
     <!-- SecurityGroup -->
     <SecurityGroup groupId="VISIT" description="访问权限" groupName="Visit"/>
     <SecurityGroupPermission groupId="VISIT" permissionId="GONGSCONFIG_VIEW" fromDate="2023-09-19 22:11:39.139" />
