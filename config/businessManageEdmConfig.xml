@@ -45,7 +45,7 @@
             <Parameter Name="leaveApproval" Type="LeaveApproval" Nullable="false" IsCollection="false"/>
         </Action>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
-            <DataField Values="partyId,emplLeaveReasonTypeId,description,fromDate,thruDate,statusId,LeaveMember/externalId,LeaveMember/phoneMobile,LeaveMember/Department/partyName"
+            <DataField Values="emplLeaveReasonTypeId,fromDate,thruDate,statusId,description"
                        Importance="High"/>
         </FieldGroup>
         <LineItem>
