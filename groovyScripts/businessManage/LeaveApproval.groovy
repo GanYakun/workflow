@@ -11,7 +11,7 @@ def generateFields(Map<String, Object> context) {
         Boolean isHiddenSubmitApproval = true;
 
         GenericValue leaveApproval = (GenericValue) entity.getGenericValue();
-        String leaveStatus = leaveApproval.getString("leaveStatus");
+        String leaveStatus = leaveApproval.getString("statusId");
         if("APPROVAL_CREATED".equals(leaveStatus) ||"APPROVAL_REJECTED".equals(leaveStatus)) {
             isHiddenSubmitApproval = false;
         }
