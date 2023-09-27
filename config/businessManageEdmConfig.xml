@@ -40,6 +40,9 @@
             <Parameter Name="leaveApproval" Type="LeaveApproval" Nullable="false" IsCollection="false"/>
             <Parameter Name="approverData" Type="String" Nullable="true" IsCollection="false"/>
         </Action>
+        <Action Name="CancelApproval" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.cancelApproval">
+            <Parameter Name="leaveApproval" Type="LeaveApproval" Nullable="false" IsCollection="false"/>
+        </Action>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
             <DataField Values="partyId,emplLeaveReasonTypeId,description,fromDate,thruDate,statusId,LeaveMember/externalId,LeaveMember/phoneMobile,LeaveMember/Department/partyName"
                        Importance="High"/>
