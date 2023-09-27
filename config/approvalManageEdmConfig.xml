@@ -10,12 +10,18 @@
         <Property Name="mannerEnumId">
             <Text Path="Via/description" TextArrangement="TextOnly"/>
         </Property>
+        <Property Name="statusId">
+            <Text Path="ApprovalStatusItem/description" TextArrangement="TextOnly"/>
+        </Property>
+        <Property Name="mannerEnumId">
+            <Text Path="Via/description" TextArrangement="TextOnly"/>
+        </Property>
         <Property Name="partyId">
             <Text Path="PartyAndContact/partyName" TextArrangement="TextOnly"/>
         </Property>
         <LineItem Qualifier="ApprovalList">
             <DataField
-                    Values="workEffortName,MainProcess/version,MainProcess/description,fromDate,thruDate,RootNodeWorkEffort/createdByUserLogin,comments,mannerEnumId"
+                    Values="workEffortName,MainProcess/version,MainProcess/description,fromDate,thruDate,RootNodeWorkEffort/createdByUserLogin,comments,mannerEnumId,statusId"
                     Importance="High"/>
         </LineItem>
         <LineItem Qualifier="RecordApproval">
@@ -76,7 +82,11 @@
         <Property Name="createdByUserLogin" Immutable="true">
             <Text Path="Creator/partyName" TextArrangement="TextOnly"/>
         </Property>
-        <NavigationProperty Name="Creator" Relations="UserLogin/PartyAndContact" Type="PartyAndContact"
+        <FieldGroup Qualifier="ApproverInformation" Label="审批人信息">
+            <DataField Values="createdByUserLogin,Creator/phoneMobile,Creator/primaryEmail,Creator/externalId,Creator/Department/partyName"
+                       Importance="High"/>
+        </FieldGroup>
+        <NavigationProperty Name="Creator" Relations="UserLogin/PartyAndContact" Type="Member"
                             IsCollection="false"/>
     </EntityType>
 
@@ -124,7 +134,7 @@
         <Property Name="primaryEmail" FieldControl="Mandatory" Required="true"/>
         <Property Name="externalId" FieldControl="Mandatory" Required="true" Immutable="true"/>
         <NavigationProperty Name="Department" Type="Department"
-                            Relations="ToPartyRelationship(roleTypeIdFrom=DEPARTMENT)/FromPartyAndPartyGroup"
+                            Relations="ToPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/FromPartyAndPartyGroup"
                             IsCollection="false"/>
         <NavigationProperty Name="MemberStatusItem" Type="MemberStatusItem" Relations="StatusItem"/>
         <NavigationProperty Name="GenderEnumeration" Type="Gender"
@@ -168,7 +178,7 @@
 
     <EntityType Name="StatusItem" EntitySetName="StatusItems" AutoProperties="true"/>
     <EntityType Name="ApprovalStatusItem" OfbizEntity="StatusItem" EntitySetName="ApprovalStatusItem"
-                AutoProperties="true" EntityCondition="statusTypeId=APPROVAL"/>
+                AutoProperties="true" EntityCondition="statusTypeId=WORKFLOW_STATUS"/>
     <!--=====================================     子对象EntityType definition     =====================================-->
     <!--=====================================    Action Definition End   =====================================-->
 </ofbiz-edm>

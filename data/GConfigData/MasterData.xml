@@ -24,8 +24,8 @@
 <!--    <StatusItem statusId="Approved" statusTypeId="MEMBER_STATUS" description="审批通过"/>-->
 <!--    <StatusItem statusId="Disapproved" statusTypeId="MEMBER_STATUS" description="审批不通过"/>-->
     <!-- StatusItem -->
-    <StatusItem statusId="APPROVAL_CREATED" statusTypeId="APPROVAL" description="已创建"/>
-    <StatusItem statusId="APPROVAL_SUBMITTED" statusTypeId="APPROVAL" description="已提交"/>
+    <StatusItem statusId="APPROVAL_CREATED" statusTypeId="APPROVAL" description="已创建-待提交"/>
+    <StatusItem statusId="APPROVAL_SUBMITTED" statusTypeId="APPROVAL" description="已提交-审批中"/>
     <StatusItem statusId="APPROVAL_REJECTED" statusTypeId="APPROVAL" description="已拒绝"/>
     <StatusItem statusId="APPROVAL_APPROVED" statusTypeId="APPROVAL" description="已通过"/>
 

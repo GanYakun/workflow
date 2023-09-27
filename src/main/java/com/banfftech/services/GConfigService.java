@@ -81,7 +81,9 @@ public class GConfigService {
     }
 
     public static Map<String, Object> createDepartment(DispatchContext dctx, Map<String, Object> context) throws GenericServiceException {
+        Map<String, Object> result = ServiceUtil.returnSuccess();
         try {
+
             Map<String, Object> partyResult = CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createParty",
                     (String) context.get("userLoginId"));
             context.put("partyId", partyResult.get("partyId"));
@@ -90,10 +92,11 @@ public class GConfigService {
                     (String) context.get("userLoginId"));
             CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.createPartyGroup",
                     (String) context.get("userLoginId"));
+            result.put("partyId", partyResult.get("partyId"));
         } catch (GeneralServiceException | GenericEntityException | GenericServiceException e) {
             throw new GenericServiceException(e.getMessage());
         }
-        return ServiceUtil.returnSuccess();
+        return result;
     }
 
     public static Map<String, Object> createUserGroup(DispatchContext dctx, Map<String, Object> context) throws GenericServiceException {

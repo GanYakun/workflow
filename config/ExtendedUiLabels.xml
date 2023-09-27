@@ -284,6 +284,6 @@ under the License.
     <!--RootNodeWorkEffort-->
     <property key="RootNodeWorkEffortCreatedByUserLogin">
         <value xml:lang="en">Creator</value>
-        <value xml:lang="zh">审批流程发起人</value>
+        <value xml:lang="zh">发起人</value>
     </property>
 </resource>
