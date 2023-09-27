@@ -128,11 +128,12 @@ public class ApprovalEvent {
         OfbizAppEdmProvider edmProvider = (OfbizAppEdmProvider) oDataContext.get("edmProvider");
         HttpServletRequest request = (HttpServletRequest) oDataContext.get("httpServletRequest");
         OfbizCsdlEntityType csdlEntityType = (OfbizCsdlEntityType) edmProvider.getEntityType(edmBindingTarget.getEntityType().getFullQualifiedName());
-
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.values().stream().filter(v -> v instanceof OdataOfbizEntity).findFirst().get();
         String approverData = (String) actionParameters.get("approverData");
         GenericValue genericValue = ofbizEntity.getGenericValue();
         String entityName = genericValue.getEntityName();
+        //修改业务对象状态 审批中
+        FlowHelper.updateEntityStatus(genericValue, dispatcher, "APPROVAL_SUBMITTED");
         GenericValue templateWorkEffort = FlowHelper.getTemplateWorkEffort(delegator, entityName, getTypeId(csdlEntityType, request));
         GenericValue noteData = templateWorkEffort.getRelatedOne("NoteData", false);
         String flowJson = noteData.getString("noteInfo");
@@ -155,8 +156,6 @@ public class ApprovalEvent {
                 "workEffortId", workEffortId, "memberEntityName", entityName, "memberEntityId", genericValue.getString(modelEntity.getFirstPkFieldName())));
         rootWorkEffort.set("currentStatusId", "WEPR_WAIT");
         rootWorkEffort.store();
-        //修改业务对象状态 审批中
-        FlowHelper.updateEntityStatus(genericValue, dispatcher, "APPROVAL_SUBMITTED");
     }
 
     /**
