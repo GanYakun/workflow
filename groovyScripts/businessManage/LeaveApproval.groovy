@@ -16,7 +16,7 @@ def generateFields(Map<String, Object> context) {
             isHiddenSubmitApproval = false;
         }
         if("APPROVAL_SUBMITTED".equals(leaveStatus)) {
-            isHiddenSubmitApproval = false;
+            isHiddenCancelApproval = false;
         }
 
         entity.addProperty("isHiddenSubmitApproval", isHiddenSubmitApproval);
