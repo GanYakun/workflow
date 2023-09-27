@@ -17,9 +17,7 @@ import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
-import org.apache.ofbiz.entity.condition.EntityComparisonOperator;
-import org.apache.ofbiz.entity.condition.EntityCondition;
-import org.apache.ofbiz.entity.condition.EntityOperator;
+import org.apache.ofbiz.entity.condition.*;
 import org.apache.ofbiz.entity.model.ModelEntity;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.entity.util.EntityUtil;
@@ -27,10 +25,7 @@ import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 审批流工具类
@@ -235,7 +230,7 @@ public class FlowHelper {
 
     private static boolean checkConditionGroup(Delegator delegator, List<Condition> conditions,
                                                GenericValue genericValue, List<GenericValue> processFields) throws GenericEntityException {
-        //条件组之间的关系的and 有一个失败就失败
+        //条件之间的关系是and 有一个失败就失败
         for (Condition condition : conditions) {
             if (!checkCondition(delegator, condition, genericValue, processFields)) {
                 return false;
@@ -251,36 +246,81 @@ public class FlowHelper {
         //表达式
         String property = condition.getProperty();
         String operator = condition.getCondition();
-        String value = condition.getValue();
+        Object value = condition.getValue();
         GenericValue processField = EntityUtil.getFirst(EntityUtil.filterByAnd(processFields, UtilMisc.toMap("processFieldName", property)));
         if (UtilValidate.isEmpty(processField)) {
             return false;
         }
         String fieldTypeId = processField.getString("processFieldTypeId");
+        String propertyValue = genericValue.getString(property);
         //如果是人员需要做特殊的匹配 不能直接用运算符判断
-        if (fieldTypeId.equals("PARTY")) {
-            GenericValue party = EntityQuery.use(delegator).from("Party").where("partyId", value).queryOne();
-            if (party.getString("partyTypeId").equals("PARTY_GROUP")) {
-                //匹配部门
-                String propertyValue = genericValue.getString(property);
-                GenericValue department = EntityQuery.use(delegator).from("PartyRelationship").where("roleTypeIdFrom", "DEPARTMENT",
-                        "partyIdFrom", value, "partyIdTo", propertyValue).queryFirst();
-                return UtilValidate.isNotEmpty(department);
+        if ("PARTY".equals(fieldTypeId)) {
+            List<String> types = UtilGenerics.checkList(condition.getType());
+            List<String> values = UtilGenerics.checkList(condition.getValue());
+            Set<String> parties = getParties(delegator, types, values);
+            if ("in".equals(operator)) {
+                return parties.contains(propertyValue);
+            } else {
+                return !parties.contains(propertyValue);
             }
         }
         Object valueObj = value;
         //转换日期
         if (fieldTypeId.equals("DATE")) {
-            valueObj = Util.getSqlDate(value);
+            valueObj = Util.getSqlDate(value.toString());
         }
         if (fieldTypeId.equals("DATE_TIME")) {
-            valueObj = Util.getSqlTimestamp(value);
+            valueObj = Util.getSqlTimestamp(value.toString());
         }
         //使用condition匹配
         EntityCondition entityCondition = EntityCondition.makeCondition(property, OPERATOR_MAP.get(operator), valueObj);
         List<GenericValue> genericValues = EntityUtil.filterByCondition(UtilMisc.toList(genericValue), entityCondition);
         return UtilValidate.isNotEmpty(genericValues);
     }
+
+    /**
+     * 根据范围获取人员
+     */
+    public static Set<String> getParties(Delegator delegator, List<String> types, List<String> IdList) throws GenericEntityException {
+        Set<String> partyIds = new HashSet<>();
+        List<String> userGroupIds = new ArrayList<>();
+        List<String> departmentIds = new ArrayList<>();
+        List<String> roleTypeIds = new ArrayList<>();
+        for (int i = 0; i < types.size(); i++) {
+            String partyType = types.get(i);
+            String id = IdList.get(i);
+            if ("Party".equals(partyType)) {
+                partyIds.add(id);
+            }
+            if ("PartyGroup".equals(partyType)) {
+                departmentIds.add(id);
+            }
+            if ("Role".equals(partyType)) {
+                roleTypeIds.add(id);
+            }
+            if ("UserGroup".equals(partyType)) {
+                userGroupIds.add(id);
+            }
+        }
+        if (UtilValidate.isNotEmpty(userGroupIds)) {
+            List<String> resultIds = EntityQuery.use(delegator).from("PartyRelationship")
+                    .where(EntityCondition.makeCondition("partyIdFrom", EntityOperator.IN, userGroupIds)).getFieldList("partyIdTo");
+            partyIds.addAll(resultIds);
+        }
+        if (UtilValidate.isNotEmpty(departmentIds)) {
+            EntityCondition condition = EntityCondition.makeCondition(UtilMisc.toList(EntityCondition.makeCondition("partyIdFrom", EntityOperator.IN, departmentIds),
+                    EntityCondition.makeCondition("roleTypeIdTo", "ORD_EMPLOYEE")));
+            List<String> resultIds = EntityQuery.use(delegator).from("PartyRelationship").where(condition).getFieldList("partyIdTo");
+            partyIds.addAll(resultIds);
+        }
+        if (UtilValidate.isNotEmpty(roleTypeIds)) {
+            List<String> resultIds = EntityQuery.use(delegator).from("PartyRole")
+                    .where(EntityCondition.makeCondition("roleTypeId", EntityOperator.IN, roleTypeIds)).getFieldList("partyId");
+            partyIds.addAll(resultIds);
+        }
+        return partyIds;
+    }
+
 
     /**
      * 获取需要分配的审批人

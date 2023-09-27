@@ -1,12 +1,14 @@
 package com.banfftech.bean;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Condition {
     private String property;
     private String condition;
-    private String value;
-    private String label;
+    private Object type;
+    private Object value;
+    private Object label;
 
     public String getProperty() {
         return property;
@@ -24,19 +26,28 @@ public class Condition {
         this.condition = condition;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public String getLabel() {
+    public Object getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
+    public void setLabel(Object label) {
         this.label = label;
     }
+
+    public Object getType() {
+        return type;
+    }
+
+    public void setType(Object type) {
+        this.type = type;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
 }
+
