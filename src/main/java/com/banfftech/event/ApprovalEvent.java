@@ -238,4 +238,45 @@ public class ApprovalEvent {
         return resultList;
     }
 
+
+    /**
+     * 撤回提交的审批
+     */
+    public static Object cancelApproval(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget)
+            throws GenericEntityException, OfbizODataException, GenericServiceException {
+        Delegator delegator = (Delegator) oDataContext.get("delegator");
+        LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
+        OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.values().stream().filter(v -> v instanceof OdataOfbizEntity).findFirst().get();
+        GenericValue genericValue = ofbizEntity.getGenericValue();
+        Object primaryKey = new HashMap<>(genericValue.getPrimaryKey()).entrySet().iterator().next().getValue();
+        GenericValue workFlowMember = EntityQuery.use(delegator).from("WorkFlowMember")
+                .where("memberEntityName", genericValue.getEntityName(), "memberEntityId", primaryKey).queryFirst();
+        GenericValue rootWorkEffort = workFlowMember.getRelatedOne("WorkEffort", false);
+        //判断审批是否已经开始 没有审批才可以撤回
+        List<GenericValue> approvalNodes = rootWorkEffort.getRelated("NodeWorkEffort", UtilMisc.toMap("workEffortTypeId", "APPROVAL"), null, false);
+        for (GenericValue approvalNode : approvalNodes) {
+            if (!approvalNode.getString("currentStatusId").equals("WEPR_WAIT")) {
+                throw new OfbizODataException("撤回失败,审批已在进行中");
+            }
+            EntityCondition condition = EntityCondition.makeCondition(UtilMisc.toList(EntityCondition.makeCondition(approvalNode.getPrimaryKey()),
+                    EntityCondition.makeCondition("statusId", EntityOperator.IN, UtilMisc.toList("WEPR_COMPLETE", "WEPR_REFUSE"))));
+            long approvedCount = EntityQuery.use(delegator).from("WorkEffortPartyAssignment").where(condition).queryCount();
+            if (approvedCount > 0) {
+                throw new OfbizODataException("撤回失败,审批已在进行中");
+            }
+        }
+        //将所有节点改为取消
+        List<Object> workEffortIds = EntityUtil.getFieldListFromEntityList(approvalNodes, "workEffortId", true);
+        delegator.storeByCondition("WorkEffortPartyAssignment",  UtilMisc.toMap("statusId","WEPR_CANCEL"),
+                EntityCondition.makeCondition("workEffortId",EntityOperator.IN, workEffortIds));
+        delegator.storeByCondition("WorkEffort", UtilMisc.toMap("currentStatusId","WEPR_CANCEL"),
+                EntityCondition.makeCondition("topWorkEffortId",EntityOperator.EQUALS, rootWorkEffort.getString("workEffortId")));
+        rootWorkEffort.set("currentStatusId","WEPR_CANCEL");
+        rootWorkEffort.store();
+
+        //将审批对象状态改为已创建
+        FlowHelper.updateEntityStatus(genericValue, dispatcher, "APPROVAL_CREATED");
+        return null;
+    }
+
 }
