@@ -55,10 +55,6 @@
         <LineItem>
             <DataField Values="partyId,emplLeaveReasonTypeId,description,fromDate,thruDate,statusId,LeaveMember/externalId,LeaveMember/phoneMobile,LeaveMember/Department/partyName"
                        Importance="High"/>
-            <DataFieldForAction Label="提交审批" Action="SubmitApproval" InvocationGrouping="Isolated"
-                                Criticality="Positive" Inline="true" Importance="High" Hidden="isHiddenSubmitApproval"/>
-            <DataFieldForAction Label="撤销审批" Action="CancelApproval" InvocationGrouping="Isolated"
-                                Criticality="Positive" Inline="true" Importance="High" Hidden="isHiddenCancelApproval"/>
         </LineItem>
         <NavigationProperty Name="LeaveType" Relations="EmplLeaveType" Type="LeaveType"
                             IsCollection="false"/>
