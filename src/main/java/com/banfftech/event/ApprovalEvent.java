@@ -170,7 +170,7 @@ public class ApprovalEvent {
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.values().stream().filter(v -> v instanceof OdataOfbizEntity).findFirst().get();
         GenericValue genericValue = ofbizEntity.getGenericValue();
         List<Map<String, Object>> resultList = new ArrayList<>();
-        List<TreeNode> customerDefNodes = FlowHelper.getCustomerDefNodes(delegator, genericValue.getEntityName(), getTypeId(csdlEntityType, request));
+        List<TreeNode> customerDefNodes = FlowHelper.getCustomerDefNodes(delegator, genericValue, getTypeId(csdlEntityType, request));
         for (TreeNode customerDefNode : customerDefNodes) {
             NodeUser nodeUserList = customerDefNode.getNodeUserList();
             Manual manual = nodeUserList.getManual();
@@ -210,16 +210,6 @@ public class ApprovalEvent {
         return resultList;
     }
 
-    private static String getTypeId(OfbizCsdlEntityType csdlEntityType, HttpServletRequest request) {
-        Map<String, Object> conditionMap = Util.parseConditionMap(csdlEntityType.getEntityConditionStr(), request);
-        for (Map.Entry<String, Object> entry : conditionMap.entrySet()) {
-            String key = entry.getKey();
-            if (key.endsWith("TypeId")) {
-                return (String) entry.getValue();
-            }
-        }
-        return null;
-    }
 
 
     /**
@@ -275,6 +265,17 @@ public class ApprovalEvent {
 
         //将审批对象状态改为已创建
         FlowHelper.updateEntityStatus(genericValue, dispatcher, "APPROVAL_CREATED");
+        return null;
+    }
+
+    public static String getTypeId(OfbizCsdlEntityType csdlEntityType, HttpServletRequest request) {
+        Map<String, Object> conditionMap = Util.parseConditionMap(csdlEntityType.getEntityConditionStr(), request);
+        for (Map.Entry<String, Object> entry : conditionMap.entrySet()) {
+            String key = entry.getKey();
+            if (key.endsWith("TypeId")) {
+                return (String) entry.getValue();
+            }
+        }
         return null;
     }
 

@@ -9,6 +9,8 @@ import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
+import org.apache.ofbiz.entity.model.ModelEntity;
+import org.apache.ofbiz.entity.util.EntityQuery;
 
 /**
  * 处理路由节点
@@ -31,9 +33,16 @@ public class ExecRouting implements ExecNode {
                     "workEffortName", nodeName, "workEffortTypeId", "ROUTING", "currentStatusId", "WEPR_COMPLETE",
                     "priority", nodeId, "workEffortParentId", parentWorkEffort.getString("workEffortId"),
                     "revisionNumber", revisionNumber, "topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
+            //查询审批模板和审批对象
+            GenericValue templateWorkEffort = topWorkEffort.getRelatedOne("ParentWorkEffort", false);
+            GenericValue flowMember = EntityQuery.use(delegator).from("WorkFlowMember")
+                    .where("workEffortId", topWorkEffort.getString("workEffortId")).queryFirst();
+            ModelEntity modelEntity = delegator.getModelEntity(flowMember.getString("memberEntityName"));
+            GenericValue approvalObj = EntityQuery.use(delegator).from(flowMember.getString("memberEntityName"))
+                    .where(modelEntity.getFirstPkFieldName(), flowMember.get("memberEntityId")).queryOne();
 
             //获取符合条件的分支
-            TreeNode conditionNode = FlowHelper.getConditionNode(delegator, nextNode.getConditionNodes(), revisionNumber);
+            TreeNode conditionNode = FlowHelper.getConditionNode(delegator, nextNode.getConditionNodes(), approvalObj, templateWorkEffort);
             String condNodeName = conditionNode.getNodeName();
             long condNodeId = conditionNode.getNodeId();
             Debug.log("完成条件节点 : " + nodeId + " -> " + condNodeName);

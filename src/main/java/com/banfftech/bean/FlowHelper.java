@@ -2,6 +2,7 @@ package com.banfftech.bean;
 
 import com.dpbird.odata.OfbizODataException;
 import com.dpbird.odata.Util;
+import com.dpbird.odata.edm.OfbizCsdlEntityType;
 import com.dpbird.odata.services.OfbizServiceException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,6 +25,7 @@ import org.apache.ofbiz.entity.util.EntityUtil;
 import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
 
@@ -194,23 +196,17 @@ public class FlowHelper {
      * 解析条件表达式
      *
      * @param conditionNodes 所有的条件节点
-     * @param revisionNumber 审批流编号
+     * @param approvalObj 审批对象
+     * @param templateWorkEffort 审批模板
      * @return 从所有的条件节点获取一个符合条件的节点返回 如果全都不符合返回默认节点
      */
-    public static TreeNode getConditionNode(Delegator delegator, List<TreeNode> conditionNodes, Long revisionNumber) throws GenericEntityException {
+    public static TreeNode getConditionNode(Delegator delegator, List<TreeNode> conditionNodes, GenericValue approvalObj,
+                                            GenericValue templateWorkEffort) throws GenericEntityException {
         //查询审批主流程
-        GenericValue rootWorkEffort = EntityQuery.use(delegator).from("WorkEffort")
-                .where("workEffortTypeId", "ROOT_NODE", "revisionNumber", revisionNumber).queryFirst();
         GenericValue mainProcess = EntityQuery.use(delegator).from("MainProcess")
-                .where("workFlowId", rootWorkEffort.getString("workEffortParentId")).queryFirst();
+                .where("workFlowId", templateWorkEffort.getString("workEffortId")).queryFirst();
         GenericValue processEntity = mainProcess.getRelatedOne("ProcessEntity", false);
         List<GenericValue> processFields = processEntity.getRelated("ProcessField", null, null, false);
-        //查询审批对象数据
-        GenericValue flowMember = EntityQuery.use(delegator).from("WorkFlowMember").where("workEffortId", rootWorkEffort.getString("workEffortId")).queryFirst();
-        ModelEntity modelEntity = delegator.getModelEntity(flowMember.getString("memberEntityName"));
-        GenericValue approvalObj = EntityQuery.use(delegator).from(flowMember.getString("memberEntityName")).where(modelEntity.getFirstPkFieldName(), flowMember.get("memberEntityId")).queryOne();
-
-
         for (TreeNode conditionNode : conditionNodes) {
             if (conditionNode.isIsdefault()) {
                 continue;
@@ -448,22 +444,23 @@ public class FlowHelper {
     /**
      * 获取所有需要用户自选的节点
      */
-    public static List<TreeNode> getCustomerDefNodes(Delegator delegator, String entityName, String typeId)
+    public static List<TreeNode> getCustomerDefNodes(Delegator delegator, GenericValue approvalObj, String typeId)
             throws OfbizODataException, GenericEntityException, JsonProcessingException {
-        GenericValue templateWorkEffort = getTemplateWorkEffort(delegator, entityName, typeId);
+        GenericValue templateWorkEffort = getTemplateWorkEffort(delegator, approvalObj.getEntityName(), typeId);
         GenericValue noteData = templateWorkEffort.getRelatedOne("NoteData", false);
         TreeNode treeNode = FLOW_TREES.get(noteData.getString("noteId"));
         if (UtilValidate.isEmpty(treeNode)) {
             treeNode = new ObjectMapper().readValue(noteData.getString("noteInfo"), TreeNode.class);
             FLOW_TREES.put(noteData.getString("noteId"), treeNode);
         }
-        return getCustomerDefNodes(treeNode, new ArrayList<>());
+        return getCustomerDefNodes(treeNode, new ArrayList<>(), approvalObj, templateWorkEffort);
     }
 
     /**
      * 获取所有需要用户自选的节点
      */
-    public static List<TreeNode> getCustomerDefNodes(TreeNode treeNode, List<TreeNode> result) {
+    public static List<TreeNode> getCustomerDefNodes(TreeNode treeNode, List<TreeNode> result, GenericValue approvalObj,
+                                                     GenericValue templateWorkEffort) throws GenericEntityException {
         if (UtilValidate.isEmpty(treeNode)) {
             return result;
         }
@@ -477,15 +474,15 @@ public class FlowHelper {
                 }
             }
         }
-        getCustomerDefNodes(treeNode.getChildNode(), result);
+        getCustomerDefNodes(treeNode.getChildNode(), result, approvalObj, templateWorkEffort);
         List<TreeNode> conditionNodes = treeNode.getConditionNodes();
         if (UtilValidate.isNotEmpty(conditionNodes)) {
-            for (TreeNode conditionNode : treeNode.getConditionNodes()) {
-                getCustomerDefNodes(conditionNode, result);
-            }
+            TreeNode conditionNode = getConditionNode(approvalObj.getDelegator(), conditionNodes, approvalObj, templateWorkEffort);
+            getCustomerDefNodes(conditionNode.getChildNode(), result, approvalObj, templateWorkEffort);
         }
         return result;
 
     }
+
 
 }
