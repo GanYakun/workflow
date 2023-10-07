@@ -10,7 +10,7 @@
     <!--=====================================     业务主对象EntityType definition Begin    =====================================-->
     <!--请假申请-->
     <!--需要将EntityType的名字改成LeaveApply-->
-    <EntityType Name="LeaveApproval" OfbizEntity="EmplLeave" EntitySetName="LeaveApprovals" AutoProperties="true"
+    <EntityType Name="LeaveApproval" OfbizEntity="EmplLeave" EntitySetName="LeaveApprovals" AutoProperties="true" Orderby="-fromDate"
                 Handler="component://gongsconfig/groovyScripts/businessManage/LeaveApproval.groovy"
                 EntityCondition="partyId=${userLogin.partyId}">
         <SelectionFields PropertyPath="emplLeaveReasonTypeId,description,fromDate,thruDate,statusId"/>

@@ -3,7 +3,7 @@
     <ImportEdm Path="component://gongsconfig/config/businessManageEdmConfig.xml"/>
     <!--=====================================     主对象EntityType definition     =====================================-->
     <!--审批-->
-    <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true"
+    <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true" Orderby="-createdDate"
                 EntityCondition="partyId=${userLogin.partyId}">
         <SelectionFields
                 PropertyPath="createdDate,comments,workEffortName,ProcessEntity/description,MainProcess/description"/>
