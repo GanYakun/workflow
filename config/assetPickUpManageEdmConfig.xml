@@ -1,0 +1,52 @@
+<ofbiz-edm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd" ImportGlobal="false">
+    <ComplexType Name="ApproverData">
+        <Property Name="nodeId" Type="Edm.Decimal"/>
+        <Property Name="nodeName" Type="String"/>
+        <Property Name="selectList" Type="String"/>
+    </ComplexType>
+    <!--=====================================     业务主对象EntityType definition Begin    =====================================-->
+    <!--资产领用-->
+    <EntityType Name="AssetPickUpRequest" OfbizEntity="Requirement" EntitySetName="AssetPickUpRequests" AutoProperties="true"
+                Handler="component://gongsconfig/groovyScripts/businessManage/LeaveApproval.groovy"
+                EntityCondition="requirementTypeId=WORK_REQUIREMENT">
+        <Property Name="isHiddenSubmitApproval" Type="Boolean"/>
+        <Property Name="isHiddenCancelApproval" Type="Boolean"/>
+        <Property Name="requirementId" Computed="true"/>
+        <Property Name="statusId" DefaultValue="APPROVAL_CREATED">
+            <Text Path="RequestStatus/description" TextArrangement="TextOnly"/>
+        </Property>
+        <Action Name="SubmitApproval" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.submitApproval">
+            <Parameter Name="assetPickUpRequest" Type="AssetPickUpRequest" Nullable="false" IsCollection="false"/>
+            <Parameter Name="approverData" Type="String" Nullable="true" IsCollection="false"/>
+        </Action>
+        <Action Name="CancelApproval" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.cancelApproval">
+            <Parameter Name="assetPickUpRequest" Type="AssetPickUpRequest" Nullable="false" IsCollection="false"/>
+        </Action>
+        <NavigationProperty Name="RequestStatus" Relations="StatusItem" Type="RequestStatus"
+                            IsCollection="false"/>
+        <NavigationProperty Name="PickUpFixedAsset" Relations="FixedAsset" Type="PickUpFixedAsset"
+                            IsCollection="false"/>
+    </EntityType>
+
+
+    <!--=====================================     业务主对象EntityType definition End    =====================================-->
+
+    <!--申请状态-->
+    <EntityType Name="RequestStatus" OfbizEntity="StatusItem" EntitySetName="RequestStatuses"
+                EntityCondition="statusTypeId=APPROVAL" AutoProperties="true">
+        <ValueList CollectionPath="RequestStatuses" WithFixedValues="true"/>
+        <Property Name="statusId">
+            <Text Path="description" TextArrangement="TextOnly"/>
+        </Property>
+    </EntityType>
+
+    <!--资产-->
+    <EntityType Name="PickUpFixedAsset" OfbizEntity="FixedAsset" EntitySetName="PickUpFixedAssets"
+                EntityCondition="fixedAssetTypeId=EQUIPMENT" AutoProperties="true">
+        <ValueList CollectionPath="PickUpFixedAssets" WithFixedValues="true"/>
+        <Property Name="fixedAssetId">
+            <Text Path="fixedAssetName" TextArrangement="TextOnly"/>
+        </Property>
+    </EntityType>
+</ofbiz-edm>

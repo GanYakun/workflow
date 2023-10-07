@@ -19,6 +19,8 @@ under the License.
 -->
 
 <entity-engine-xml>
+<!--RequirementType-->
+    <RoleType description="Work Requirement" hasTable="N" parentTypeId="" roleTypeId="WORK_REQUIREMENT"/>
 
 <!--RoleType-->
     <!--PERSON_ROLE(EMPLOYEE->MANAGER,ORD_EMPLOYEE)-->
