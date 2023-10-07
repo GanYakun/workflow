@@ -81,6 +81,7 @@
     </EntityType>
     
     <EntityType Name="WorkEffort" EntitySetName="WorkEfforts" Properties="workEffortId,workEffortName,noteId,currentStatusId,createdByUserLogin,createdDate">
+        <RelAlias Name="partyName" Relations="UserLogin/Party" Properties="partyName"/>
         <NavigationProperty Name="NoteData"/>
         <NavigationProperty Name="ChildWorkEffort"/>
         <NavigationProperty Name="NodeWorkEffort"/>
