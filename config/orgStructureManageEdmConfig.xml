@@ -7,7 +7,9 @@
                 AutoProperties="true">
         <Property Name="numEmployees" DefaultValue="0" Scale="0"/>
         <RelAlias Name="Manager" Relations="FromPartyRelationship(roleTypeIdTo=MANAGER)"/>
-        <Property Name="departmentManager" RelAlias="Manager" Field="partyIdTo"/>
+        <Property Name="departmentManager" RelAlias="Manager" Field="partyIdTo">
+            <Text Path="DepartmentManager/partyName" TextArrangement="TextOnly"/>
+        </Property>
         <Property Name="partyTypeId" DefaultValue="PARTY_GROUP"/>
         <FieldGroup Label="基本信息" Qualifier="BaseInfo">
             <DataField Values="partyName" Importance="High"/>
@@ -22,6 +24,9 @@
             <Title Path="partyName"/>
             <Description Path="description"/>
         </HeaderInfo>
+        <NavigationProperty Name="DepartmentManager" Type="PartyAndContact"
+                            Relations="FromPartyRelationship(roleTypeIdTo=MANAGER)/ToPartyAndContact"
+                            IsCollection="false"/>
         <NavigationProperty Name="SubDepartment" Type="Department"
                             Relations="FromPartyRelationship(roleTypeIdTo=DEPARTMENT)/ToPartyAndPartyGroup"
                             IsCollection="true"/>
