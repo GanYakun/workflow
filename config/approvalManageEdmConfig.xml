@@ -7,6 +7,8 @@
                 EntityCondition="partyId=${userLogin.partyId}">
         <SelectionFields
                 PropertyPath="createdDate,comments,workEffortName,ProcessEntity/description,MainProcess/description"/>
+        <RelAlias Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity"/>
+        <Property Name="processEntityName" RelAlias="ProcessEntity" Field="processEntityName"/>
         <Property Name="mannerEnumId">
             <Text Path="Via/description" TextArrangement="TextOnly"/>
         </Property>
