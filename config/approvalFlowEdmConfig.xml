@@ -86,6 +86,7 @@
         <NavigationProperty Name="ChildWorkEffort"/>
         <NavigationProperty Name="NodeWorkEffort"/>
         <NavigationProperty Name="UserLogin"/>
+        <NavigationProperty Name="CurrentStatusItem"/>
     </EntityType>
     <EntityType Name="NoteData" EntitySetName="NoteDatas" AutoProperties="true"/>
 
