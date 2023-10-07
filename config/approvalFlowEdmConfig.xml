@@ -80,8 +80,11 @@
         </Property>
     </EntityType>
     
-    <EntityType Name="WorkEffort" EntitySetName="WorkEfforts" Properties="workEffortId,workEffortName,noteId">
+    <EntityType Name="WorkEffort" EntitySetName="WorkEfforts" Properties="workEffortId,workEffortName,noteId,currentStatusId,createdByUserLogin,createdDate">
         <NavigationProperty Name="NoteData"/>
+        <NavigationProperty Name="ChildWorkEffort"/>
+        <NavigationProperty Name="NodeWorkEffort"/>
+        <NavigationProperty Name="UserLogin"/>
     </EntityType>
     <EntityType Name="NoteData" EntitySetName="NoteDatas" AutoProperties="true"/>
 

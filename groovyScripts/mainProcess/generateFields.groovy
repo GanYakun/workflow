@@ -1,5 +1,3 @@
-package com.banfftech.handler
-
 import com.dpbird.odata.edm.OdataOfbizEntity
 import org.apache.ofbiz.base.util.UtilValidate
 import org.apache.ofbiz.entity.GenericValue

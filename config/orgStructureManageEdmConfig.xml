@@ -194,7 +194,7 @@
     </EntityType>
 
     <EntityType Name="UserLogin" EntitySetName="UserLogins" AutoProperties="true">
-
+        <NavigationProperty Name="Party"/>
     </EntityType>
 
     <!--=====================================     子对象EntityType definition     =====================================-->
