@@ -7,7 +7,7 @@
     <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true" Orderby="-createdDate"
                 EntityCondition="partyId=${userLogin.partyId}">
         <SelectionFields
-                PropertyPath="createdDate,comments,workEffortName,ProcessEntity/description,MainProcess/description"/>
+                PropertyPath="createdDate,comments,workEffortName,MainProcess/description"/>
         <RelAlias Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity"/>
         <Property Name="processEntityName" RelAlias="ProcessEntity" Field="processEntityName"/>
         <Property Name="mannerEnumId">
@@ -109,10 +109,6 @@
 
     <!-- 业务对象 -->
     <EntityType Name="ProcessEntity" AutoProperties="true" EntitySetName="ProcessEntities">
-        <LineItem Qualifier="ApprovalList">
-            <DataField Values="createdDate,description,workEffortName,ProcessEntity/description,MainProcess/description"
-                       Importance="High"/>
-        </LineItem>
     </EntityType>
 
     <!--成员-->

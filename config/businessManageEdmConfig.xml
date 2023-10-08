@@ -117,10 +117,22 @@
         <NavigationProperty Name="Department" Type="Department"
                             Relations="ToPartyRelationship(roleTypeIdTo=ORD_EMPLOYEE)/FromPartyAndPartyGroup"
                             IsCollection="false"/>
+        <NavigationProperty Name="GenderEnumeration" Type="Gender"
+                            Relations="Person/GenderEnumeration"/>
     </EntityType>
 
     <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments"
                 AutoProperties="true">
+    </EntityType>
+
+    <!--性别-->
+    <EntityType Name="Gender" OfbizEntity="Enumeration" EntitySetName="Genders"
+                EntityCondition="enumTypeId=GENDER_ENUM_TYPE"
+                AutoProperties="true">
+        <Property Name="enumId">
+            <Text Path="description" TextArrangement="TextOnly"/>
+        </Property>
+        <ValueList WithFixedValues="true" CollectionPath="Genders"/>
     </EntityType>
 
 
