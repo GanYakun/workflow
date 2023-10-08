@@ -19,8 +19,14 @@ under the License.
 -->
 
 <entity-engine-xml>
+    <!--FixedAssetType-->
+    <FixedAssetType description="Equipment" hasTable="N" parentTypeId="" fixedAssetTypeId="EQUIPMENT"/>
+    <!--GoodIdentificationType-->
+    <GoodIdentificationType description="Finish Good" hasTable="N" parentTypeId="" goodIdentificationTypeId="MANUFACTURER_ID_NO"/>
+    <!--ProductType-->
+    <ProductType description="Finish Good" hasTable="N" parentTypeId="" productTypeId="FINISH_GOOD"/>
 <!--RequirementType-->
-    <RoleType description="Work Requirement" hasTable="N" parentTypeId="" roleTypeId="WORK_REQUIREMENT"/>
+    <RequirementType description="Work Requirement" hasTable="N" parentTypeId="" requirementTypeId="WORK_REQUIREMENT"/>
 
 <!--RoleType-->
     <!--PERSON_ROLE(EMPLOYEE->MANAGER,ORD_EMPLOYEE)-->

@@ -14,16 +14,6 @@
     <Enumeration enumId="AUTO_REJECT" enumTypeId="PASS_MANNER" description="自动拒绝"/>
 
 <!-- StatusItem -->
-    <!-- LeaveApprovalStatus(请假状态) -->
-<!--    <StatusItem statusId="LEAVE_APPROVED" statusTypeId="LEAVE_STATUS" description="Approved"/>-->
-<!--    <StatusItem statusId="LEAVE_CREATED" statusTypeId="LEAVE_STATUS" description="Created"/>-->
-<!--    <StatusItem statusId="LEAVE_SUBMITTED" statusTypeId="LEAVE_STATUS" description="Submitted"/>-->
-<!--    <StatusItem statusId="LEAVE_REJECTED" statusTypeId="LEAVE_STATUS" description="Rejected"/>-->
-<!--    <StatusItem statusId="ToBeSubmittedApproval" statusTypeId="MEMBER_STATUS" description="待提交审批"/>-->
-<!--    <StatusItem statusId="PendingApproval" statusTypeId="MEMBER_STATUS" description="审批中"/>-->
-<!--    <StatusItem statusId="Approved" statusTypeId="MEMBER_STATUS" description="审批通过"/>-->
-<!--    <StatusItem statusId="Disapproved" statusTypeId="MEMBER_STATUS" description="审批不通过"/>-->
-    <!-- StatusItem -->
     <StatusItem statusId="APPROVAL_CREATED" statusTypeId="APPROVAL" description="已创建-待提交"/>
     <StatusItem statusId="APPROVAL_SUBMITTED" statusTypeId="APPROVAL" description="已提交-审批中"/>
     <StatusItem statusId="APPROVAL_REJECTED" statusTypeId="APPROVAL" description="已拒绝"/>

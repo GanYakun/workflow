@@ -20,10 +20,74 @@ under the License.
 
 <resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/ofbiz-properties.xsd">
+<!--A-->
+    <!--AssetPickUpRequest-->
+    <property key="AssetPickUpRequestFixedAssetId">
+        <value xml:lang="en">FixedAssetName</value>
+        <value xml:lang="zh">领用资产</value>
+    </property>
+    <property key="AssetPickUpRequestDescription">
+        <value xml:lang="en">Description</value>
+        <value xml:lang="zh">所申请资产的具体描述</value>
+    </property>
+    <property key="AssetPickUpRequestUseCase">
+        <value xml:lang="en">UseCase</value>
+        <value xml:lang="zh">使用场景</value>
+    </property>
+    <property key="AssetPickUpRequestQuantity">
+        <value xml:lang="en">Quantity</value>
+        <value xml:lang="zh">数量</value>
+    </property>
+    <property key="AssetPickUpRequestEstimatedBudget">
+        <value xml:lang="en">EstimatedBudget</value>
+        <value xml:lang="zh">预计资产价格</value>
+    </property>
+
     <property key="ActivityWorkEffortName">
         <value xml:lang="en">Task name</value>
         <value xml:lang="zh">审批任务名称</value>
         <value xml:lang="zh-TW">审批任务名称</value>
+    </property>
+
+
+    <!--AssetEntry-->
+    <property key="AssetEntryFixedAssetName">
+        <value xml:lang="en">FixedAssetName</value>
+        <value xml:lang="zh">资产名称</value>
+    </property>
+    <property key="AssetEntryInstanceOfProductId">
+        <value xml:lang="en">ProductName</value>
+        <value xml:lang="zh">产品名称</value>
+    </property>
+    <property key="AssetEntryDateAcquired">
+        <value xml:lang="en">DateAcquired</value>
+        <value xml:lang="zh">出厂日期</value>
+    </property>
+    <property key="AssetEntrySerialNumber">
+        <value xml:lang="en">SerialNumber</value>
+        <value xml:lang="zh">出厂序列号</value>
+    </property>
+<!--p-->
+    <!--Product-->
+    <property key="ProductProductName">
+        <value xml:lang="en">ProductNamed</value>
+        <value xml:lang="zh">产品名称</value>
+    </property>
+    <property key="ProductModelIdValue">
+        <value xml:lang="en">ProductModel</value>
+        <value xml:lang="zh">产品型号</value>
+    </property>
+    <property key="ProductManufacturer">
+        <value xml:lang="en">Manufacturer</value>
+        <value xml:lang="zh">生产厂家</value>
+    </property>
+    <property key="ProductCreatedDate">
+        <value xml:lang="en">CreatedDate</value>
+        <value xml:lang="zh">创建时间</value>
+    </property>
+    <property key="ProductCreatedByUserLogin">
+        <value xml:lang="en">CreatedByUserLogin</value>
+        <value xml:lang="zh">创建人</value>
     </property>
 
     <property key="ProcessEntityProcessEntityId">
