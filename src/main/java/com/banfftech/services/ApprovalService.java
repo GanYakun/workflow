@@ -50,6 +50,7 @@ public class ApprovalService {
             FlowHelper.updateEntityStatus(approvalObj, dispatcher, statusId);
             GenericValue topWorkEffort = FlowHelper.getTopWorkEffort(delegator, workEffort.getLong("revisionNumber"));
             topWorkEffort.set("currentStatusId", "WEPR_COMPLETE");
+            topWorkEffort.store();
             return resultMap;
         }
         ExecNode execNode = ExecFactory.getExecNode(nextNode.getType());
