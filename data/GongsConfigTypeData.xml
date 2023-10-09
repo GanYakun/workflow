@@ -68,10 +68,7 @@ under the License.
     <EnumerationType enumTypeId="GENDER_ENUM_TYPE"  description="性别"/>
     <EnumerationType enumTypeId="PASS_MANNER"  description="审批通过方式枚举"/>
 
-<!--StatusType-->
-<!--    <StatusType statusTypeId="MEMBER_STATUS"  description="成员状态"/>-->
-
-
+<!--WorkEffortType-->
     <WorkEffortType workEffortTypeId="WORK_FLOW" description="审批流"/>
     <!-- 审批节点类型 -->
     <WorkEffortType workEffortTypeId="ROOT_NODE" description="根节点"/>
@@ -80,18 +77,20 @@ under the License.
     <WorkEffortType workEffortTypeId="CONDITION" description="条件"/>
     <WorkEffortType workEffortTypeId="ROUTING" description="路由"/>
 
+<!--StatusType-->
+    <!-- 资产状态 -->
+    <StatusType statusTypeId="FIXEDASSET_STATUS" description="FixedAsset Status"/>
+    <!-- 主流程状态 -->
+    <StatusType statusTypeId="MAIN_PROCESS_STATUS" description="Main Process Status"/>
+    <StatusItem statusId="PROCESS_ENABLED" statusTypeId="MAIN_PROCESS_STATUS" description="已发布"/>
+    <StatusItem statusId="PROCESS_NOT_ENABLED" statusTypeId="MAIN_PROCESS_STATUS" description="已停用"/>
+
     <!-- 节点状态 -->
     <StatusType statusTypeId="WORKFLOW_STATUS" description="Work flow status"/>
     <StatusItem statusId="WEPR_WAIT" statusTypeId="WORKFLOW_STATUS" description="待审批"/>
     <StatusItem statusId="WEPR_COMPLETE" statusTypeId="WORKFLOW_STATUS" description="审批通过"/>
     <StatusItem statusId="WEPR_REFUSE" statusTypeId="WORKFLOW_STATUS" description="审批不通过"/>
     <StatusItem statusId="WEPR_CANCEL" statusTypeId="WORKFLOW_STATUS" description="取消"/>
-
-<!--StatusType-->
-    <!-- 主流程状态 -->
-    <StatusType statusTypeId="MAIN_PROCESS_STATUS" description="Main Process Status"/>
-    <StatusItem statusId="PROCESS_ENABLED" statusTypeId="MAIN_PROCESS_STATUS" description="已发布"/>
-    <StatusItem statusId="PROCESS_NOT_ENABLED" statusTypeId="MAIN_PROCESS_STATUS" description="已停用"/>
 
     <!-- 审批通用状态类型 -->
     <StatusType statusTypeId="APPROVAL" description="Approval"/>

@@ -91,5 +91,11 @@ under the License.
         </relation>
     </extend-entity>
 
+    <extend-entity entity-name="FixedAsset">
+        <field name="statusId" type="id"/>
+        <relation type="one" fk-name="FIXEDAST_STATUS" rel-entity-name="StatusItem">
+            <key-map field-name="statusId"/>
+        </relation>
+    </extend-entity>
 
 </entitymodel>

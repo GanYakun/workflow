@@ -1,7 +1,6 @@
 <ofbiz-edm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd" ImportGlobal="false">
     <!-- EdmConfig引用 -->
-<!--    <ImportEdm Path="component://gongsconfig/config/orgStructureManageEdmConfig.xml"/>-->
     <ComplexType Name="ApproverData">
         <Property Name="nodeId" Type="Edm.Decimal"/>
         <Property Name="nodeName" Type="String"/>
@@ -64,6 +63,9 @@
                             IsCollection="false"/>
         <NavigationProperty Name="LeaveMember" Relations="Party/PartyAndContact" Type="Member"
                             IsCollection="false"/>
+        <!--关联审批记录-->
+        <NavigationProperty Name="ApprovalRecord" Relations="WorkFlowMember/WorkEffort/Approval" Type="Approval"
+                            IsCollection="true"/>
     </EntityType>
 
     <!--=====================================     业务主对象EntityType definition End    =====================================-->
@@ -71,6 +73,30 @@
 
 
     <!--=====================================     业务子对象EntityType definition End    =====================================-->
+    <!--审批-->
+    <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true">
+        <RelAlias Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity"/>
+        <Property Name="processEntityName" RelAlias="ProcessEntity" Field="processEntityName"/>
+        <Property Name="statusId">
+            <Text Path="ApprovalStatusItem/description" TextArrangement="TextOnly"/>
+        </Property>
+        <Property Name="mannerEnumId">
+            <Text Path="Via/description" TextArrangement="TextOnly"/>
+        </Property>
+        <Property Name="partyId">
+            <Text Path="Member/partyName" TextArrangement="TextOnly"/>
+        </Property>
+        <LineItem Qualifier="RecordApproval">
+            <DataField
+                    Values="workEffortName,fromDate,thruDate,partyId,comments,mannerEnumId,statusId"
+                    Importance="High"/>
+        </LineItem>
+        <NavigationProperty Name="ApprovalStatusItem" Relations="ApprovalStatusItem" Type="ApprovalStatusItem"
+                            IsCollection="false"/>
+        <!--关联审批通过枚举-->
+        <NavigationProperty Name="Via" Relations="MannerEnumeration" Type="Via" IsCollection="false"/>
+        <NavigationProperty Name="Member" Relations="PartyAndContact" Type="Member"/>
+    </EntityType>
     <!--请假类型-->
     <EntityType Name="LeaveType" OfbizEntity="EmplLeaveType" EntitySetName="LeaveTypes" AutoProperties="true">
         <ValueList CollectionPath="LeaveTypes" WithFixedValues="true"/>
@@ -133,6 +159,15 @@
             <Text Path="description" TextArrangement="TextOnly"/>
         </Property>
         <ValueList WithFixedValues="true" CollectionPath="Genders"/>
+    </EntityType>
+
+    <EntityType Name="ApprovalStatusItem" OfbizEntity="StatusItem" EntitySetName="ApprovalStatusItem"
+                AutoProperties="true" EntityCondition="statusTypeId=WORKFLOW_STATUS"/>
+
+
+    <!--审批通过方式枚举-->
+    <EntityType Name="Via" OfbizEntity="Enumeration" EntitySetName="Vias" EntityCondition="enumTypeId=PASS_MANNER"
+                AutoProperties="true">
     </EntityType>
 
 

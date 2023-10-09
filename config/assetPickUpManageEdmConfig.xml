@@ -66,6 +66,9 @@
         <Property Name="instanceOfProductId" FieldControl="Mandatory" Required="true">
             <Text Path="InstanceOfProduct/productName" TextArrangement="TextOnly"/>
         </Property>
+        <Property Name="statusId" DefaultValue="FIXEDASSET_CREATED">
+            <Text Path="InstanceOfProduct/productName" TextArrangement="TextOnly"/>
+        </Property>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
             <DataField
                     Values="fixedAssetName,instanceOfProductId,InstanceOfProduct/ProductModel/idValue,dateAcquired,serialNumber"
@@ -82,6 +85,7 @@
             <Description Path="serialNumber"/>
         </HeaderInfo>
         <NavigationProperty Name="InstanceOfProduct" IsCollection="false"/>
+        <NavigationProperty Name="FixedAssetStatus" Relations="StatusItem" Type="FixedAssetStatus" IsCollection="false"/>
     </EntityType>
 
     <!--产品管理-->
@@ -127,6 +131,15 @@
     <EntityType Name="RequestStatus" OfbizEntity="StatusItem" EntitySetName="RequestStatuses"
                 EntityCondition="statusTypeId=APPROVAL" AutoProperties="true">
         <ValueList CollectionPath="RequestStatuses" WithFixedValues="true"/>
+        <Property Name="statusId">
+            <Text Path="description" TextArrangement="TextOnly"/>
+        </Property>
+    </EntityType>
+
+    <!--资产状态-->
+    <EntityType Name="FixedAssetStatus" OfbizEntity="StatusItem" EntitySetName="FixedAssetStatuses"
+                EntityCondition="statusTypeId=FIXEDASSET_STATUS" AutoProperties="true">
+        <ValueList CollectionPath="FixedAssetStatuses" WithFixedValues="true"/>
         <Property Name="statusId">
             <Text Path="description" TextArrangement="TextOnly"/>
         </Property>

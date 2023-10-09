@@ -10,9 +10,6 @@
                 PropertyPath="createdDate,comments,workEffortName,MainProcess/description"/>
         <RelAlias Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity"/>
         <Property Name="processEntityName" RelAlias="ProcessEntity" Field="processEntityName"/>
-        <Property Name="mannerEnumId">
-            <Text Path="Via/description" TextArrangement="TextOnly"/>
-        </Property>
         <Property Name="statusId">
             <Text Path="ApprovalStatusItem/description" TextArrangement="TextOnly"/>
         </Property>

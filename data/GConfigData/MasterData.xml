@@ -6,14 +6,21 @@
     <PartyGroup partyId="Company" groupName="上海工至信息科技服务有限公司" numEmployees="0"/>
     <PartyRole partyId="Company" roleTypeId="INTERNAL_ORGANIZATIO"/>
 
-    <!-- Enumeration -->
+<!-- Enumeration -->
+    <!-- 性别枚举 -->
     <Enumeration enumId="M" enumTypeId="GENDER_ENUM_TYPE" description="男"/>
     <Enumeration enumId="F" enumTypeId="GENDER_ENUM_TYPE" description="女"/>
+
+    <!-- 审批方式枚举 -->
     <Enumeration enumId="PASS_APPROVE" enumTypeId="PASS_MANNER" description="人工审批"/>
     <Enumeration enumId="PASS_AUTO" enumTypeId="PASS_MANNER" description="自动通过"/>
     <Enumeration enumId="AUTO_REJECT" enumTypeId="PASS_MANNER" description="自动拒绝"/>
 
 <!-- StatusItem -->
+    <!-- 资产状态 -->
+    <StatusItem statusId="FIXEDASSET_CREATED" statusTypeId="FIXEDASSET_STATUS" description="已创建"/>
+    <StatusItem statusId="FIXEDASSET_RECEIVED" statusTypeId="FIXEDASSET_STATUS" description="已领用"/>
+    <!-- 审批状态 -->
     <StatusItem statusId="APPROVAL_CREATED" statusTypeId="APPROVAL" description="已创建-待提交"/>
     <StatusItem statusId="APPROVAL_SUBMITTED" statusTypeId="APPROVAL" description="已提交-审批中"/>
     <StatusItem statusId="APPROVAL_REJECTED" statusTypeId="APPROVAL" description="已拒绝"/>
