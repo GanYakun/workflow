@@ -10,8 +10,8 @@
     <EntityType Name="AssetPickUpRequest" OfbizEntity="Requirement" EntitySetName="AssetPickUpRequests"
                 AutoProperties="true"
                 Handler="component://gongsconfig/groovyScripts/businessManage/LeaveApproval.groovy"
-                EntityCondition="requirementTypeId=WORK_REQUIREMENT">
-        <SelectionFields PropertyPath="fixedAssetId,description"/>
+                EntityCondition="requirementTypeId=WORK_REQUIREMENT and partyId=${userLogin.partyId}">
+        <SelectionFields PropertyPath="description,useCase"/>
         <Property Name="isHiddenSubmitApproval" Type="Boolean"/>
         <Property Name="isHiddenCancelApproval" Type="Boolean"/>
         <Property Name="requirementId" Computed="true"/>
@@ -33,8 +33,11 @@
         <Action Name="CancelApproval" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.cancelApproval">
             <Parameter Name="assetPickUpRequest" Type="AssetPickUpRequest" Nullable="false" IsCollection="false"/>
         </Action>
+        <Action Name="AssetPickUp" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.assetPickUp">
+            <Parameter Name="assetPickUpRequest" Type="AssetPickUpRequest" Nullable="false" IsCollection="false"/>
+        </Action>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
-            <DataField Values="fixedAssetId,description,useCase,quantity,estimatedBudget,reason"
+            <DataField Values="fixedAssetId,description,useCase,quantity,estimatedBudget"
                        Importance="High"/>
         </FieldGroup>
         <FieldGroup Qualifier="ApplicantInformation" Label="申请人信息">
@@ -43,7 +46,7 @@
                     Importance="High"/>
         </FieldGroup>
         <LineItem>
-            <DataField Values="fixedAssetId,description,useCase,quantity,estimatedBudget,reason"
+            <DataField Values="fixedAssetId,description,useCase,quantity,estimatedBudget,statusId,AssetEntry/statusId"
                        Importance="High"/>
         </LineItem>
         <NavigationProperty Name="RequestStatus" Relations="StatusItem" Type="RequestStatus"
@@ -67,7 +70,7 @@
             <Text Path="InstanceOfProduct/productName" TextArrangement="TextOnly"/>
         </Property>
         <Property Name="statusId" DefaultValue="FIXEDASSET_CREATED">
-            <Text Path="InstanceOfProduct/productName" TextArrangement="TextOnly"/>
+            <Text Path="FixedAssetStatus/description" TextArrangement="TextOnly"/>
         </Property>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
             <DataField
@@ -144,15 +147,6 @@
             <Text Path="description" TextArrangement="TextOnly"/>
         </Property>
     </EntityType>
-
-<!--    &lt;!&ndash;资产&ndash;&gt;-->
-<!--    <EntityType Name="PickUpFixedAsset" OfbizEntity="FixedAsset" EntitySetName="PickUpFixedAssets"-->
-<!--                EntityCondition="fixedAssetTypeId=EQUIPMENT" AutoProperties="true">-->
-<!--        <ValueList CollectionPath="PickUpFixedAssets" WithFixedValues="true"/>-->
-<!--        <Property Name="fixedAssetId">-->
-<!--            <Text Path="fixedAssetName" TextArrangement="TextOnly"/>-->
-<!--        </Property>-->
-<!--    </EntityType>-->
 
     <!--成员-->
     <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members"

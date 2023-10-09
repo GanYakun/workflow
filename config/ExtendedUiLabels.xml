@@ -42,7 +42,10 @@ under the License.
         <value xml:lang="en">EstimatedBudget</value>
         <value xml:lang="zh">预计资产价格</value>
     </property>
-
+    <property key="AssetPickUpRequestStatusId">
+        <value xml:lang="en">Status</value>
+        <value xml:lang="zh">申请状态</value>
+    </property>
     <property key="ActivityWorkEffortName">
         <value xml:lang="en">Task name</value>
         <value xml:lang="zh">审批任务名称</value>
@@ -66,6 +69,10 @@ under the License.
     <property key="AssetEntrySerialNumber">
         <value xml:lang="en">SerialNumber</value>
         <value xml:lang="zh">出厂序列号</value>
+    </property>
+    <property key="AssetEntryStatusId">
+        <value xml:lang="en">Status</value>
+        <value xml:lang="zh">资产状态</value>
     </property>
 <!--p-->
     <!--Product-->

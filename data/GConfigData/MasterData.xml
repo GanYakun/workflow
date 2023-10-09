@@ -18,7 +18,7 @@
 
 <!-- StatusItem -->
     <!-- 资产状态 -->
-    <StatusItem statusId="FIXEDASSET_CREATED" statusTypeId="FIXEDASSET_STATUS" description="已创建"/>
+    <StatusItem statusId="FIXEDASSET_CREATED" statusTypeId="FIXEDASSET_STATUS" description="已创建-待领用"/>
     <StatusItem statusId="FIXEDASSET_RECEIVED" statusTypeId="FIXEDASSET_STATUS" description="已领用"/>
     <!-- 审批状态 -->
     <StatusItem statusId="APPROVAL_CREATED" statusTypeId="APPROVAL" description="已创建-待提交"/>
@@ -35,6 +35,8 @@
     <StatusValidChange statusId="APPROVAL_SUBMITTED" statusIdTo="APPROVAL_REJECTED"/>
     <StatusValidChange statusId="APPROVAL_SUBMITTED" statusIdTo="APPROVAL_APPROVED"/>
     <StatusValidChange statusId="APPROVAL_REJECTED" statusIdTo="APPROVAL_SUBMITTED"/>
+    <!-- 资产状态更改 -->
+    <StatusValidChange statusId="FIXEDASSET_CREATED" statusIdTo="FIXEDASSET_RECEIVED"/>
     <!-- SecurityGroup -->
     <SecurityGroup groupId="VISIT" description="访问权限" groupName="Visit"/>
     <SecurityGroupPermission groupId="VISIT" permissionId="GONGSCONFIG_VIEW" fromDate="2023-09-19 22:11:39.139" />

@@ -211,14 +211,13 @@ public class ApprovalEvent {
     }
 
 
-
     /**
      * 类型选项数据
      */
     public static Object getTypeData(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws GenericEntityException {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
         String typeFieldName = (String) actionParameters.get("typeFieldName");
-        String typeEntityName =  Util.firstUpperCase(typeFieldName.substring(0, typeFieldName.length() - 2));
+        String typeEntityName = Util.firstUpperCase(typeFieldName.substring(0, typeFieldName.length() - 2));
         List<GenericValue> genericValues = EntityQuery.use(delegator).from(typeEntityName).queryList();
         List<Map<String, Object>> resultList = new ArrayList<>();
         for (GenericValue genericValue : genericValues) {
@@ -256,11 +255,11 @@ public class ApprovalEvent {
         }
         //将所有节点改为取消
         List<Object> workEffortIds = EntityUtil.getFieldListFromEntityList(approvalNodes, "workEffortId", true);
-        delegator.storeByCondition("WorkEffortPartyAssignment",  UtilMisc.toMap("statusId","WEPR_CANCEL"),
-                EntityCondition.makeCondition("workEffortId",EntityOperator.IN, workEffortIds));
-        delegator.storeByCondition("WorkEffort", UtilMisc.toMap("currentStatusId","WEPR_CANCEL"),
-                EntityCondition.makeCondition("topWorkEffortId",EntityOperator.EQUALS, rootWorkEffort.getString("workEffortId")));
-        rootWorkEffort.set("currentStatusId","WEPR_CANCEL");
+        delegator.storeByCondition("WorkEffortPartyAssignment", UtilMisc.toMap("statusId", "WEPR_CANCEL"),
+                EntityCondition.makeCondition("workEffortId", EntityOperator.IN, workEffortIds));
+        delegator.storeByCondition("WorkEffort", UtilMisc.toMap("currentStatusId", "WEPR_CANCEL"),
+                EntityCondition.makeCondition("topWorkEffortId", EntityOperator.EQUALS, rootWorkEffort.getString("workEffortId")));
+        rootWorkEffort.set("currentStatusId", "WEPR_CANCEL");
         rootWorkEffort.store();
 
         //将审批对象状态改为已创建
@@ -277,6 +276,25 @@ public class ApprovalEvent {
             }
         }
         return null;
+    }
+
+    /**
+     * 资产领用
+     */
+    public static void assetPickUp(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget)
+            throws OfbizODataException {
+        LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
+        GenericValue userLogin = (GenericValue) oDataContext.get("userLogin");
+        OdataOfbizEntity odataOfbizEntity = (OdataOfbizEntity) actionParameters.get("assetPickUpRequest");
+        GenericValue approval = odataOfbizEntity.getGenericValue();
+        String fixedAssetId = approval.getString("fixedAssetId");
+
+        try {
+            dispatcher.runSync("banfftech.updateFixedAsset",
+                    UtilMisc.toMap("fixedAssetId", fixedAssetId, "statusId", "FIXEDASSET_RECEIVED", "userLogin", userLogin));
+        } catch (GenericServiceException e) {
+            throw new OfbizODataException(e.getMessage());
+        }
     }
 
 }
