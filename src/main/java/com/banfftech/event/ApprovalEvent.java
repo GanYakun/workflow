@@ -267,6 +267,28 @@ public class ApprovalEvent {
         return null;
     }
 
+    /**
+     * 查看审批进度 返回当前待处理节点
+     */
+    public static Object viewApproval(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget)
+            throws GenericEntityException {
+        Delegator delegator = (Delegator) oDataContext.get("delegator");
+        OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.values().stream().filter(v -> v instanceof OdataOfbizEntity).findFirst().get();
+        GenericValue genericValue = ofbizEntity.getGenericValue();
+        Object primaryKey = new HashMap<>(genericValue.getPrimaryKey()).entrySet().iterator().next().getValue();
+        GenericValue workFlowMember = EntityQuery.use(delegator).from("WorkFlowMember")
+                .where("memberEntityName", genericValue.getEntityName(), "memberEntityId", primaryKey).queryFirst();
+        GenericValue rootWorkEffort = workFlowMember.getRelatedOne("WorkEffort", false);
+        GenericValue currentActiveNode = EntityQuery.use(delegator).from("WorkEffort")
+                .where("topWorkEffortId", rootWorkEffort.getString("workEffortId"), "currentStatusId", "WEPR_WAIT").queryFirst();
+        if (UtilValidate.isNotEmpty(currentActiveNode)) {
+            GenericValue mainProcess = EntityQuery.use(delegator).from("MainProcess")
+                    .where("workFlowId", rootWorkEffort.getString("workEffortParentId")).queryFirst();
+            return UtilMisc.toMap("processId", mainProcess.getString("processId"), "nodeId", currentActiveNode.getLong("priority"));
+        }
+        return null;
+    }
+
     public static String getTypeId(OfbizCsdlEntityType csdlEntityType, HttpServletRequest request) {
         Map<String, Object> conditionMap = Util.parseConditionMap(csdlEntityType.getEntityConditionStr(), request);
         for (Map.Entry<String, Object> entry : conditionMap.entrySet()) {
