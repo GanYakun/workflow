@@ -1,10 +1,15 @@
 <ofbiz-edm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd" ImportGlobal="false">
-    <!-- EdmConfig引用 -->
+    <!-- 返回用户自选参数 -->
     <ComplexType Name="ApproverData">
         <Property Name="nodeId" Type="Edm.Decimal"/>
         <Property Name="nodeName" Type="String"/>
         <Property Name="selectList" Type="String"/>
+    </ComplexType>
+    <!-- 用户返回当前正在进行的节点 -->
+    <ComplexType Name="ActiveData">
+        <Property Name="processId" Type="String"/>
+        <Property Name="nodeId" Type="Edm.Decimal"/>
     </ComplexType>
     <!--=====================================     业务主对象EntityType definition Begin    =====================================-->
     <!--请假申请-->
@@ -43,6 +48,10 @@
         <Action Name="CancelApproval" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.cancelApproval">
             <Parameter Name="leaveApproval" Type="LeaveApproval" Nullable="false" IsCollection="false"/>
         </Action>
+        <Action Name="ViewApproval" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.viewApproval">
+            <Parameter Name="leaveApproval" Type="LeaveApproval" Nullable="false" IsCollection="false"/>
+            <ReturnType Type="ActiveData" Nullable="true"/>
+        </Action>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
             <DataField Values="emplLeaveReasonTypeId,fromDate,thruDate,description"
                        Importance="High"/>
@@ -54,6 +63,8 @@
         <LineItem>
             <DataField Values="partyId,emplLeaveReasonTypeId,description,fromDate,thruDate,statusId,LeaveMember/externalId,LeaveMember/phoneMobile,LeaveMember/Department/partyName"
                        Importance="High"/>
+            <DataFieldForAction Label="查看进度" Importance="High" Action="ViewApproval" Hidden="isHiddenCancelApproval"
+                                Inline="true" InvocationGrouping="Isolated" Criticality="Positive"/>
         </LineItem>
         <NavigationProperty Name="LeaveType" Relations="EmplLeaveType" Type="LeaveType"
                             IsCollection="false"/>
