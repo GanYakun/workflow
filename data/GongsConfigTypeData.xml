@@ -99,6 +99,11 @@ under the License.
     <Enumeration enumId="VISIBLE_ALL" enumTypeId="PROCESS_RANGE" description="全员可见" enumCode="VISIBLE_TO_ALL" sequenceId="01"/>
     <Enumeration enumId="SPECIFY_PERSON" enumTypeId="PROCESS_RANGE" description="指定人员" enumCode="SPECIFY_PERSON" sequenceId="02"/>
 
+    <EnumerationType description="国际化语言枚举值" enumTypeId="LANGUAGE_ENUM" hasTable="N"/>
+    <Enumeration enumId="zh" enumTypeId="LANGUAGE_ENUM" description="中文简体" enumCode="ZH" sequenceId="01"/>
+    <Enumeration enumId="zh-TW" enumTypeId="LANGUAGE_ENUM" description="中文繁体" enumCode="ZH_TW" sequenceId="02"/>
+    <Enumeration enumId="en" enumTypeId="LANGUAGE_ENUM" description="英文" enumCode="EN" sequenceId="03"/>
+
     <!-- 业务对象 字段类型 -->
     <ProcessFieldType description="金额" processFieldTypeId="AMOUNT"/>
     <ProcessFieldType description="布尔值" processFieldTypeId="BOOL"/>

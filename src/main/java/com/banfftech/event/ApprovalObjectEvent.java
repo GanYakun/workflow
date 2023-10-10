@@ -5,13 +5,16 @@ import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
+import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.entity.condition.EntityCondition;
 import org.apache.ofbiz.entity.model.ModelEntity;
 import org.apache.ofbiz.entity.model.ModelField;
+import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.olingo.commons.api.edm.EdmBindingTarget;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -36,6 +39,11 @@ public class ApprovalObjectEvent {
         ModelEntity modelEntity = delegator.getModelEntity(processEntityName);
         List<String> automaticFieldNames = modelEntity.getAutomaticFieldNames();
         Iterator<ModelField> fieldsIterator = modelEntity.getFieldsIterator();
+
+        List<GenericValue> processFields = EntityQuery.use(delegator).from("ProcessField").where("processEntityId", processEntityId).queryList();
+        for (GenericValue processField : processFields) {
+            delegator.removeByAnd("ProcessFieldLabel", UtilMisc.toMap("processFieldId", processField.getString("processFieldId")));
+        }
         delegator.removeByAnd("ProcessField", UtilMisc.toMap("processEntityId", processEntityId));
         while (fieldsIterator.hasNext()) {
             ModelField field = fieldsIterator.next();
@@ -63,7 +71,31 @@ public class ApprovalObjectEvent {
         String asConditionStr = asCondition ? "Y" : "N";
         String description = (String) actionParameters.get("description");
         delegator.storeByCondition("ProcessField", UtilMisc.toMap("description", description, "valueTypeId", valueTypeId, "processFieldTypeId", processFieldTypeId,
-                        "asCondition", asConditionStr), EntityCondition.makeCondition(ofbizEntity.getGenericValue().getPrimaryKey()));
+                "asCondition", asConditionStr), EntityCondition.makeCondition(ofbizEntity.getGenericValue().getPrimaryKey()));
+    }
+
+
+    /**
+     * 初始化字段类型
+     */
+    public static void addLabel(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws GenericEntityException {
+        Delegator delegator = (Delegator) oDataContext.get("delegator");
+        Locale locale = (Locale) oDataContext.get("locale");
+        OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.get("processField");
+        String language = (String) actionParameters.get("language");
+        if (UtilValidate.isEmpty(language)) {
+            language = locale.getLanguage();
+        }
+        String value = (String) actionParameters.get("value");
+        String processFieldId = (String) ofbizEntity.getPropertyValue("processFieldId");
+        GenericValue label = EntityQuery.use(delegator).from("ProcessFieldLabel").where("processFieldId", processFieldId, "language", language).queryFirst();
+        if (UtilValidate.isNotEmpty(label)) {
+            label.set("value", value);
+            label.store();
+        } else {
+            delegator.create("ProcessFieldLabel", UtilMisc.toMap("processFieldLabelId", delegator.getNextSeqId("ProcessFieldLabel"),
+                    "processFieldId", processFieldId, "language", language, "value", value));
+        }
     }
 
     /**

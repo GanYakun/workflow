@@ -65,6 +65,10 @@
                 <ParameterInOut LocalDataProperty="processFieldTypeId" ValueListProperty="processFieldTypeId"/>
             </ValueList>
         </Property>
+        <HeaderInfo>
+            <Title Path="processFieldName"/>
+            <Description Path="description"/>
+        </HeaderInfo>
         <LineItem Qualifier="EditLineItem">
             <DataField Values="processFieldName,processFieldTypeId,asCondition,valueTypeId,description,isOpen"/>
         </LineItem>
@@ -72,6 +76,22 @@
             <DataField Values="processFieldName,processFieldTypeId,asCondition,description"/>
         </LineItem>
         <NavigationProperty Name="ProcessFieldType"/>
+        <NavigationProperty Name="ProcessFieldLabel"/>
+        <Action Name="AddLabel" IsBound="true" OfbizService="com.banfftech.event.ApprovalObjectEvent.addLabel">
+            <Parameter Name="processField" Type="ProcessField" Nullable="false" IsCollection="false"/>
+            <Parameter Name="language" Type="String" Nullable="false" IsCollection="false">
+                <ValueList CollectionPath="LanguageEnumerations" WithFixedValues="true" ParameterDisplayOnly="description" Label="Select Language">
+                    <ParameterInOut ValueListProperty="enumId" LocalDataProperty="language"/>
+                </ValueList>
+            </Parameter>
+            <Parameter Name="value" Type="String" Nullable="false" IsCollection="false"/>
+        </Action>
+    </EntityType>
+
+    <EntityType Name="ProcessFieldLabel" AutoProperties="true" EntitySetName="ProcessFieldLabels">
+        <LineItem>
+            <DataField Values="language,value"/>
+        </LineItem>
     </EntityType>
     
     <EntityType Name="ProcessFieldType" AutoProperties="true" EntitySetName="ProcessFieldTypes">
@@ -106,6 +126,7 @@
 
     <EntityType Name="StatusItem" EntitySetName="StatusItems" AutoProperties="true"/>
     <EntityType Name="RangeEnumeration" OfbizEntity="Enumeration" EntitySetName="RangeEnumerations" AutoProperties="true" EntityCondition="enumTypeId=PROCESS_RANGE"/>
+    <EntityType Name="LanguageEnumeration" OfbizEntity="Enumeration" EntitySetName="LanguageEnumerations" AutoProperties="true" EntityCondition="enumTypeId=LANGUAGE_ENUM"/>
     <EntityType Name="Enumeration" EntitySetName="Enumerations" AutoProperties="true"/>
 
 
