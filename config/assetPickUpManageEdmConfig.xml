@@ -7,20 +7,22 @@
     </ComplexType>
     <!--=====================================     业务主对象EntityType definition Begin    =====================================-->
     <!--资产领用-->
-    <EntityType Name="AssetPickUpRequest" OfbizEntity="Requirement" EntitySetName="AssetPickUpRequests"
+    <EntityType Name="AssetPickUpRequest" OfbizEntity="Requirement" EntitySetName="AssetPickUpRequests" AttrEntityName="RequirementAttribute"
                 AutoProperties="true"
                 Handler="component://gongsconfig/groovyScripts/businessManage/LeaveApproval.groovy"
-                EntityCondition="requirementTypeId=WORK_REQUIREMENT and partyId=${userLogin.partyId}">
-        <SelectionFields PropertyPath="description,useCase"/>
+                EntityCondition="requirementTypeId=WORK_REQUIREMENT and createdByUserLogin=${userLogin.userLoginId}">
+        <SelectionFields PropertyPath="productId,assetPurpose,description,supplier,useCase"/>
         <Property Name="isHiddenSubmitApproval" Type="Boolean"/>
         <Property Name="isHiddenCancelApproval" Type="Boolean"/>
         <Property Name="requirementId" Computed="true"/>
-        <Property Name="fixedAssetId" FieldControl="Mandatory" Required="true">
-            <Text Path="AssetEntry/fixedAssetName" TextArrangement="TextOnly"/>
+        <Property Name="productId" FieldControl="Mandatory" Required="true">
+            <Text Path="Product/productName" TextArrangement="TextOnly"/>
         </Property>
         <Property Name="statusId" DefaultValue="APPROVAL_CREATED">
             <Text Path="RequestStatus/description" TextArrangement="TextOnly"/>
         </Property>
+        <Property Name="assetPurpose" Type="String" IsAttribute="true"/>
+        <Property Name="supplier" Type="String" IsAttribute="true"/>
         <Function Name="GetApproverData" OfbizService="com.banfftech.event.ApprovalEvent.getApproverData"
                   IsBound="true">
             <Parameter Name="assetPickUpRequest" Type="AssetPickUpRequest" Nullable="false" IsCollection="false"/>
@@ -33,11 +35,8 @@
         <Action Name="CancelApproval" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.cancelApproval">
             <Parameter Name="assetPickUpRequest" Type="AssetPickUpRequest" Nullable="false" IsCollection="false"/>
         </Action>
-        <Action Name="AssetPickUp" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.assetPickUp">
-            <Parameter Name="assetPickUpRequest" Type="AssetPickUpRequest" Nullable="false" IsCollection="false"/>
-        </Action>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
-            <DataField Values="fixedAssetId,description,useCase,quantity,estimatedBudget"
+            <DataField Values="assetPurpose,Product/ProductModel/idValue,supplier,useCase,quantity,estimatedBudget"
                        Importance="High"/>
         </FieldGroup>
         <FieldGroup Qualifier="ApplicantInformation" Label="申请人信息">
@@ -46,42 +45,60 @@
                     Importance="High"/>
         </FieldGroup>
         <LineItem>
-            <DataField Values="fixedAssetId,description,useCase,quantity,estimatedBudget,statusId,AssetEntry/statusId"
+            <DataField Values="productId,assetPurpose,supplier,description,useCase,quantity,estimatedBudget,statusId"
                        Importance="High"/>
         </LineItem>
+        <HeaderInfo TypeName="AssetPickUpRequest Manage" TypeNamePlural="资产领用申请信息">
+            <Title Path="productId"/>
+            <Description Path="description"/>
+        </HeaderInfo>
         <NavigationProperty Name="RequestStatus" Relations="StatusItem" Type="RequestStatus"
                             IsCollection="false"/>
-        <NavigationProperty Name="AssetEntry" Relations="FixedAsset" Type="AssetEntry"
+        <NavigationProperty Name="Product"
                             IsCollection="false"/>
         <NavigationProperty Name="Member" Relations="UserLogin/PartyAndContact" Type="Member"
                             IsCollection="false"/>
     </EntityType>
 
     <!--资产录入-->
-    <EntityType Name="AssetEntry" OfbizEntity="FixedAsset" EntitySetName="AssetEntries" AutoProperties="true" Orderby="-dateAcquired"
+    <EntityType Name="AssetEntry" OfbizEntity="FixedAsset" EntitySetName="AssetEntries" AttrEntityName="FixedAssetAttribute" AttrDateEntityName="FixedAssetAttributeDate" AutoProperties="true" Orderby="-dateAcquired"
                 EntityCondition="fixedAssetTypeId=EQUIPMENT">
         <SelectionFields PropertyPath="fixedAssetName,instanceOfProductId,InstanceOfProduct/ProductModel/idValue,dateAcquired,serialNumber"/>
         <ValueList CollectionPath="AssetEntries" WithFixedValues="false" ParameterDisplayOnly="fixedAssetName,instanceOfProductId,InstanceOfProduct/ProductModel/idValue,dateAcquired,serialNumber"/>
         <Property Name="fixedAssetId" Computed="true"/>
         <Property Name="fixedAssetName" FieldControl="Mandatory" Required="true"/>
         <Property Name="dateAcquired" FieldControl="Mandatory" Required="true"/>
-        <Property Name="serialNumber" FieldControl="Mandatory" Required="true"/>
+        <Property Name="serialNumber" FieldControl="Mandatory" Required="true" Immutable="true"/>
         <Property Name="instanceOfProductId" FieldControl="Mandatory" Required="true">
             <Text Path="InstanceOfProduct/productName" TextArrangement="TextOnly"/>
         </Property>
-        <Property Name="statusId" DefaultValue="FIXEDASSET_CREATED">
+        <Property Name="statusId" DefaultValue="FIXEDASSET_CREATED" Immutable="true">
             <Text Path="FixedAssetStatus/description" TextArrangement="TextOnly"/>
         </Property>
+        <Property Name="externalId" Type="String" IsAttribute="true" Immutable="true"/>
+        <Property Name="assetPurpose" Type="String" IsAttribute="true"/>
+        <Property Name="procurementLocation" Type="String" IsAttribute="true"/>
+        <Property Name="mainConfiguration" Type="String" IsAttribute="true"/>
+        <Property Name="assetSource" Type="String" IsAttribute="true"/>
+        <Property Name="systemAndVersion" Type="String" IsAttribute="true"/>
+        <Property Name="warehousingDate" Type="Edm.DateTimeOffset" IsDateAttribute="true"/>
+        <Property Name="purchaseInvoiceDate" Type="Edm.DateTimeOffset" IsDateAttribute="true"/>
+        <Property Name="description" Type="String" IsAttribute="true"/>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
             <DataField
-                    Values="fixedAssetName,instanceOfProductId,InstanceOfProduct/ProductModel/idValue,dateAcquired,serialNumber"
+                    Values="instanceOfProductId,InstanceOfProduct/ProductModel/idValue,dateAcquired,warehousingDate"
+                    Importance="High"/>
+        </FieldGroup>
+        <FieldGroup Qualifier="DetailInfo" Label="详细信息">
+            <DataField
+                    Values="assetSource,procurementLocation,assetPurpose,mainConfiguration,systemAndVersion,purchaseInvoiceDate"
                     Importance="High"/>
         </FieldGroup>
         <LineItem>
-            <DataField Values="fixedAssetName,instanceOfProductId,InstanceOfProduct/ProductModel/idValue,dateAcquired,serialNumber" Importance="High"/>
+            <DataField Values="serialNumber,fixedAssetName,instanceOfProductId,InstanceOfProduct/ProductModel/idValue,dateAcquired,externalId,description" Importance="High"/>
         </LineItem>
         <LineItem Qualifier="DisplayInProduct">
-            <DataField Values="fixedAssetName,dateAcquired,serialNumber" Importance="High"/>
+            <DataField Values="serialNumber,fixedAssetName,instanceOfProductId,InstanceOfProduct/ProductModel/idValue,dateAcquired,warehousingDate,externalId,description" Importance="High"/>
         </LineItem>
         <HeaderInfo TypeName="FixedAsset Manage" TypeNamePlural="资产信息">
             <Title Path="fixedAssetName"/>
@@ -95,21 +112,25 @@
     <EntityType Name="Product" EntitySetName="Products" AutoProperties="true" AttrEntityName="ProductAttribute"
                 Orderby="-createdDate"
                 EntityCondition="productTypeId=FINISH_GOOD"
-                SearchOption="productName,GoodIdentification(goodIdentificationTypeId=MANUFACTURER_ID_NO)/idValue,manufacturer">
-        <ValueList CollectionPath="Products" WithFixedValues="false" ParameterDisplayOnly="productName,idValue,manufacturer,createdDate,createdByUserLogin"/>
+                SearchOption="productName,GoodIdentification(goodIdentificationTypeId=MANUFACTURER_ID_NO)/idValue,manufacturer"
+                Handler="component://gongsconfig/groovyScripts/assetPickUpManage/Product.groovy">
+        <ValueList CollectionPath="Products" WithFixedValues="false" ParameterDisplayOnly="productId,ProductModel/idValue,manufacturer,createdDate,createdByUserLogin"/>
         <SelectionFields PropertyPath="productName,ProductModel/idValue,manufacturer,createdDate"/>
-        <Property Name="productId" Computed="true"/>
+        <Property Name="assetNumber" Type="Edm.Int64"/>
+        <Property Name="productId" Computed="true">
+            <Text Path="productName" TextArrangement="TextOnly"/>
+        </Property>
         <Property Name="productName" FieldControl="Mandatory" Required="true"/>
         <Property Name="manufacturer" IsAttribute="true" Type="String" FieldControl="Mandatory" Required="true"/>
         <Property Name="createdByUserLogin">
             <Text Path="Member/partyName" TextArrangement="TextOnly"/>
         </Property>
         <LineItem>
-            <DataField Values="productName,ProductModel/idValue,manufacturer,createdDate,createdByUserLogin" Importance="High"/>
+            <DataField Values="productName,ProductModel/idValue,manufacturer,createdDate,createdByUserLogin,assetNumber" Importance="High"/>
         </LineItem>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
             <DataField
-                    Values="productName,ProductModel/idValue,manufacturer,createdDate,createdByUserLogin"
+                    Values="productName,ProductModel/idValue,manufacturer,createdDate,createdByUserLogin,assetNumber"
                     Importance="High"/>
         </FieldGroup>
         <HeaderInfo TypeName="Product Manage" TypeNamePlural="产品">

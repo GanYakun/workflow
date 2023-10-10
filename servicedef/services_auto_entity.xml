@@ -106,4 +106,21 @@ under the License.
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
 
+
+    <!--RequirementAttribute-->
+    <service name="banfftech.createRequirementAttribute" default-entity-name="RequirementAttribute" engine="entity-auto" invoke="create">
+        <description>Create a RequirementAttribute</description>
+        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="banfftech.updateRequirementAttribute" default-entity-name="RequirementAttribute" engine="entity-auto" invoke="update">
+        <description>Update a RequirementAttribute</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="banfftech.deleteRequirementAttribute" default-entity-name="RequirementAttribute" engine="entity-auto" invoke="delete">
+        <description>Delete a RequirementAttribute</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+
 </services>

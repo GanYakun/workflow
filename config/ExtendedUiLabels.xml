@@ -22,9 +22,9 @@ under the License.
           xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/ofbiz-properties.xsd">
 <!--A-->
     <!--AssetPickUpRequest-->
-    <property key="AssetPickUpRequestFixedAssetId">
-        <value xml:lang="en">FixedAssetName</value>
-        <value xml:lang="zh">领用资产</value>
+    <property key="AssetPickUpRequestProductId">
+        <value xml:lang="en">ProductId</value>
+        <value xml:lang="zh">资产产品</value>
     </property>
     <property key="AssetPickUpRequestDescription">
         <value xml:lang="en">Description</value>
@@ -42,10 +42,19 @@ under the License.
         <value xml:lang="en">EstimatedBudget</value>
         <value xml:lang="zh">预计资产价格</value>
     </property>
+    <property key="AssetPickUpRequestAssetPurpose">
+        <value xml:lang="en">AssetPurpose</value>
+        <value xml:lang="zh">资产用途</value>
+    </property>
+    <property key="AssetPickUpRequestSupplier">
+        <value xml:lang="en">Supplier</value>
+        <value xml:lang="zh">供应商</value>
+    </property>
     <property key="AssetPickUpRequestStatusId">
         <value xml:lang="en">Status</value>
         <value xml:lang="zh">申请状态</value>
     </property>
+
     <property key="ActivityWorkEffortName">
         <value xml:lang="en">Task name</value>
         <value xml:lang="zh">审批任务名称</value>
@@ -68,16 +77,56 @@ under the License.
     </property>
     <property key="AssetEntrySerialNumber">
         <value xml:lang="en">SerialNumber</value>
-        <value xml:lang="zh">出厂序列号</value>
+        <value xml:lang="zh">资产编号</value>
+    </property>
+    <property key="AssetEntryMainConfiguration">
+        <value xml:lang="en">MainConfiguration</value>
+        <value xml:lang="zh">主要配置</value>
+    </property>
+    <property key="AssetEntrySystemAndVersion">
+        <value xml:lang="en">SystemAndVersion</value>
+        <value xml:lang="zh">操作系统和版本</value>
+    </property>
+    <property key="AssetEntryExternalId">
+        <value xml:lang="en">ExternalId</value>
+        <value xml:lang="zh">出厂序列号SN</value>
     </property>
     <property key="AssetEntryStatusId">
         <value xml:lang="en">Status</value>
         <value xml:lang="zh">资产状态</value>
     </property>
+    <property key="AssetEntryAssetPurpose">
+        <value xml:lang="en">AssetPurpose</value>
+        <value xml:lang="zh">资产用途</value>
+    </property>
+    <property key="AssetEntryProcurementLocation">
+        <value xml:lang="en">ProcurementLocation</value>
+        <value xml:lang="zh">采购地点</value>
+    </property>
+    <property key="AssetEntryAssetSource">
+        <value xml:lang="en">AssetSource</value>
+        <value xml:lang="zh">资产来源</value>
+    </property>
+    <property key="AssetEntryWarehousingDate">
+        <value xml:lang="en">WarehousingDate</value>
+        <value xml:lang="zh">入库日期</value>
+    </property>
+    <property key="AssetEntryPurchaseInvoiceDate">
+        <value xml:lang="en">PurchaseInvoiceDate</value>
+        <value xml:lang="zh">采购发票日期</value>
+    </property>
+    <property key="AssetEntryDescription">
+        <value xml:lang="en">Description</value>
+        <value xml:lang="zh">其它说明</value>
+    </property>
 <!--p-->
     <!--Product-->
     <property key="ProductProductName">
         <value xml:lang="en">ProductNamed</value>
+        <value xml:lang="zh">产品名称</value>
+    </property>
+    <property key="ProductProductId">
+        <value xml:lang="en">ProductId</value>
         <value xml:lang="zh">产品名称</value>
     </property>
     <property key="ProductModelIdValue">
@@ -95,6 +144,10 @@ under the License.
     <property key="ProductCreatedByUserLogin">
         <value xml:lang="en">CreatedByUserLogin</value>
         <value xml:lang="zh">创建人</value>
+    </property>
+    <property key="ProductAssetNumber">
+        <value xml:lang="en">AssetNumber</value>
+        <value xml:lang="zh">资产数量</value>
     </property>
 
     <property key="ProcessEntityProcessEntityId">

@@ -300,23 +300,4 @@ public class ApprovalEvent {
         return null;
     }
 
-    /**
-     * 资产领用
-     */
-    public static void assetPickUp(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget)
-            throws OfbizODataException {
-        LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
-        GenericValue userLogin = (GenericValue) oDataContext.get("userLogin");
-        OdataOfbizEntity odataOfbizEntity = (OdataOfbizEntity) actionParameters.get("assetPickUpRequest");
-        GenericValue approval = odataOfbizEntity.getGenericValue();
-        String fixedAssetId = approval.getString("fixedAssetId");
-
-        try {
-            dispatcher.runSync("banfftech.updateFixedAsset",
-                    UtilMisc.toMap("fixedAssetId", fixedAssetId, "statusId", "FIXEDASSET_RECEIVED", "userLogin", userLogin));
-        } catch (GenericServiceException e) {
-            throw new OfbizODataException(e.getMessage());
-        }
-    }
-
 }
