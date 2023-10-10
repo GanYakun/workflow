@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * @ClassName: OverrideEnumerationFindList
- * @Description: TODO
+ * @Description: 主要作用: 重写findLis,查询发回自定义内容
  * @Author: banff
  * @Date: 2023/8/10 12:16
  */
@@ -38,6 +38,7 @@ public class OverrideMemberFindList extends DefaultEntityHandler {
         if (UtilValidate.isNotEmpty(navigationParam)) {
             EdmNavigationProperty edmNavigationProperty = (EdmNavigationProperty) navigationParam.get("edmNavigationProperty");
             String navigationPropertyName = edmNavigationProperty.getName();
+            //当NavigationName=AllMember时,递归查询当前部门及其所有子部门的成员
             if ("AllMember".equals(navigationPropertyName)) {
                 OdataOfbizEntity entity = (OdataOfbizEntity) navigationParam.get("entity");
                 GenericValue genericValue = entity.getGenericValue();
