@@ -26,7 +26,7 @@ import java.util.Map;
 public class ApprovalObjectEvent {
     private static final List<String> TYPE_TIME = UtilMisc.toList("date-time", "date", "time");
     private static final List<String> TYPE_BOOL = UtilMisc.toList("indicator");
-    private static final List<String> TYPE_AMT = UtilMisc.toList("currency-amount", "currency-precise", "fixed-point", "floating-point", "numeric");
+    private static final List<String> TYPE_NUM = UtilMisc.toList("currency-amount", "currency-precise", "fixed-point", "floating-point", "numeric");
 
     /**
      * 初始化字段类型
@@ -119,8 +119,8 @@ public class ApprovalObjectEvent {
         if (TYPE_BOOL.contains(fieldType)) {
             return "BOOL";
         }
-        if (TYPE_AMT.contains(fieldType)) {
-            return "AMOUNT";
+        if (TYPE_NUM.contains(fieldType)) {
+            return "NUMBER";
         }
         //default
         return "STRING";

@@ -27,6 +27,7 @@ import org.apache.ofbiz.service.LocalDispatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -267,6 +268,9 @@ public class FlowHelper {
         }
         if (fieldTypeId.equals("DATE_TIME")) {
             valueObj = Util.getSqlTimestamp(value.toString());
+        }
+        if (fieldTypeId.equals("NUMBER")) {
+            valueObj = new BigDecimal(value.toString());
         }
         //使用condition匹配
         EntityCondition entityCondition = EntityCondition.makeCondition(property, OPERATOR_MAP.get(operator), valueObj);
