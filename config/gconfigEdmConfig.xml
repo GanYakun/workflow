@@ -1,0 +1,15 @@
+<ofbiz-edm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd"
+           ImportGlobal="false">
+    <EntityType Name="OfbizEntity" AutoProperties="true" EntitySetName="OfbizEntities">
+        <NavigationProperty Name="OfbizField"/>
+        <NavigationProperty Name="OfbizRelation"/>
+    </EntityType>
+    <EntityType Name="OfbizField" AutoProperties="true" EntitySetName="OfbizFields">
+        <NavigationProperty Name="OfbizEntity"/>
+    </EntityType>
+    <EntityType Name="OfbizRelation" AutoProperties="true" EntitySetName="OfbizRelations">
+        <NavigationProperty Name="OfbizEntity"/>
+    </EntityType>
+
+</ofbiz-edm>
