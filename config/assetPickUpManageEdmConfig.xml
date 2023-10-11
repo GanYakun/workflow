@@ -62,8 +62,8 @@
         <NavigationProperty Name="Member" Relations="PartyAndContact" Type="Member"
                             IsCollection="false"/>
         <!--关联审批记录-->
-<!--        <NavigationProperty Name="ApprovalRecord" Relations="WorkFlowMember/WorkEffort/Approval" Type="Approval"-->
-<!--                            IsCollection="true"/>-->
+        <NavigationProperty Name="ApprovalRecord" Relations="WorkFlowMember/WorkEffort/Approval" Type="ApprovalRecord"
+                            IsCollection="true"/>
 
     </EntityType>
 
@@ -157,7 +157,30 @@
     <!--=====================================     业务主对象EntityType definition End    =====================================-->
 
     <!--=====================================     子对象对象EntityType definition Begin    =====================================-->
-
+    <!--审批记录-->
+    <EntityType Name="ApprovalRecord" OfbizEntity="Approval" EntitySetName="ApprovalRecords" AutoProperties="true">
+        <RelAlias Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity"/>
+        <Property Name="processEntityName" RelAlias="ProcessEntity" Field="processEntityName"/>
+        <Property Name="statusId">
+            <Text Path="ApprovalStatusItem/description" TextArrangement="TextOnly"/>
+        </Property>
+        <Property Name="mannerEnumId">
+            <Text Path="Via/description" TextArrangement="TextOnly"/>
+        </Property>
+        <Property Name="partyId">
+            <Text Path="Member/partyName" TextArrangement="TextOnly"/>
+        </Property>
+        <LineItem Qualifier="RecordApproval">
+            <DataField
+                    Values="workEffortName,fromDate,thruDate,partyId,comments,mannerEnumId,statusId"
+                    Importance="High"/>
+        </LineItem>
+        <NavigationProperty Name="ApprovalStatusItem" Relations="ApprovalStatusItem" Type="ApprovalStatusItem"
+                            IsCollection="false"/>
+        <!--关联审批通过枚举-->
+        <NavigationProperty Name="Via" Relations="MannerEnumeration" Type="Via" IsCollection="false"/>
+        <NavigationProperty Name="Member" Relations="PartyAndContact" Type="Member"/>
+    </EntityType>
 
     <!--申请状态-->
     <EntityType Name="RequestStatus" OfbizEntity="StatusItem" EntitySetName="RequestStatuses"
@@ -209,6 +232,14 @@
                 EntitySetName="ProductModels"
                 AutoProperties="true">
         <Property Name="idValue" FieldControl="Mandatory" Required="true"/>
+    </EntityType>
+
+    <EntityType Name="ApprovalStatusItem" OfbizEntity="StatusItem" EntitySetName="ApprovalStatusItem"
+                AutoProperties="true" EntityCondition="statusTypeId=WORKFLOW_STATUS"/>
+
+    <!--审批通过方式枚举-->
+    <EntityType Name="Via" OfbizEntity="Enumeration" EntitySetName="Vias" EntityCondition="enumTypeId=PASS_MANNER"
+                AutoProperties="true">
     </EntityType>
 
     <!--=====================================     子对象对象EntityType definition End    =====================================-->

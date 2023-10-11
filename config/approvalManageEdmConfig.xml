@@ -3,7 +3,7 @@
     <ImportEdm Path="component://gongsconfig/config/businessManageEdmConfig.xml"/>
     <ImportEdm Path="component://gongsconfig/config/assetPickUpManageEdmConfig.xml"/>
     <!--=====================================     主对象EntityType definition     =====================================-->
-    <!--审批-->
+    <!--审批(当前用户审批)-->
     <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true" Orderby="-createdDate"
                 EntityCondition="partyId=${userLogin.partyId}">
         <SelectionFields
@@ -71,9 +71,34 @@
         <!--关联审批通过枚举-->
         <NavigationProperty Name="Via" Relations="MannerEnumeration" Type="Via" IsCollection="false"/>
         <!--当前审批节点的审批历史-->
-        <NavigationProperty Name="ApprovalRecord" Relations="TopWorkEffort/Approval" Type="Approval"
+        <NavigationProperty Name="ApprovalRecord" Relations="TopWorkEffort/Approval" Type="ApprovalRecord"
                             IsCollection="true"/>
         <NavigationProperty Name="PartyAndContact"/>
+    </EntityType>
+
+    <!--审批记录-->
+    <EntityType Name="ApprovalRecord" OfbizEntity="Approval" EntitySetName="ApprovalRecords" AutoProperties="true">
+        <RelAlias Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity"/>
+        <Property Name="processEntityName" RelAlias="ProcessEntity" Field="processEntityName"/>
+        <Property Name="statusId">
+            <Text Path="ApprovalStatusItem/description" TextArrangement="TextOnly"/>
+        </Property>
+        <Property Name="mannerEnumId">
+            <Text Path="Via/description" TextArrangement="TextOnly"/>
+        </Property>
+        <Property Name="partyId">
+            <Text Path="Member/partyName" TextArrangement="TextOnly"/>
+        </Property>
+        <LineItem Qualifier="RecordApproval">
+            <DataField
+                    Values="workEffortName,fromDate,thruDate,partyId,comments,mannerEnumId,statusId"
+                    Importance="High"/>
+        </LineItem>
+        <NavigationProperty Name="ApprovalStatusItem" Relations="ApprovalStatusItem" Type="ApprovalStatusItem"
+                            IsCollection="false"/>
+        <!--关联审批通过枚举-->
+        <NavigationProperty Name="Via" Relations="MannerEnumeration" Type="Via" IsCollection="false"/>
+        <NavigationProperty Name="Member" Relations="PartyAndContact" Type="Member"/>
     </EntityType>
 
     <!--根审批节点WorkEffort-->

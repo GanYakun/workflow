@@ -81,8 +81,7 @@
 
     <!--=====================================     业务主对象EntityType definition End    =====================================-->
 
-
-
+    
     <!--=====================================     业务子对象EntityType definition End    =====================================-->
     <!--审批-->
     <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true">
