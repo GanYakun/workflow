@@ -24,8 +24,8 @@
         <Property Name="statusId" DefaultValue="APPROVAL_CREATED">
             <Text Path="RequestStatus/description" TextArrangement="TextOnly"/>
         </Property>
-        <Property Name="assetPurpose" Type="String" IsAttribute="true"/>
-        <Property Name="supplier" Type="String" IsAttribute="true"/>
+        <Property Name="assetPurpose" Type="String" IsAttribute="true" Label="${uiLabelMap.assetPurpose}"/>
+        <Property Name="supplier" Type="String" IsAttribute="true" Label="${uiLabelMap.supplier}"/>
         <Function Name="GetApproverData" OfbizService="com.banfftech.event.ApprovalEvent.getApproverData"
                   IsBound="true">
             <Parameter Name="assetPickUpRequest" Type="AssetPickUpRequest" Nullable="false" IsCollection="false"/>
@@ -65,8 +65,9 @@
     </EntityType>
 
     <!--资产录入-->
-    <EntityType Name="AssetEntry" OfbizEntity="FixedAsset" EntitySetName="AssetEntries" AttrEntityName="FixedAssetAttribute" AttrDateEntityName="FixedAssetAttributeDate" AutoProperties="true" Orderby="-dateAcquired"
-                EntityCondition="fixedAssetTypeId=EQUIPMENT">
+    <EntityType Name="AssetEntry" OfbizEntity="FixedAsset" EntitySetName="AssetEntries"
+                AttrEntityName="FixedAssetAttribute" AttrDateEntityName="FixedAssetAttributeDate" AutoProperties="true" Orderby="-dateAcquired"
+                EntityCondition="fixedAssetTypeId=EQUIPMENT" OfbizType="fixedAssetTypeId=EQUIPMENT">
         <SelectionFields PropertyPath="fixedAssetName,instanceOfProductId,InstanceOfProduct/ProductModel/idValue,dateAcquired,serialNumber"/>
         <ValueList CollectionPath="AssetEntries" WithFixedValues="false" ParameterDisplayOnly="fixedAssetName,instanceOfProductId,InstanceOfProduct/ProductModel/idValue,dateAcquired,serialNumber"/>
         <Property Name="fixedAssetId" Computed="true"/>
@@ -79,14 +80,14 @@
         <Property Name="statusId" DefaultValue="FIXEDASSET_CREATED" Immutable="true">
             <Text Path="FixedAssetStatus/description" TextArrangement="TextOnly"/>
         </Property>
-        <Property Name="externalId" Type="String" IsAttribute="true" Immutable="true"/>
-        <Property Name="assetPurpose" Type="String" IsAttribute="true"/>
-        <Property Name="procurementLocation" Type="String" IsAttribute="true"/>
-        <Property Name="mainConfiguration" Type="String" IsAttribute="true"/>
-        <Property Name="assetSource" Type="String" IsAttribute="true"/>
-        <Property Name="systemAndVersion" Type="String" IsAttribute="true"/>
-        <Property Name="warehousingDate" Type="Edm.DateTimeOffset" IsDateAttribute="true"/>
-        <Property Name="purchaseInvoiceDate" Type="Edm.DateTimeOffset" IsDateAttribute="true"/>
+        <Property Name="externalId" Type="String" IsAttribute="true" Immutable="true" Label="${uiLabelMap.externalId}"/>
+        <Property Name="assetPurpose" Type="String" IsAttribute="true" Label="${uiLabelMap.assetPurpose}"/>
+        <Property Name="procurementLocation" Type="String" IsAttribute="true" Label="${uiLabelMap.procurementLocation}"/>
+        <Property Name="mainConfiguration" Type="String" IsAttribute="true" Label="${uiLabelMap.mainConfiguration}"/>
+        <Property Name="assetSource" Type="String" IsAttribute="true" Label="${uiLabelMap.assetSource}"/>
+        <Property Name="systemAndVersion" Type="String" IsAttribute="true" Label="${uiLabelMap.systemAndVersion}"/>
+        <Property Name="warehousingDate" Type="Edm.DateTimeOffset" IsDateAttribute="true" Label="${uiLabelMap.warehousingDate}"/>
+        <Property Name="purchaseInvoiceDate" Type="Edm.DateTimeOffset" IsDateAttribute="true" Label="${uiLabelMap.purchaseInvoiceDate}"/>
         <Property Name="description" Type="String" IsAttribute="true"/>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
             <DataField
@@ -115,17 +116,17 @@
     <!--产品管理-->
     <EntityType Name="Product" EntitySetName="Products" AutoProperties="true" AttrEntityName="ProductAttribute"
                 Orderby="-createdDate"
-                EntityCondition="productTypeId=FINISH_GOOD"
+                EntityCondition="productTypeId=FINISH_GOOD" OfbizType="productTypeId=FINISH_GOOD"
                 SearchOption="productName,GoodIdentification(goodIdentificationTypeId=MANUFACTURER_ID_NO)/idValue,manufacturer"
                 Handler="component://gongsconfig/groovyScripts/assetPickUpManage/Product.groovy">
         <ValueList CollectionPath="Products" WithFixedValues="false" ParameterDisplayOnly="productId,ProductModel/idValue,manufacturer,createdDate,createdByUserLogin"/>
         <SelectionFields PropertyPath="productName,ProductModel/idValue,manufacturer,createdDate"/>
-        <Property Name="assetNumber" Type="Edm.Int64"/>
+        <Property Name="assetNumber" Type="Edm.Int64" Label="${uiLabelMap.assetNumber}"/>
         <Property Name="productId" Computed="true">
             <Text Path="productName" TextArrangement="TextOnly"/>
         </Property>
         <Property Name="productName" FieldControl="Mandatory" Required="true"/>
-        <Property Name="manufacturer" IsAttribute="true" Type="String" FieldControl="Mandatory" Required="true"/>
+        <Property Name="manufacturer" IsAttribute="true" Type="String" FieldControl="Mandatory" Required="true" Label="${uiLabelMap.manufacturer}"/>
         <Property Name="createdByUserLogin">
             <Text Path="Member/partyName" TextArrangement="TextOnly"/>
         </Property>
@@ -201,7 +202,7 @@
 
     <!--产品型号-->
     <EntityType Name="ProductModel" OfbizEntity="GoodIdentification"
-                EntityCondition="goodIdentificationTypeId=MANUFACTURER_ID_NO"
+                EntityCondition="goodIdentificationTypeId=MANUFACTURER_ID_NO" OfbizType="goodIdentificationTypeId=MANUFACTURER_ID_NO"
                 EntitySetName="ProductModels"
                 AutoProperties="true">
         <Property Name="idValue" FieldControl="Mandatory" Required="true"/>
