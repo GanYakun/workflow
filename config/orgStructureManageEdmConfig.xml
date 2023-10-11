@@ -48,11 +48,11 @@
         <SelectionFields PropertyPath="birthDate,gender"/>
         <ValueList CollectionPath="Members" WithFixedValues="true"/>
         <RelAlias Name="Person" Relations="Person"/>
-        <Property Name="gender" RelAlias="Person" Field="gender" FieldControl="Mandatory" Required="true">
+        <Property Name="gender" RelAlias="Person" Field="gender" FieldControl="Mandatory" Required="true" Label="${gender}">
             <Text Path="GenderEnumeration/description" TextArrangement="TextOnly"/>
         </Property>
-        <Property Name="birthDate" RelAlias="Person" Field="birthDate" FieldControl="Mandatory" Required="true"/>
-        <Property Name="nickname" RelAlias="Person" Field="nickname" FieldControl="Mandatory" Required="true"/>
+        <Property Name="birthDate" RelAlias="Person" Field="birthDate" FieldControl="Mandatory" Required="true" Label="${birthDate}"/>
+        <Property Name="nickname" RelAlias="Person" Field="nickname" FieldControl="Mandatory" Required="true" Label="${nickname}"/>
         <Property Name="partyTypeId" DefaultValue="PERSON"/>
         <Property Name="isManager" Type="Boolean"/>
         <Property Name="isNotManager" Type="Boolean"/>
@@ -102,11 +102,11 @@
     </EntityType>
 
     <!--角色管理-->
-    <EntityType Name="Role" OfbizEntity="RoleType" EntitySetName="Roles" EntityCondition="parentTypeId=MAIN_ROLE"
+    <EntityType Name="Role" OfbizEntity="RoleType" EntitySetName="Roles" EntityCondition="parentTypeId=MAIN_ROLE" OfbizType="parentTypeId=MAIN_ROLE"
                 AutoProperties="true"
                 Handler="component://gongsconfig/groovyScripts/orgStructureManage/Role.groovy">
         <SelectionFields PropertyPath="description"/>
-        <Property Name="userNumbers" Type="Edm.Int64"/>
+        <Property Name="userNumbers" Type="Edm.Int64" Label="${userNumbers}"/>
         <Property Name="parentTypeId">
             <Text Path="ParentRoleType/description" TextArrangement="TextOnly"/>
         </Property>
