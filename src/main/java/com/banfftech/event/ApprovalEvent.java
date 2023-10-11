@@ -87,8 +87,8 @@ public class ApprovalEvent {
                     EntityCondition.makeCondition("processEntityId", genericValue.getString("processEntityId")));
             //启用当前流程
             process.set("statusId", "PROCESS_ENABLED");
-            process.store();
         }
+        process.store();
     }
 
     /**
