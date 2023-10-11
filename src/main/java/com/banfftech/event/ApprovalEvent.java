@@ -178,7 +178,7 @@ public class ApprovalEvent {
             Map<String, Object> optionMap = UtilGenerics.checkMap(manual.getApprover().getValue());
             //人员范围类型
             JSONObject selectJson = new JSONObject();
-            if ("company".equals(optionMap.get("type"))) {
+            if ("company".equals(optionMap.get("type")) || "company".equals(optionMap.get("value"))) {
                 //公司id, 获取公司全部人员
                 List<GenericValue> allMembers = new ArrayList<>();
                 ServiceUtils.getDepartmentALlMembers(delegator, "Company", allMembers);
