@@ -339,10 +339,12 @@ public class FlowHelper {
             GenericValue createUser = delegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", createdByUserLogin), false);
             if ("manager".equals(approverType)) {
                 //查询提交人的部门负责人
+                GenericValue department = EntityQuery.use(delegator).from("PartyRelationship")
+                        .where("roleTypeIdTo","ORD_EMPLOYEE","partyIdTo", createUser.getString("partyId")).queryFirst();
                 GenericValue manager = EntityQuery.use(delegator).from("PartyRelationship")
-                        .where("partyIdTo", createUser.getString("partyId"), "roleTypeIdTo", "MANAGER").queryFirst();
+                        .where("partyIdFrom", department.getString("partyIdFrom"), "roleTypeIdTo", "MANAGER").queryFirst();
                 if (UtilValidate.isNotEmpty(manager)) {
-                    assignmentPartyIds.add(manager.getString("partyIdFrom"));
+                    assignmentPartyIds.add(manager.getString("partyIdTo"));
                 }
                 return assignmentPartyIds;
             }
