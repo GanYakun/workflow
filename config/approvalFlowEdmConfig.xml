@@ -16,6 +16,7 @@
         <Action Name="SaveProcess" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.saveProcess">
             <Parameter Name="mainProcess" Type="MainProcess" Nullable="false" IsCollection="false"/>
             <Parameter Name="nodeData" Type="Edm.String" Nullable="false" IsCollection="false"/>
+            <Parameter Name="enable" Type="Boolean" Nullable="true" IsCollection="false"/>
         </Action>
         <!-- 发布(启用) -->
         <Action Name="PublishFlow" IsBound="true" OfbizService="com.banfftech.event.ApprovalEvent.publishFlow">

@@ -60,6 +60,7 @@ public class ApprovalEvent {
         GenericValue genericValue = ofbizEntity.getGenericValue();
         //所有的节点数据
         String nodeData = (String) actionParameters.get("nodeData");
+        Boolean enable = (Boolean) actionParameters.get("enable");
         GenericValue process = EntityQuery.use(delegator).from("MainProcess").where(genericValue.getPrimaryKey()).queryOne();
         String workFlowId = process.getString("workFlowId");
         if (UtilValidate.isEmpty(workFlowId)) {
@@ -80,14 +81,14 @@ public class ApprovalEvent {
             //更新结构缓存
             FlowHelper.flushTreeNodeCache(noteData);
         }
-        //停用所有相同业务对象的流程
-        delegator.storeByCondition("MainProcess", UtilMisc.toMap("statusId", "PROCESS_NOT_ENABLED"),
-                EntityCondition.makeCondition("processEntityId", genericValue.getString("processEntityId")));
-        //启用当前流程
-        process.set("statusId", "PROCESS_ENABLED");
-        process.store();
-
-
+        if (UtilValidate.isNotEmpty(enable) && enable) {
+            //停用所有相同业务对象的流程
+            delegator.storeByCondition("MainProcess", UtilMisc.toMap("statusId", "PROCESS_NOT_ENABLED"),
+                    EntityCondition.makeCondition("processEntityId", genericValue.getString("processEntityId")));
+            //启用当前流程
+            process.set("statusId", "PROCESS_ENABLED");
+            process.store();
+        }
     }
 
     /**
