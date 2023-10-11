@@ -42,19 +42,17 @@
         <Action Name="Approved" IsBound="true"
                 OfbizService="com.banfftech.event.OrgStructureAppEvent.approve">
             <Parameter Name="approval" Type="Approval" Nullable="false" IsCollection="false"/>
-            <Parameter Name="statusId" Type="Edm.String" Nullable="false" IsCollection="false"
-                       Label="${uiLabelMap.ApprovalStatusId}"/>
+            <Parameter Name="statusId" Type="Edm.String" Nullable="false" IsCollection="false"/>
             <Parameter Name="comments" Type="Edm.String" Nullable="false" IsCollection="false"
-                       Label="${uiLabelMap.ApprovalComments}"/>
+                       Label="${approvalComments}"/>
         </Action>
         <!--审批不通过Action-->
         <Action Name="ApproveRefuse" IsBound="true"
                 OfbizService="com.banfftech.event.OrgStructureAppEvent.approve">
             <Parameter Name="approval" Type="Approval" Nullable="false" IsCollection="false"/>
-            <Parameter Name="statusId" Type="Edm.String" Nullable="false" IsCollection="false"
-                       Label="${uiLabelMap.ApprovalStatusId}"/>
+            <Parameter Name="statusId" Type="Edm.String" Nullable="false" IsCollection="false"/>
             <Parameter Name="comments" Type="Edm.String" Nullable="false" IsCollection="false"
-                       Label="${uiLabelMap.ApprovalComments}"/>
+                       Label="${approvalComments}"/>
         </Action>
         <NavigationProperty Name="RootNodeWorkEffort" Type="RootNodeWorkEffort" Relations="TopWorkEffort"
                             IsCollection="false"/>

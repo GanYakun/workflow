@@ -10,7 +10,7 @@
     <EntityType Name="AssetPickUpRequest" OfbizEntity="Requirement" EntitySetName="AssetPickUpRequests" AttrEntityName="RequirementAttribute"
                 AutoProperties="true"
                 Handler="component://gongsconfig/groovyScripts/businessManage/LeaveApproval.groovy"
-                EntityCondition="requirementTypeId=WORK_REQUIREMENT and partyId=${userLogin.partyId}">
+                EntityCondition="requirementTypeId=WORK_REQUIREMENT and partyId=${userLogin.partyId}" OfbizType="requirementTypeId=WORK_REQUIREMENT">
         <SelectionFields PropertyPath="productId,assetPurpose,description,supplier,useCase"/>
         <Property Name="isHiddenSubmitApproval" Type="Boolean"/>
         <Property Name="isHiddenCancelApproval" Type="Boolean"/>
@@ -24,8 +24,8 @@
         <Property Name="statusId" DefaultValue="APPROVAL_CREATED">
             <Text Path="RequestStatus/description" TextArrangement="TextOnly"/>
         </Property>
-        <Property Name="assetPurpose" Type="String" IsAttribute="true" Label="${uiLabelMap.assetPurpose}"/>
-        <Property Name="supplier" Type="String" IsAttribute="true" Label="${uiLabelMap.supplier}"/>
+        <Property Name="assetPurpose" Type="String" IsAttribute="true" Label="${assetPurpose}"/>
+        <Property Name="supplier" Type="String" IsAttribute="true" Label="${supplier}"/>
         <Function Name="GetApproverData" OfbizService="com.banfftech.event.ApprovalEvent.getApproverData"
                   IsBound="true">
             <Parameter Name="assetPickUpRequest" Type="AssetPickUpRequest" Nullable="false" IsCollection="false"/>
@@ -44,7 +44,7 @@
         </FieldGroup>
         <FieldGroup Qualifier="ApplicantInformation" Label="申请人信息">
             <DataField
-                    Values="Member/partyName,Member/externalId,Member/phoneMobile,Member/primaryEmail,Member/Department/partyName"
+                    Values="partyId,Member/externalId,Member/phoneMobile,Member/primaryEmail,Member/Department/partyName"
                     Importance="High"/>
         </FieldGroup>
         <LineItem>
@@ -61,6 +61,9 @@
                             IsCollection="false"/>
         <NavigationProperty Name="Member" Relations="PartyAndContact" Type="Member"
                             IsCollection="false"/>
+        <!--关联审批记录-->
+        <NavigationProperty Name="ApprovalRecord" Relations="WorkFlowMember/WorkEffort/Approval" Type="Approval"
+                            IsCollection="true"/>
 
     </EntityType>
 
@@ -80,15 +83,15 @@
         <Property Name="statusId" DefaultValue="FIXEDASSET_CREATED" Immutable="true">
             <Text Path="FixedAssetStatus/description" TextArrangement="TextOnly"/>
         </Property>
-        <Property Name="externalId" Type="String" IsAttribute="true" Immutable="true" Label="${uiLabelMap.externalId}"/>
-        <Property Name="assetPurpose" Type="String" IsAttribute="true" Label="${uiLabelMap.assetPurpose}"/>
-        <Property Name="procurementLocation" Type="String" IsAttribute="true" Label="${uiLabelMap.procurementLocation}"/>
-        <Property Name="mainConfiguration" Type="String" IsAttribute="true" Label="${uiLabelMap.mainConfiguration}"/>
-        <Property Name="assetSource" Type="String" IsAttribute="true" Label="${uiLabelMap.assetSource}"/>
-        <Property Name="systemAndVersion" Type="String" IsAttribute="true" Label="${uiLabelMap.systemAndVersion}"/>
-        <Property Name="warehousingDate" Type="Edm.DateTimeOffset" IsDateAttribute="true" Label="${uiLabelMap.warehousingDate}"/>
-        <Property Name="purchaseInvoiceDate" Type="Edm.DateTimeOffset" IsDateAttribute="true" Label="${uiLabelMap.purchaseInvoiceDate}"/>
-        <Property Name="description" Type="String" IsAttribute="true"/>
+        <Property Name="externalId" Type="String" IsAttribute="true" Immutable="true" Label="${externalId}"/>
+        <Property Name="assetPurpose" Type="String" IsAttribute="true" Label="${assetPurpose}"/>
+        <Property Name="procurementLocation" Type="String" IsAttribute="true" Label="${procurementLocation}"/>
+        <Property Name="mainConfiguration" Type="String" IsAttribute="true" Label="${mainConfiguration}"/>
+        <Property Name="assetSource" Type="String" IsAttribute="true" Label="${assetSource}"/>
+        <Property Name="systemAndVersion" Type="String" IsAttribute="true" Label="${systemAndVersion}"/>
+        <Property Name="warehousingDate" Type="Edm.DateTimeOffset" IsDateAttribute="true" Label="${warehousingDate}"/>
+        <Property Name="purchaseInvoiceDate" Type="Edm.DateTimeOffset" IsDateAttribute="true" Label="${purchaseInvoiceDate}"/>
+        <Property Name="description" Type="String" IsAttribute="true" Label="${description}"/>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
             <DataField
                     Values="instanceOfProductId,InstanceOfProduct/ProductModel/idValue,dateAcquired,warehousingDate"
@@ -121,12 +124,12 @@
                 Handler="component://gongsconfig/groovyScripts/assetPickUpManage/Product.groovy">
         <ValueList CollectionPath="Products" WithFixedValues="false" ParameterDisplayOnly="productId,ProductModel/idValue,manufacturer,createdDate,createdByUserLogin"/>
         <SelectionFields PropertyPath="productName,ProductModel/idValue,manufacturer,createdDate"/>
-        <Property Name="assetNumber" Type="Edm.Int64" Label="${uiLabelMap.assetNumber}"/>
+        <Property Name="assetNumber" Type="Edm.Int64" Label="${assetNumber}"/>
         <Property Name="productId" Computed="true">
             <Text Path="productName" TextArrangement="TextOnly"/>
         </Property>
         <Property Name="productName" FieldControl="Mandatory" Required="true"/>
-        <Property Name="manufacturer" IsAttribute="true" Type="String" FieldControl="Mandatory" Required="true" Label="${uiLabelMap.manufacturer}"/>
+        <Property Name="manufacturer" IsAttribute="true" Type="String" FieldControl="Mandatory" Required="true" Label="${manufacturer}"/>
         <Property Name="createdByUserLogin">
             <Text Path="Member/partyName" TextArrangement="TextOnly"/>
         </Property>
@@ -176,7 +179,7 @@
 
     <!--成员-->
     <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members"
-                EntityCondition="partyTypeId=PERSON and PartyRole/roleTypeId=ORD_EMPLOYEE"
+                EntityCondition="partyTypeId=PERSON and PartyRole/roleTypeId=ORD_EMPLOYEE" OfbizType="partyTypeId=PERSON"
                 AutoProperties="true">
         <RelAlias Name="Person" Relations="Person"/>
         <Property Name="gender" RelAlias="Person" Field="gender" FieldControl="Mandatory" Required="true">
