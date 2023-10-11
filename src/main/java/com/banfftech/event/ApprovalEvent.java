@@ -178,10 +178,10 @@ public class ApprovalEvent {
             Map<String, Object> optionMap = UtilGenerics.checkMap(manual.getApprover().getValue());
             //人员范围类型
             JSONObject selectJson = new JSONObject();
-            if (optionMap.get("value") instanceof String) {
+            if ("company".equals(optionMap.get("type"))) {
                 //公司id, 获取公司全部人员
                 List<GenericValue> allMembers = new ArrayList<>();
-                ServiceUtils.getDepartmentALlMembers(delegator, (String) optionMap.get("value"), allMembers);
+                ServiceUtils.getDepartmentALlMembers(delegator, "Company", allMembers);
                 for (GenericValue member : allMembers) {
                     selectJson.put(member.getString("partyId"), member.getString("partyName"));
                 }
