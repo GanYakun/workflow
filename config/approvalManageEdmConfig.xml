@@ -80,7 +80,7 @@
 
     <!--根审批节点WorkEffort-->
     <EntityType Name="RootNodeWorkEffort" OfbizEntity="WorkEffort" EntitySetName="RootNodeWorkEfforts"
-                AutoProperties="true" EntityCondition="workEffortTypeId=ROOT_NODE">
+                AutoProperties="true" EntityCondition="workEffortTypeId=ROOT_NODE" OfbizType="workEffortTypeId=ROOT_NODE">
         <Property Name="createdByUserLogin" Immutable="true">
             <Text Path="Creator/partyName" TextArrangement="TextOnly"/>
         </Property>
@@ -110,7 +110,7 @@
 
     <!--成员-->
     <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members" EntityCondition="partyTypeId=PERSON"
-                AutoProperties="true"
+                AutoProperties="true" OfbizType="partyTypeId=PERSON"
                 Handler="component://gongsconfig/groovyScripts/orgStructureManage/Member.groovy">
         <RelAlias Name="Person" Relations="Person"/>
         <Property Name="gender" RelAlias="Person" Field="gender" FieldControl="Mandatory" Required="true">

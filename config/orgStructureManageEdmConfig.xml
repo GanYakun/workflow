@@ -42,7 +42,7 @@
 
     <!--成员-->
     <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members"
-                EntityCondition="partyTypeId=PERSON and PartyRole/roleTypeId=ORD_EMPLOYEE"
+                EntityCondition="partyTypeId=PERSON and PartyRole/roleTypeId=ORD_EMPLOYEE" OfbizType="partyTypeId=PERSON"
                 AutoProperties="true"
                 Handler="component://gongsconfig/groovyScripts/orgStructureManage/Member.groovy">
         <SelectionFields PropertyPath="birthDate,gender"/>

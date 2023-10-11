@@ -10,11 +10,14 @@
     <EntityType Name="AssetPickUpRequest" OfbizEntity="Requirement" EntitySetName="AssetPickUpRequests" AttrEntityName="RequirementAttribute"
                 AutoProperties="true"
                 Handler="component://gongsconfig/groovyScripts/businessManage/LeaveApproval.groovy"
-                EntityCondition="requirementTypeId=WORK_REQUIREMENT and createdByUserLogin=${userLogin.userLoginId}">
+                EntityCondition="requirementTypeId=WORK_REQUIREMENT and partyId=${userLogin.partyId}">
         <SelectionFields PropertyPath="productId,assetPurpose,description,supplier,useCase"/>
         <Property Name="isHiddenSubmitApproval" Type="Boolean"/>
         <Property Name="isHiddenCancelApproval" Type="Boolean"/>
         <Property Name="requirementId" Computed="true"/>
+        <Property Name="partyId" Required="true" FieldControl="Mandatory">
+            <Text Path="Member/partyName" TextArrangement="TextOnly"/>
+        </Property>
         <Property Name="productId" FieldControl="Mandatory" Required="true">
             <Text Path="Product/productName" TextArrangement="TextOnly"/>
         </Property>
@@ -45,7 +48,7 @@
                     Importance="High"/>
         </FieldGroup>
         <LineItem>
-            <DataField Values="productId,assetPurpose,supplier,description,useCase,quantity,estimatedBudget,statusId"
+            <DataField Values="partyId,productId,assetPurpose,supplier,description,useCase,quantity,estimatedBudget,statusId"
                        Importance="High"/>
         </LineItem>
         <HeaderInfo TypeName="AssetPickUpRequest Manage" TypeNamePlural="资产领用申请信息">
@@ -56,8 +59,9 @@
                             IsCollection="false"/>
         <NavigationProperty Name="Product"
                             IsCollection="false"/>
-        <NavigationProperty Name="Member" Relations="UserLogin/PartyAndContact" Type="Member"
+        <NavigationProperty Name="Member" Relations="PartyAndContact" Type="Member"
                             IsCollection="false"/>
+
     </EntityType>
 
     <!--资产录入-->
