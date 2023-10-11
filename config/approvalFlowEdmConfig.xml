@@ -56,7 +56,7 @@
     </EntityType>
 
     <!-- 业务对象字段 -->
-    <EntityType Name="ProcessField" AutoProperties="true" EntitySetName="ProcessFields">
+    <EntityType Name="ProcessField" AutoProperties="true" EntitySetName="ProcessFields" SearchOption="processFieldName,description">
         <Property Name="asCondition" Type="Boolean"/>
         <Property Name="isOpen" Type="Boolean"/>
         <Property Name="processFieldTypeId">
