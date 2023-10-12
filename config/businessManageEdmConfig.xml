@@ -75,7 +75,7 @@
         <NavigationProperty Name="LeaveMember" Relations="Party/PartyAndContact" Type="Member"
                             IsCollection="false"/>
         <!--关联审批记录-->
-        <NavigationProperty Name="ApprovalRecord" Relations="WorkFlowMember/WorkEffort/Approval" Type="Approval"
+        <NavigationProperty Name="ApprovalRecord" Relations="WorkFlowMember(memberEntityName=EmplLeave)/WorkEffort/Approval" Type="Approval"
                             IsCollection="true"/>
     </EntityType>
 
