@@ -25,7 +25,6 @@
         </relation>
     </view-entity>
 
-
     <view-entity entity-name="Approval" package-name="com.banfftech.gongsconfig">
         <member-entity entity-alias="WEFT" entity-name="WorkEffort"/>
         <member-entity entity-alias="WEETPA" entity-name="WorkEffortPartyAssignment"/>
