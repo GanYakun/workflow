@@ -148,29 +148,37 @@ public class ServiceUtils {
 //    }
 
 
-
-    public static void getDepartmentALlMembers(Delegator delegator, String departmentId, List<GenericValue> allMembers)
+    /**
+     * @param [delegator, departmentId, allMembers]
+     * @Author yyp
+     * @Description //使用部门Id,查询并返回该部门及其子部门的所有成员
+     * @Date 11:16 2023/10/12
+     **/
+    public static List<GenericValue> getDepartmentALlMembers(Delegator delegator, String departmentId, List<GenericValue> allMembers)
             throws OfbizODataException {
-        //获取该部门的所有子部门
         try {
+            //获取该部门的所有子部门
             List<GenericValue> subDepartments = EntityQuery.use(delegator).from("PartyRelationship")
                     .where(UtilMisc.toMap("partyIdFrom", departmentId, "roleTypeIdTo", "DEPARTMENT"))
                     .queryList();
 
-            //获取当前部门的所有成员列表
-            List<GenericValue> membersId = EntityQuery.use(delegator).from("PartyRelationship")
+            //获取当前部门的所有直属成员partyId
+            List<String> membersId = EntityQuery.use(delegator).from("PartyRelationship")
                     .where(UtilMisc.toMap("partyIdFrom", departmentId, "roleTypeIdTo", "ORD_EMPLOYEE"))
                     .getFieldList("partyIdTo");
 
+            //获取并添加当前部门所有直属成员
             EntityCondition membersIdCondition = EntityCondition.makeCondition("partyId", EntityOperator.IN, membersId);
             List<GenericValue> members = EntityQuery.use(delegator).from("PartyAndContact").where(membersIdCondition).queryList();
             allMembers.addAll(members);
 
+            //遍历当前部门的所有子部门,进行以上递归循环
             if (UtilValidate.isNotEmpty(subDepartments)) {
                 for (GenericValue subDepartment : subDepartments) {
                     getDepartmentALlMembers(delegator, subDepartment.getString("partyIdTo"), allMembers);
                 }
             }
+            return allMembers;
         } catch (GenericEntityException e) {
             throw new OfbizODataException(e.getMessage());
         }

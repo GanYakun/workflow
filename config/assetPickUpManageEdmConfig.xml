@@ -99,7 +99,7 @@
         </FieldGroup>
         <FieldGroup Qualifier="DetailInfo" Label="详细信息">
             <DataField
-                    Values="assetSource,procurementLocation,assetPurpose,mainConfiguration,systemAndVersion,purchaseInvoiceDate"
+                    Values="assetSource,procurementLocation,assetPurpose,mainConfiguration,systemAndVersion,purchaseInvoiceDate,description"
                     Importance="High"/>
         </FieldGroup>
         <LineItem>
@@ -122,7 +122,7 @@
                 EntityCondition="productTypeId=FINISH_GOOD" OfbizType="productTypeId=FINISH_GOOD"
                 SearchOption="productName,GoodIdentification(goodIdentificationTypeId=MANUFACTURER_ID_NO)/idValue,manufacturer"
                 Handler="component://gongsconfig/groovyScripts/assetPickUpManage/Product.groovy">
-        <ValueList CollectionPath="Products" WithFixedValues="false" ParameterDisplayOnly="productId,ProductModel/idValue,manufacturer,createdDate,createdByUserLogin"/>
+        <ValueList CollectionPath="Products" WithFixedValues="false" ParameterDisplayOnly="productId,ProductModel/idValue,manufacturer,createdDate,createdByUserLogin" Label="产品信息"/>
         <SelectionFields PropertyPath="productName,ProductModel/idValue,manufacturer,createdDate"/>
         <Property Name="assetNumber" Type="Edm.Int64" Label="${assetNumber}"/>
         <Property Name="productId" Computed="true">
