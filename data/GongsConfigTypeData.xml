@@ -40,10 +40,15 @@ under the License.
     <RoleType description="系统角色" hasTable="N" parentTypeId="" roleTypeId="MAIN_ROLE"/>
 
     <!--ORGANIZATION_ROLE(ORGANIZATION_UNIT->DEPARTMENT)-->
+    <!--组织机构角色-->
     <RoleType description="Organization" hasTable="N" parentTypeId="" roleTypeId="ORGANIZATION_ROLE"/>
+    <!--组织单位-->
     <RoleType description="Organization Unit" hasTable="N" parentTypeId="ORGANIZATION_ROLE" roleTypeId="ORGANIZATION_UNIT"/>
+    <!--内部组织-->
     <RoleType description="Internal Organization" hasTable="Y" parentTypeId="ORGANIZATION_ROLE" roleTypeId="INTERNAL_ORGANIZATIO"/>
+    <!--部门-->
     <RoleType description="Department" hasTable="N" parentTypeId="ORGANIZATION_UNIT" roleTypeId="DEPARTMENT"/>
+    <!--其它（用户组）-->
     <RoleType description="Other Organization Unit" hasTable="N" parentTypeId="ORGANIZATION_UNIT" roleTypeId="OTHER_ORGANIZATION_U"/>
 
     <!--EmplLeaveType(请假类型)-->

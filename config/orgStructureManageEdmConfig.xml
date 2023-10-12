@@ -136,7 +136,6 @@
 
 
     <EntityType Name="RolePartyDisplay" OfbizEntity="PartyRole" EntitySetName="RolePartyDisplays" AutoProperties="true">
-        <Property Name="partyTypeId" DefaultValue="MAIN_ROLE"/>
         <Property Name="partyId" FieldControl="Mandatory" Required="true">
             <Text Path="Member/partyName" TextArrangement="TextOnly"/>
         </Property>
