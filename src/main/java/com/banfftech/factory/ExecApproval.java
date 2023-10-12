@@ -26,8 +26,7 @@ public class ExecApproval implements ExecNode {
         try {
             String nodeName = nextNode.getNodeName();
             long nodeId = nextNode.getNodeId();
-            Long revisionNumber = parentWorkEffort.getLong("revisionNumber");
-            GenericValue topWorkEffort = FlowHelper.getTopWorkEffort(delegator, revisionNumber);
+            GenericValue topWorkEffort = FlowHelper.getTopWorkEffort(delegator, parentWorkEffort);
             GenericValue createParty = CommonUtils.getCreateParty(topWorkEffort);
             NodeUser nodeUserList = nextNode.getNodeUserList();
             String approvalType = nodeUserList.getApprovalType();
@@ -38,7 +37,7 @@ public class ExecApproval implements ExecNode {
                 delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId,
                         "workEffortName", nodeName, "workEffortTypeId", "APPROVAL", "currentStatusId", statusId,
                         "priority", nodeId, "workEffortParentId", parentWorkEffort.getString("workEffortId"),
-                        "revisionNumber", revisionNumber, "topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
+                        "topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
                 return;
             }
             //审批选项
@@ -46,8 +45,7 @@ public class ExecApproval implements ExecNode {
             String isEmpty = manual.getIsEmpty();
             //审批人
             Approver approver = manual.getApprover();
-            List<String> assiPartyIds = FlowHelper.getApprover(delegator, approver.getType(), approver.getValue(),
-                    parentWorkEffort.getLong("revisionNumber"), nodeId);
+            List<String> assiPartyIds = FlowHelper.getApprover(delegator, approver.getType(), approver.getValue(), topWorkEffort, nodeId);
             String statusId = "WEPR_WAIT";
             //审批人为空
             if (UtilValidate.isEmpty(assiPartyIds)) {
@@ -69,7 +67,7 @@ public class ExecApproval implements ExecNode {
             delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId,
                     "workEffortName", nodeName, "workEffortTypeId", "APPROVAL", "currentStatusId", statusId,
                     "priority", nodeId, "workEffortParentId", parentWorkEffort.getString("workEffortId"),
-                    "revisionNumber", revisionNumber, "topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
+                    "topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
             //分配给人
             for (String assiPartyId : assiPartyIds) {
                 delegator.create("WorkEffortPartyAssignment", "workEffortPartyAssignmentId", delegator.getNextSeqId("WorkEffortPartyAssignment"),

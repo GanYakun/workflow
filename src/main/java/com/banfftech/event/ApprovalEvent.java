@@ -135,7 +135,7 @@ public class ApprovalEvent {
         String entityName = genericValue.getEntityName();
         //修改业务对象状态 审批中
         FlowHelper.updateEntityStatus(genericValue, dispatcher, "APPROVAL_SUBMITTED");
-        GenericValue templateWorkEffort = FlowHelper.getTemplateWorkEffort(delegator, entityName, getTypeId(csdlEntityType, request));
+        GenericValue templateWorkEffort = FlowHelper.getTemplateWorkEffort(delegator, entityName, getTypeId(csdlEntityType));
         GenericValue noteData = templateWorkEffort.getRelatedOne("NoteData", false);
         String flowJson = noteData.getString("noteInfo");
         JSONObject jsonObject = JSONObject.fromObject(flowJson);
@@ -147,7 +147,7 @@ public class ApprovalEvent {
         GenericValue rootWorkEffort = delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId,
                 "workEffortName", jsonObject.getString("nodeName"), "workEffortTypeId", "ROOT_NODE",
                 "priority", jsonObject.getLong("nodeId"), "workEffortParentId", templateWorkEffort.getString("workEffortId"),
-                "revisionNumber", delegator.getNextSeqIdLong("RevisionNumber"), "createdByUserLogin", userLogin.getString("userLoginId"),
+                "createdByUserLogin", userLogin.getString("userLoginId"),
                 "createdDate", UtilDateTime.nowTimestamp(), "runtimeDataId", runtimeDataId));
         //把审批对象关联到根节点
         ModelEntity modelEntity = genericValue.getModelEntity();
@@ -171,7 +171,7 @@ public class ApprovalEvent {
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.values().stream().filter(v -> v instanceof OdataOfbizEntity).findFirst().get();
         GenericValue genericValue = ofbizEntity.getGenericValue();
         List<Map<String, Object>> resultList = new ArrayList<>();
-        List<TreeNode> customerDefNodes = FlowHelper.getCustomerDefNodes(delegator, genericValue, getTypeId(csdlEntityType, request));
+        List<TreeNode> customerDefNodes = FlowHelper.getCustomerDefNodes(delegator, genericValue, getTypeId(csdlEntityType));
         for (TreeNode customerDefNode : customerDefNodes) {
             NodeUser nodeUserList = customerDefNode.getNodeUserList();
             Manual manual = nodeUserList.getManual();
@@ -290,15 +290,13 @@ public class ApprovalEvent {
         return null;
     }
 
-    public static String getTypeId(OfbizCsdlEntityType csdlEntityType, HttpServletRequest request) {
-        Map<String, Object> conditionMap = Util.parseConditionMap(csdlEntityType.getEntityConditionStr(), request);
-        for (Map.Entry<String, Object> entry : conditionMap.entrySet()) {
-            String key = entry.getKey();
-            if (key.endsWith("TypeId")) {
-                return (String) entry.getValue();
-            }
+    public static String getTypeId(OfbizCsdlEntityType csdlEntityType) {
+        String typeId = null;
+        String ofbizType = csdlEntityType.getOfbizType();
+        if (UtilValidate.isNotEmpty(ofbizType)) {
+            typeId = ofbizType.split("=")[1];
         }
-        return null;
+        return typeId;
     }
 
 }

@@ -48,7 +48,7 @@ public class ApprovalService {
             String statusId = workEffort.getString("currentStatusId").equals("WEPR_COMPLETE") ? "APPROVAL_APPROVED" : "APPROVAL_REJECTED";
             GenericValue approvalObj = FlowHelper.getApprovalObj(workEffort, delegator);
             FlowHelper.updateEntityStatus(approvalObj, dispatcher, statusId);
-            GenericValue topWorkEffort = FlowHelper.getTopWorkEffort(delegator, workEffort.getLong("revisionNumber"));
+            GenericValue topWorkEffort = FlowHelper.getTopWorkEffort(delegator, workEffort);
             topWorkEffort.set("currentStatusId", "WEPR_COMPLETE");
             topWorkEffort.store();
             return resultMap;

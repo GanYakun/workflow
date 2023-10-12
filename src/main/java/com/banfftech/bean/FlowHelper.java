@@ -65,10 +65,9 @@ public class FlowHelper {
     public static TreeNode getNodeBeanByWork(Delegator delegator, GenericValue currWorkEffort) throws OfbizServiceException {
         try {
             //查询根节点
-            GenericValue rootWorkEffort = EntityQuery.use(delegator).from("WorkEffort").where("workEffortTypeId", "ROOT_NODE",
-                    "revisionNumber", currWorkEffort.getLong("revisionNumber")).queryFirst();
+            GenericValue topWorkEffort = getTopWorkEffort(delegator, currWorkEffort);
             //根节点的父级 就是流程模板
-            GenericValue tempWorkEffort = rootWorkEffort.getRelatedOne("ParentWorkEffort", false);
+            GenericValue tempWorkEffort = topWorkEffort.getRelatedOne("ParentWorkEffort", false);
             String noteId = tempWorkEffort.getString("noteId");
             TreeNode treeNode = FLOW_TREES.get(noteId);
             if (UtilValidate.isEmpty(treeNode)) {
@@ -105,17 +104,18 @@ public class FlowHelper {
      * 获取节点的路由子节点
      */
     public static TreeNode getRoutNextNode(Delegator delegator, GenericValue workEffort) throws OfbizServiceException, GenericEntityException {
-        Long revisionNumber = workEffort.getLong("revisionNumber");
+        GenericValue topWorkEffort = getTopWorkEffort(delegator, workEffort);
+        String topWorkEffortId = topWorkEffort.getString("workEffortId");
         TreeNode routNode = getRoutNode(delegator, workEffort);
         if (UtilValidate.isEmpty(routNode)) {
             return null;
         }
-        GenericValue routWorkEffort = EntityQuery.use(delegator).from("WorkEffort").where("priority", routNode.getNodeId(), "revisionNumber", revisionNumber).queryFirst();
+        GenericValue routWorkEffort = EntityQuery.use(delegator).from("WorkEffort").where("priority", routNode.getNodeId(), "topWorkEffortId", topWorkEffortId).queryFirst();
         TreeNode routChildNode = routNode.getChildNode();
         if (UtilValidate.isNotEmpty(routChildNode)) {
             //返回路由的子节点
             long childNodeId = routChildNode.getNodeId();
-            GenericValue childWorkEffort = EntityQuery.use(delegator).from("WorkEffort").where("priority", childNodeId, "revisionNumber", revisionNumber).queryFirst();
+            GenericValue childWorkEffort = EntityQuery.use(delegator).from("WorkEffort").where("priority", childNodeId, "topWorkEffortId", topWorkEffortId).queryFirst();
             //如果子节点是完成状态 查询父级路由子节点
             if (UtilValidate.isNotEmpty(childWorkEffort) && childWorkEffort.getString("currentStatusId").equals("WEPR_COMPLETE")) {
                 return getRoutNextNode(delegator, routWorkEffort);
@@ -142,9 +142,11 @@ public class FlowHelper {
     /**
      * 查询根节点
      */
-    public static GenericValue getTopWorkEffort(Delegator delegator, Long revisionNumber) throws GenericEntityException {
-        return EntityQuery.use(delegator).from("WorkEffort").where("workEffortTypeId", "ROOT_NODE",
-                "revisionNumber", revisionNumber).queryFirst();
+    public static GenericValue getTopWorkEffort(Delegator delegator, GenericValue workEffort) throws GenericEntityException {
+        if ("ROOT_NODE".equals(workEffort.getString("workEffortTypeId"))) {
+            return workEffort;
+        }
+        return workEffort.getRelatedOne("TopWorkEffort", false);
     }
 
     /**
@@ -326,16 +328,13 @@ public class FlowHelper {
      * 获取需要分配的审批人
      *
      * @param approverType 审批类型  manager/部门负责人, roleTypeId/角色, partyGroup/用户组, party/指定成员, optional/提交人自选, self/提交人本人
-     * @param revisionNumber 审批流程编号
      * @return 返回所有审批人的partyId
      */
-    public static List<String> getApprover(Delegator delegator, String approverType, Object approverValue, Long revisionNumber, long nodeId) throws OfbizServiceException {
+    public static List<String> getApprover(Delegator delegator, String approverType, Object approverValue, GenericValue topWorkEffort, long nodeId) throws OfbizServiceException {
         List<String> assignmentPartyIds = new ArrayList<>();
         try {
-            GenericValue rootWorkEffort = EntityQuery.use(delegator).from("WorkEffort")
-                    .where("workEffortTypeId", "ROOT_NODE", "revisionNumber", revisionNumber).queryFirst();
             //发起人
-            String createdByUserLogin = rootWorkEffort.getString("createdByUserLogin");
+            String createdByUserLogin = topWorkEffort.getString("createdByUserLogin");
             GenericValue createUser = delegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", createdByUserLogin), false);
             if ("manager".equals(approverType)) {
                 //查询提交人的部门负责人
@@ -370,7 +369,7 @@ public class FlowHelper {
             }
             if ("optional".equals(approverType)) {
                 //用户自选
-                GenericValue runtimeData = rootWorkEffort.getRelatedOne("RuntimeData", false);
+                GenericValue runtimeData = topWorkEffort.getRelatedOne("RuntimeData", false);
                 if (UtilValidate.isNotEmpty(runtimeData.getString("runtimeInfo"))) {
                     String runtimeInfo = runtimeData.getString("runtimeInfo");
                     JSONArray jsonArray = JSONArray.fromObject(runtimeInfo);
@@ -404,12 +403,11 @@ public class FlowHelper {
     /**
      * 获取业务对象
      */
-    public static GenericValue getApprovalObj(GenericValue workEffort,  Delegator delegator) throws GenericEntityException {
+    public static GenericValue getApprovalObj(GenericValue workEffort, Delegator delegator) throws GenericEntityException {
         //查询审批主流程
-        GenericValue rootWorkEffort = EntityQuery.use(delegator).from("WorkEffort")
-                .where("workEffortTypeId", "ROOT_NODE", "revisionNumber", workEffort.getLong("revisionNumber")).queryFirst();
+        GenericValue topWorkEffort = getTopWorkEffort(delegator, workEffort);
         //查询审批对象数据
-        GenericValue flowMember = EntityQuery.use(delegator).from("WorkFlowMember").where("workEffortId", rootWorkEffort.getString("workEffortId")).queryFirst();
+        GenericValue flowMember = EntityQuery.use(delegator).from("WorkFlowMember").where("workEffortId", topWorkEffort.getString("workEffortId")).queryFirst();
         ModelEntity modelEntity = delegator.getModelEntity(flowMember.getString("memberEntityName"));
         return EntityQuery.use(delegator).from(modelEntity.getEntityName()).where(modelEntity.getFirstPkFieldName(), flowMember.get("memberEntityId")).queryOne();
 

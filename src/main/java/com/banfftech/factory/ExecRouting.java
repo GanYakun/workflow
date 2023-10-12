@@ -27,12 +27,11 @@ public class ExecRouting implements ExecNode {
             long nodeId = nextNode.getNodeId();
             String workEffortId = delegator.getNextSeqId("WorkEffort");
             Debug.log("完成路由节点 : " + nodeId + " -> " +  nodeName);
-            Long revisionNumber = parentWorkEffort.getLong("revisionNumber");
-            GenericValue topWorkEffort = FlowHelper.getTopWorkEffort(delegator, revisionNumber);
+            GenericValue topWorkEffort = FlowHelper.getTopWorkEffort(delegator, parentWorkEffort);
             delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", workEffortId,
                     "workEffortName", nodeName, "workEffortTypeId", "ROUTING", "currentStatusId", "WEPR_COMPLETE",
                     "priority", nodeId, "workEffortParentId", parentWorkEffort.getString("workEffortId"),
-                    "revisionNumber", revisionNumber, "topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
+                    "topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
             //查询审批模板和审批对象
             GenericValue templateWorkEffort = topWorkEffort.getRelatedOne("ParentWorkEffort", false);
             GenericValue flowMember = EntityQuery.use(delegator).from("WorkFlowMember")
@@ -49,7 +48,7 @@ public class ExecRouting implements ExecNode {
             String condWorkEffortId = delegator.getNextSeqId("WorkEffort");
             delegator.create("WorkEffort", UtilMisc.toMap("workEffortId", condWorkEffortId,
                     "workEffortName", condNodeName, "workEffortTypeId", "CONDITION", "currentStatusId", "WEPR_COMPLETE",
-                    "priority", condNodeId, "workEffortParentId", workEffortId, "revisionNumber", revisionNumber,
+                    "priority", condNodeId, "workEffortParentId", workEffortId,
                     "topWorkEffortId", topWorkEffort.getString("workEffortId"), "createdDate", UtilDateTime.nowTimestamp()));
         } catch (GenericEntityException e) {
             throw new OfbizServiceException(e.getMessage());
