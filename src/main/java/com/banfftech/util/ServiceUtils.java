@@ -11,7 +11,6 @@ import org.apache.ofbiz.entity.condition.EntityOperator;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.service.*;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -19,25 +18,29 @@ import java.util.*;
  * @date: 2021/9/23
  */
 public class ServiceUtils {
-    public static BigDecimal staticBigDecimal = BigDecimal.ONE;
 
-    public static Set<String> traverseParentDepartments(Delegator delegator, LocalDispatcher dispatcher, String currentDepartmentId)
+    /**
+     * @param [delegator, dispatcher, currentDepartmentId]
+     * @Author yyp
+     * @Description //查询并返回当前部门的所有父级部门ID
+     * @Date 15:12 2023/10/13
+     **/
+    public static Set<String> traverseParentDepartments(Delegator delegator, String currentDepartmentId)
             throws GenericEntityException {
         Set<String> allParentDepartmentIds = new HashSet<>();
+        //验证该部门是否存在
+
         //获取该部门和父级部门的Relation
         GenericValue parentDepartment = EntityQuery.use(delegator).from("PartyRelationship")
                 .where(UtilMisc.toMap("partyIdTo", currentDepartmentId, "roleTypeIdTo", "DEPARTMENT"))
                 .queryFirst();
-        //如果没有父级部门(则当前部门就是根部门,更新当前部门的人数)
-        if (UtilValidate.isEmpty(parentDepartment)) {
-            allParentDepartmentIds.add(currentDepartmentId);
-        }
+        //添加当前部门ID
+        allParentDepartmentIds.add(currentDepartmentId);
+        //如果父级部门不为空
         if (UtilValidate.isNotEmpty(parentDepartment)) {
-            allParentDepartmentIds.add(parentDepartment.getString("partyIdFrom"));
-            Set<String> prentDepartmentIds = traverseParentDepartments(delegator, dispatcher, parentDepartment.getString("partyIdFrom"));
+            Set<String> prentDepartmentIds = traverseParentDepartments(delegator, parentDepartment.getString("partyIdFrom"));
             allParentDepartmentIds.addAll(prentDepartmentIds);
         }
-
         return allParentDepartmentIds;
     }
 

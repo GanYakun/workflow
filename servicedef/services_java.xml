@@ -82,6 +82,7 @@ under the License.
         <description>Update a PartyGroup</description>
         <auto-attributes include="pk" mode="IN" optional="true"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
+        <attribute name="oldPartyIdFrom" type="String" mode="IN" optional="true"/>
     </service>
 
     <!--创建部门成员之后，创建对应的登录账号和登录权限  -->

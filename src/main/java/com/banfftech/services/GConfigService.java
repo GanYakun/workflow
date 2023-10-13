@@ -10,12 +10,12 @@ import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
-import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.service.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @ClassName: GConfigService
@@ -110,61 +110,28 @@ public class GConfigService {
         return result;
     }
 
-    /**
-     * @param [dctx, context]
-     * @Author yyp
-     * @Description 主要功能:在某个部门添加成员之后,更新该部门及其所有父级部门的数量
-     * @Date 11:24 2023/9/19
-     * @EntityTypeName PartyGroup
-     * @ServiceName banfftech.updateMemberNumber
-     **/
-//    public static Map<String, Object> updateMemberNumber(DispatchContext dctx, Map<String, Object> context)
-//            throws GenericServiceException, OfbizServiceException {
-//        try {
-//            Delegator delegator = dctx.getDelegator();
-//            LocalDispatcher dispatcher = dctx.getDispatcher();
-//            GenericValue userLogin = (GenericValue) context.get("userLogin");
-//            String partyId = (String) context.get("partyId");
-//            //使用成员ID查询所在部门(一个成员只能有个一个部门)
-//            GenericValue department = EntityQuery.use(delegator).from("PartyRelationship")
-//                    .where(UtilMisc.toMap("partyIdTo", partyId, "roleTypeIdTo", "ORD_EMPLOYEE"))
-//                    .queryFirst();
-//            if (UtilValidate.isEmpty(department)) {
-//                throw new OfbizServiceException("没有找到当前员工所在部门");
-//            }
-//            //当前成员所在部门Id
-//            String currentDepartmentId = department.getString("partyIdFrom");
-//            //从当前部们开始遍历知道根部门为止(暂时根部们先定死为Company,今后考虑怎么改为动态获取根部们)
-//            ServiceUtils.traverseUpdateParentDepartments(delegator, dispatcher, currentDepartmentId, userLogin);
-//        } catch (GenericEntityException | OfbizODataException e) {
-//            throw new GenericServiceException(e.getMessage());
-//        }
-//
-//        return ServiceUtil.returnSuccess();
-//    }
-
-
     public static Map<String, Object> updateMemberNumber(DispatchContext dctx, Map<String, Object> context)
             throws GenericServiceException {
         try {
             Delegator delegator = dctx.getDelegator();
             LocalDispatcher dispatcher = dctx.getDispatcher();
             GenericValue userLogin = (GenericValue) context.get("userLogin");
-
-            String partyRelationshipId = (String) context.get("partyRelationshipId");
-            GenericValue partyRelationship = delegator.findOne("PartyRelationship",UtilMisc.toMap("partyRelationshipId",partyRelationshipId),false);
             String partyIdFrom = (String) context.get("partyIdFrom");
-            //第一步查询所有部门Id
-            List<String> parentDepartmentIds = EntityQuery.use(delegator).from("PartyRole").where("roleTypeId","DEPARTMENT").getFieldList("partyId");
-            parentDepartmentIds.add("Company");
-            //获取老部门和新部门的所有父级部门。
-//            Set<String> parentDepartmentIds = ServiceUtils.traverseParentDepartments(delegator,dispatcher,partyRelationship.getString("partyIdFrom"));
-//            parentDepartmentIds.addAll(ServiceUtils.traverseParentDepartments(delegator,dispatcher,partyIdFrom));
-            //第二步更新所有部门的成员数量
-            for(String departmentId : parentDepartmentIds){
+            //部门添加成员时该字段为空(仅供成员更改部门时使用)
+            String oldDepartmentId = (String) context.get("oldPartyIdFrom");
+
+            //第一步:获取新老部门的所有父级部门ID
+            Set<String> parentDepartmentIds = ServiceUtils.traverseParentDepartments(delegator, partyIdFrom);
+            if (UtilValidate.isNotEmpty(oldDepartmentId)) {
+                parentDepartmentIds.addAll(ServiceUtils.traverseParentDepartments(delegator, oldDepartmentId));
+            }
+
+            //第二步:更新相关部门的的成员数量
+            for (String departmentId : parentDepartmentIds) {
                 List<GenericValue> allMembers = new ArrayList<>();
                 ServiceUtils.getDepartmentALlMembers(delegator, departmentId, allMembers);
-                dispatcher.runSync("banfftech.updatePartyGroup",UtilMisc.toMap("partyId",departmentId,"numEmployees",allMembers.size(),"userLogin",userLogin));
+                dispatcher.runSync("banfftech.updatePartyGroup",
+                        UtilMisc.toMap("partyId", departmentId, "numEmployees", allMembers.size(), "userLogin", userLogin));
             }
 
         } catch (GenericEntityException | OfbizODataException e) {
@@ -187,8 +154,8 @@ public class GConfigService {
             Delegator delegator = dctx.getDelegator();
             GenericValue userLogin = (GenericValue) context.get("userLogin");
             String userLoginId = (String) context.get("phoneMobile");
-            GenericValue verifyUserLogin = delegator.findOne("UserLogin",UtilMisc.toMap("userLoginId",userLoginId),false);
-            if(UtilValidate.isNotEmpty(verifyUserLogin)){
+            GenericValue verifyUserLogin = delegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", userLoginId), false);
+            if (UtilValidate.isNotEmpty(verifyUserLogin)) {
                 throw new OfbizServiceException("当前组织内已存在相同的手机号码,请更换后重试");
             }
 
@@ -213,16 +180,25 @@ public class GConfigService {
         Delegator delegator = dctx.getDelegator();
         LocalDispatcher dispatcher = dctx.getDispatcher();
         Map<String, Object> resultMap = ServiceUtil.returnSuccess();
+        String partyRelationshipId = (String) context.get("partyRelationshipId");
         String roleTypeIdTo = (String) context.get("roleTypeIdTo");
         String partyIdTo = (String) context.get("partyIdTo");
         context.put("fromDate", UtilDateTime.nowTimestamp());
 
         GenericValue partyRole = delegator.findOne("PartyRole", UtilMisc.toMap("partyId", partyIdTo, "roleTypeId", roleTypeIdTo), false);
         if (UtilValidate.isEmpty(partyRole) && UtilValidate.isNotEmpty(roleTypeIdTo)) {
-            Map<String, Object> partyRoleResultMap = dispatcher.runSync("banfftech.createPartyRole", UtilMisc.toMap("userLogin", context.get("userLogin"), "partyId", context.get("partyIdTo"), "roleTypeId", context.get("roleTypeIdTo")));
+            Map<String, Object> partyRoleResultMap = dispatcher.runSync("banfftech.createPartyRole",
+                    UtilMisc.toMap("userLogin", context.get("userLogin"), "partyId", context.get("partyIdTo"), "roleTypeId", context.get("roleTypeIdTo")));
         }
-        CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.updatePartyRelationship", (GenericValue) context.get("userLogin"));
+        //更新PartyRelationship之前获取partyIdFrom
+        GenericValue partyRelationship = delegator.findOne("PartyRelationship", UtilMisc.toMap("partyRelationshipId", partyRelationshipId), false);
+        context.put("oldPartyIdFrom", partyRelationship.getString("partyIdFrom"));
 
+        CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.updatePartyRelationship", (GenericValue) context.get("userLogin"));
+        //如果是成员和部门之间的关系变更,则更新所有相关部门的成员数量
+        if ("ORD_EMPLOYEE".equals(partyRelationship.getString("roleTypeIdTo"))) {
+            CommonUtils.setServiceFieldsAndRun(dctx, context, "banfftech.updateMemberNumber", (GenericValue) context.get("userLogin"));
+        }
         return resultMap;
     }
 

@@ -1,0 +1,21 @@
+<ofbiz-edm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd" ImportGlobal="false">
+
+    <!--=====================================     主对象EntityType definition    =====================================-->
+    <!--磁贴-->
+    <EntityType Name="Tiles"  EntitySetName="Tiles" AutoProperties="true">
+        <LineItem>
+            <DataField Values="tileName,description" Importance="High"/>
+        </LineItem>
+    </EntityType>
+
+    <!--安全组-->
+    <EntityType Name="SecurityGroup"  EntitySetName="SecurityGroups" AutoProperties="true">
+        <LineItem>
+            <DataField Values="groupName,description" Importance="High"/>
+        </LineItem>
+    </EntityType>
+
+    <!--=====================================     主对象EntityType definition     =====================================-->
+    <!--=====================================    Action Definition End   =====================================-->
+</ofbiz-edm>

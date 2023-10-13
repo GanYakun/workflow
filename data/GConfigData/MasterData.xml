@@ -40,7 +40,6 @@
     <!-- SecurityGroup -->
     <SecurityGroup groupId="VISIT" description="访问权限" groupName="Visit"/>
     <SecurityGroupPermission groupId="VISIT" permissionId="GONGSCONFIG_VIEW" fromDate="2023-09-19 22:11:39.139" />
-    <SecurityGroupPermission groupId="VISIT" permissionId="OFBTOOLS_VIEW" fromDate="2023-09-19 22:11:39.139" />
     <!--============================================系统-管理应用Master数据Begin============================================-->
 
     <!-- 组织管理员 -->
