@@ -4,7 +4,7 @@
     <!--=====================================     主对象EntityType definition     =====================================-->
     <!--部门-->
     <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments"
-                EntityCondition="partyTypeId=PARTY_GROUP and PartyRole/roleTypeId in (Company,INTERNAL_ORGANIZATIO)"
+                EntityCondition="partyTypeId=PARTY_GROUP and PartyRole/roleTypeId in (DEPARTMENT,INTERNAL_ORGANIZATIO)"
                 AutoProperties="true">
         <Property Name="numEmployees" DefaultValue="0" Scale="0"/>
         <RelAlias Name="Manager" Relations="FromPartyRelationship(roleTypeIdTo=MANAGER)"/>
