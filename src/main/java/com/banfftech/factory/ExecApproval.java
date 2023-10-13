@@ -1,7 +1,7 @@
 package com.banfftech.factory;
 
 import com.banfftech.bean.*;
-import com.banfftech.common.util.CommonUtils;
+import com.banfftech.common.tools.util.CommonUtils;
 import com.dpbird.odata.services.OfbizServiceException;
 import org.apache.ofbiz.base.util.UtilDateTime;
 import org.apache.ofbiz.base.util.UtilMisc;
@@ -10,7 +10,6 @@ import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

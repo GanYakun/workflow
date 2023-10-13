@@ -29,6 +29,9 @@ public class ServiceUtils {
                 .where(UtilMisc.toMap("partyIdTo", currentDepartmentId, "roleTypeIdTo", "DEPARTMENT"))
                 .queryFirst();
         //如果没有父级部门(则当前部门就是根部门,更新当前部门的人数)
+        if (UtilValidate.isEmpty(parentDepartment)) {
+            allParentDepartmentIds.add(currentDepartmentId);
+        }
         if (UtilValidate.isNotEmpty(parentDepartment)) {
             allParentDepartmentIds.add(parentDepartment.getString("partyIdFrom"));
             Set<String> prentDepartmentIds = traverseParentDepartments(delegator, dispatcher, parentDepartment.getString("partyIdFrom"));

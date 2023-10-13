@@ -76,7 +76,7 @@ under the License.
 <!--    </eca>-->
 
     <!-- 添加活更改成员部门时触发 -->
-    <eca entity="PartyRelationShip" operation="create-store" event="return">
+    <eca entity="PartyRelationship" operation="create-store" event="return">
         <condition field-name="roleTypeIdTo" operator="equals" value="ORD_EMPLOYEE"/>
         <action service="banfftech.updateMemberNumber" mode="sync"/>
     </eca>

@@ -1,6 +1,6 @@
 package com.banfftech.services;
 
-import com.banfftech.common.util.CommonUtils;
+import com.banfftech.common.tools.util.CommonUtils;
 import com.banfftech.util.ServiceUtils;
 import com.dpbird.odata.OfbizODataException;
 import com.dpbird.odata.services.OfbizServiceException;
@@ -145,19 +145,23 @@ public class GConfigService {
 
 
     public static Map<String, Object> updateMemberNumber(DispatchContext dctx, Map<String, Object> context)
-            throws GenericServiceException, OfbizServiceException {
+            throws GenericServiceException {
         try {
             Delegator delegator = dctx.getDelegator();
             LocalDispatcher dispatcher = dctx.getDispatcher();
             GenericValue userLogin = (GenericValue) context.get("userLogin");
-            //第一步查询所有部门Id
-            List<String> departmentIds = EntityQuery.use(delegator).from("PartyRole").where("roleTypeId","DEPARTMENT").getFieldList("partyId");
-            departmentIds.add("Company");
 
+            String partyRelationshipId = (String) context.get("partyRelationshipId");
+            GenericValue partyRelationship = delegator.findOne("PartyRelationship",UtilMisc.toMap("partyRelationshipId",partyRelationshipId),false);
+            String partyIdFrom = (String) context.get("partyIdFrom");
+            //第一步查询所有部门Id
+            List<String> parentDepartmentIds = EntityQuery.use(delegator).from("PartyRole").where("roleTypeId","DEPARTMENT").getFieldList("partyId");
+            parentDepartmentIds.add("Company");
             //获取老部门和新部门的所有父级部门。
-            
+//            Set<String> parentDepartmentIds = ServiceUtils.traverseParentDepartments(delegator,dispatcher,partyRelationship.getString("partyIdFrom"));
+//            parentDepartmentIds.addAll(ServiceUtils.traverseParentDepartments(delegator,dispatcher,partyIdFrom));
             //第二步更新所有部门的成员数量
-            for(String departmentId : departmentIds){
+            for(String departmentId : parentDepartmentIds){
                 List<GenericValue> allMembers = new ArrayList<>();
                 ServiceUtils.getDepartmentALlMembers(delegator, departmentId, allMembers);
                 dispatcher.runSync("banfftech.updatePartyGroup",UtilMisc.toMap("partyId",departmentId,"numEmployees",allMembers.size(),"userLogin",userLogin));
