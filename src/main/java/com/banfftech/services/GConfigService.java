@@ -1,6 +1,6 @@
 package com.banfftech.services;
 
-import com.banfftech.common.tools.util.CommonUtils;
+import com.banfftech.common.util.CommonUtils;
 import com.banfftech.util.ServiceUtils;
 import com.dpbird.odata.OfbizODataException;
 import com.dpbird.odata.services.OfbizServiceException;
