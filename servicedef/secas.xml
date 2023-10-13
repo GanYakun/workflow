@@ -2,7 +2,7 @@
 
 <service-eca xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/service-eca.xsd">
-    <!-- 添加活更改成员部门时触发 -->
+    <!-- 部门添加成员时触发 -->
     <eca service="banfftech.createPartyRelationship" event="return">
         <condition field-name="roleTypeIdTo" operator="equals" value="ORD_EMPLOYEE"/>
         <action service="banfftech.updateMemberNumber" mode="sync"/>
