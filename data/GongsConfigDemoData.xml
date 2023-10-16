@@ -1,27 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entity-engine-xml>
-    <DBEntity description="组织人员" isOpen="N" dbEntityId="10000" dbEntityName="PartyAndContact"
-                   dbEntityTypeId="PERSON"/>
-    <DBEntity description="角色管理" isOpen="N" dbEntityId="10001" dbEntityName="RoleType"
-                   dbEntityTypeId="MAIN_ROLE"/>
-    <DBEntity description="人员角色" isOpen="N" dbEntityId="10002" dbEntityName="PartyRole"/>
-    <DBEntity description="请假申请" isOpen="Y" dbEntityId="10010" dbEntityName="EmplLeave"/>
-    <DBEntity description="字段国际化标签" dbEntityId="10011" dbEntityName="DBFieldLabel"/>
-    <DBEntity description="资产领用" isOpen="Y" dbEntityId="10020" dbEntityName="Requirement"
-                   dbEntityTypeId="WORK_REQUIREMENT"/>
-    <DBEntity description="业务对象" isOpen="N" dbEntityId="10030" dbEntityName="DBEntity"/>
-    <DBEntity description="业务对象字段" dbEntityId="10031" dbEntityName="DBField"/>
-    <DBEntity description="部门" dbEntityId="10040" dbEntityName="PartyAndPartyGroup"/>
-    <DBEntity description="人员" dbEntityId="10041" dbEntityName="PartyAndContact"
-                   dbEntityTypeId="PERSON"/>
-    <DBEntity description="流程审批" isOpen="N" dbEntityId="10050" dbEntityName="Approval"/>
-    <DBEntity description="主流程对象" isOpen="N" dbEntityId="10051" dbEntityName="MainProcess"/>
-    <DBEntity description="根审批节点" isOpen="N" dbEntityId="10052" dbEntityName="WorkEffort"
-                   dbEntityTypeId="ROOT_NODE"/>
-    <DBEntity description="产品管理" isOpen="N" dbEntityId="10060" dbEntityName="Product"
-                   dbEntityTypeId="FINISH_GOOD"/>
-    <DBEntity description="产品型号" isOpen="N" dbEntityId="10070" dbEntityName="GoodIdentification"
-                   dbEntityTypeId="MANUFACTURER_ID_NO"/>
-    <DBEntity description="资产录入" isOpen="N" dbEntityId="10071" dbEntityName="FixedAsset"
-                   dbEntityTypeId="EQUIPMENT"/>
+    
 </entity-engine-xml>
