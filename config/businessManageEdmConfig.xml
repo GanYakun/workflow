@@ -85,8 +85,8 @@
     <!--=====================================     业务子对象EntityType definition End    =====================================-->
     <!--审批-->
     <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true">
-        <RelAlias Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity"/>
-        <Property Name="processEntityName" RelAlias="ProcessEntity" Field="processEntityName"/>
+        <RelAlias Name="DBEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/DBEntity"/>
+        <Property Name="dbEntityName" RelAlias="DBEntity" Field="dbEntityName"/>
         <Property Name="statusId">
             <Text Path="ApprovalStatusItem/description" TextArrangement="TextOnly"/>
         </Property>

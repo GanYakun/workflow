@@ -27,59 +27,60 @@
             <Parameter Name="mainProcess" Type="MainProcess" Nullable="false" IsCollection="false"/>
         </Action>
         <NavigationProperty Name="WorkEffort"/>
-        <NavigationProperty Name="ProcessEntity"/>
+        <NavigationProperty Name="DBEntity" Type="ProcessEntity"/>
         <NavigationProperty Name="RangeEnumeration"/>
         <NavigationProperty Name="StatusItem"/>
     </EntityType>
 
     <!-- 业务对象 -->
-    <EntityType Name="ProcessEntity" AutoProperties="true" EntitySetName="ProcessEntities"
+    <EntityType Name="ProcessEntity" OfbizEntity="DBEntity" AutoProperties="true" EntitySetName="ProcessEntities"
                 Handler="component://gongsconfig/groovyScripts/processEntity/generateFields.groovy">
-        <SelectionFields PropertyPath="processEntityId,processEntityName,description"/>
+        <SelectionFields PropertyPath="dbEntityId,dbEntityName,description"/>
         <Property Name="isOpen" Type="Boolean"/>
         <!-- 是否定义有效流程 -->
         <Property Name="hasActiveFlow" Type="Boolean" Label="${hasActiveFlow}"/>
         <!-- 可配置字段数量 -->
         <Property Name="configFieldTotal" Type="Edm.Decimal" Label="${configFieldTotal}"/>
         <HeaderInfo>
-            <Title Path="processEntityName"/>
+            <Title Path="dbEntityName"/>
             <Description Path="description"/>
         </HeaderInfo>
         <FieldGroup Qualifier="BasicInfo" Label="BasicInfo">
-            <DataField Values="processEntityTypeId,isOpen,hasActiveFlow" Importance="High"/>
+            <DataField Values="dbEntityTypeId,isOpen,hasActiveFlow" Importance="High"/>
         </FieldGroup>
         <!-- 初始化字段类型 -->
         <Action Name="InitFieldType" IsBound="true" OfbizService="com.banfftech.event.ApprovalObjectEvent.initFieldType">
-            <Parameter Name="processEntity" Type="ProcessEntity" Nullable="false" IsCollection="false"/>
+            <Parameter Name="dbEntity" Type="ProcessEntity" Nullable="false" IsCollection="false"/>
         </Action>
-        <NavigationProperty Name="ProcessField"/>
-        <NavigationProperty Name="OpenProcessField" Type="ProcessField" IsCollection="true" Relations="ProcessField(isOpen=Y)"/>
+        <NavigationProperty Name="DBField"/>
+        <NavigationProperty Name="OpenDBField" Type="DBField" IsCollection="true" Relations="DBField(isOpen=Y)"/>
     </EntityType>
 
     <!-- 业务对象字段 -->
-    <EntityType Name="ProcessField" AutoProperties="true" EntitySetName="ProcessFields" SearchOption="processFieldName,description">
+    <EntityType Name="DBField" AutoProperties="true" EntitySetName="DBFields"
+                SearchOption="dbFieldName,description">
         <Property Name="asCondition" Type="Boolean"/>
         <Property Name="isOpen" Type="Boolean"/>
-        <Property Name="processFieldTypeId">
-            <Text Path="ProcessFieldType/description" TextArrangement="TextOnly"/>
-            <ValueList CollectionPath="ProcessFieldTypes" WithFixedValues="true" ParameterDisplayOnly="description">
-                <ParameterInOut LocalDataProperty="processFieldTypeId" ValueListProperty="processFieldTypeId"/>
+        <Property Name="dbFieldTypeId">
+            <Text Path="DBFieldType/description" TextArrangement="TextOnly"/>
+            <ValueList CollectionPath="DBFieldTypes" WithFixedValues="true" ParameterDisplayOnly="description">
+                <ParameterInOut LocalDataProperty="dbFieldTypeId" ValueListProperty="dbFieldTypeId"/>
             </ValueList>
         </Property>
         <HeaderInfo>
-            <Title Path="processFieldName"/>
+            <Title Path="dbFieldName"/>
             <Description Path="description"/>
         </HeaderInfo>
         <LineItem Qualifier="EditLineItem">
-            <DataField Values="processFieldName,processFieldTypeId,asCondition,valueTypeId,description,isOpen"/>
+            <DataField Values="dbFieldName,dbFieldTypeId,asCondition,valueTypeId,description,isOpen"/>
         </LineItem>
         <LineItem Qualifier="OpenLineItem">
-            <DataField Values="processFieldName,processFieldTypeId,asCondition,description"/>
+            <DataField Values="dbFieldName,dbFieldTypeId,asCondition,description"/>
         </LineItem>
-        <NavigationProperty Name="ProcessFieldType"/>
-        <NavigationProperty Name="ProcessFieldLabel"/>
+        <NavigationProperty Name="DBFieldType"/>
+        <NavigationProperty Name="DBFieldLabel"/>
         <Action Name="AddLabel" IsBound="true" OfbizService="com.banfftech.event.ApprovalObjectEvent.addLabel">
-            <Parameter Name="processField" Type="ProcessField" Nullable="false" IsCollection="false"/>
+            <Parameter Name="dbField" Type="DBField" Nullable="false" IsCollection="false"/>
             <Parameter Name="language" Type="String" Nullable="false" IsCollection="false">
                 <ValueList CollectionPath="LanguageEnumerations" WithFixedValues="true" ParameterDisplayOnly="description" Label="Select Language">
                     <ParameterInOut ValueListProperty="enumId" LocalDataProperty="language"/>
@@ -89,14 +90,14 @@
         </Action>
     </EntityType>
 
-    <EntityType Name="ProcessFieldLabel" AutoProperties="true" EntitySetName="ProcessFieldLabels">
+    <EntityType Name="DBFieldLabel" AutoProperties="true" EntitySetName="DBFieldLabels">
         <LineItem>
             <DataField Values="language,value"/>
         </LineItem>
     </EntityType>
     
-    <EntityType Name="ProcessFieldType" AutoProperties="true" EntitySetName="ProcessFieldTypes">
-        <Property Name="processFieldTypeId">
+    <EntityType Name="DBFieldType" AutoProperties="true" EntitySetName="DBFieldTypes">
+        <Property Name="dbFieldTypeId">
             <Text Path="description" TextArrangement="TextOnly"/>
         </Property>
     </EntityType>

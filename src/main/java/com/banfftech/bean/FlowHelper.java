@@ -208,8 +208,8 @@ public class FlowHelper {
         //查询审批主流程
         GenericValue mainProcess = EntityQuery.use(delegator).from("MainProcess")
                 .where("workFlowId", templateWorkEffort.getString("workEffortId")).queryFirst();
-        GenericValue processEntity = mainProcess.getRelatedOne("ProcessEntity", false);
-        List<GenericValue> processFields = processEntity.getRelated("ProcessField", null, null, false);
+        GenericValue dbEntity = mainProcess.getRelatedOne("DBEntity", false);
+        List<GenericValue> dbFields = dbEntity.getRelated("DBField", null, null, false);
         for (TreeNode conditionNode : conditionNodes) {
             if (conditionNode.isIsdefault()) {
                 continue;
@@ -218,7 +218,7 @@ public class FlowHelper {
             List<List<Condition>> conditionGroups = conditionNode.getConditionList();
             //条件组之间的关系是or 有一个匹配就成功
             for (List<Condition> conditionsGro : conditionGroups) {
-                boolean result = checkConditionGroup(delegator, conditionsGro, approvalObj, processFields);
+                boolean result = checkConditionGroup(delegator, conditionsGro, approvalObj, dbFields);
                 if (result) {
                     return conditionNode;
                 }
@@ -228,10 +228,10 @@ public class FlowHelper {
     }
 
     private static boolean checkConditionGroup(Delegator delegator, List<Condition> conditions,
-                                               GenericValue genericValue, List<GenericValue> processFields) throws GenericEntityException {
+                                               GenericValue genericValue, List<GenericValue> dbFields) throws GenericEntityException {
         //条件之间的关系是and 有一个失败就失败
         for (Condition condition : conditions) {
-            if (!checkCondition(delegator, condition, genericValue, processFields)) {
+            if (!checkCondition(delegator, condition, genericValue, dbFields)) {
                 return false;
             }
         }
@@ -241,16 +241,16 @@ public class FlowHelper {
     /**
      * 解析条件表达式
      */
-    private static boolean checkCondition(Delegator delegator, Condition condition, GenericValue genericValue, List<GenericValue> processFields) throws GenericEntityException {
+    private static boolean checkCondition(Delegator delegator, Condition condition, GenericValue genericValue, List<GenericValue> dbFields) throws GenericEntityException {
         //表达式
         String property = condition.getProperty();
         String operator = condition.getCondition();
         Object value = condition.getValue();
-        GenericValue processField = EntityUtil.getFirst(EntityUtil.filterByAnd(processFields, UtilMisc.toMap("processFieldName", property)));
-        if (UtilValidate.isEmpty(processField)) {
+        GenericValue dbField = EntityUtil.getFirst(EntityUtil.filterByAnd(dbFields, UtilMisc.toMap("dbFieldName", property)));
+        if (UtilValidate.isEmpty(dbField)) {
             return false;
         }
-        String fieldTypeId = processField.getString("processFieldTypeId");
+        String fieldTypeId = dbField.getString("dbFieldTypeId");
         String propertyValue = genericValue.getString(property);
         //如果是人员需要做特殊的匹配 不能直接用运算符判断
         if ("PARTY".equals(fieldTypeId)) {
@@ -431,14 +431,14 @@ public class FlowHelper {
      * 根据实体和类型获取模板WorkEffort
      */
     public static GenericValue getTemplateWorkEffort(Delegator delegator, String entityName, String type) throws OfbizODataException, GenericEntityException {
-        GenericValue processEntity = EntityQuery.use(delegator).from("ProcessEntity")
-                .where("processEntityName", entityName, "processEntityTypeId", type).queryFirst();
-        if (UtilValidate.isEmpty(processEntity)) {
+        GenericValue dbEntity = EntityQuery.use(delegator).from("DBEntity")
+                .where("dbEntityName", entityName, "dbEntityTypeId", type).queryFirst();
+        if (UtilValidate.isEmpty(dbEntity)) {
             throw new OfbizODataException("业务对象不存在: " + entityName);
         }
         //获取主流程对象
         GenericValue mainProcess = EntityQuery.use(delegator).from("MainProcess")
-                .where(UtilMisc.toMap("statusId", "PROCESS_ENABLED", "processEntityId", processEntity.getString("processEntityId"))).queryFirst();
+                .where(UtilMisc.toMap("statusId", "PROCESS_ENABLED", "dbEntityId", dbEntity.getString("dbEntityId"))).queryFirst();
         if (UtilValidate.isEmpty(mainProcess) || UtilValidate.isEmpty(mainProcess.getString("workFlowId"))) {
             throw new OfbizODataException("未找到有效的审批流程");
         }

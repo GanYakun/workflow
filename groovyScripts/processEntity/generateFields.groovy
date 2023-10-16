@@ -9,14 +9,14 @@ module = "generateFields.groovy"
 def generateFields(Map<String, Object> context) {
     List<OdataOfbizEntity> entityList = context.parameters.entityList;
     entityList.each { entity ->
-        GenericValue processEntity = (GenericValue) entity.getGenericValue();
-        String processEntityId = processEntity.getString("processEntityId");
+        GenericValue dbEntity = (GenericValue) entity.getGenericValue();
+        String dbEntityId = dbEntity.getString("dbEntityId");
 
         GenericValue mainProcess = EntityQuery.use(delegator).from("MainProcess")
-                .where("processEntityId", processEntityId, "statusId", "PROCESS_ENABLED").queryFirst();
-        List<GenericValue> processFields = processEntity.getRelated("ProcessField", UtilMisc.toMap("isOpen", "Y"), null, false);
+                .where("dbEntityId", dbEntityId, "statusId", "PROCESS_ENABLED").queryFirst();
+        List<GenericValue> dbFields = dbEntity.getRelated("DBField", UtilMisc.toMap("isOpen", "Y"), null, false);
         Boolean hasActiveFlow = UtilValidate.isNotEmpty(mainProcess);
-        BigDecimal configFieldTotal = new BigDecimal(processFields.size());
+        BigDecimal configFieldTotal = new BigDecimal(dbFields.size());
         entity.addProperty("hasActiveFlow", hasActiveFlow);
         entity.addProperty("configFieldTotal", configFieldTotal);
     }

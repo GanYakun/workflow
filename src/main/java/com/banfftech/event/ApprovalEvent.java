@@ -84,7 +84,7 @@ public class ApprovalEvent {
         if (UtilValidate.isNotEmpty(enable) && enable) {
             //停用所有相同业务对象的流程
             delegator.storeByCondition("MainProcess", UtilMisc.toMap("statusId", "PROCESS_NOT_ENABLED"),
-                    EntityCondition.makeCondition("processEntityId", genericValue.getString("processEntityId")));
+                    EntityCondition.makeCondition("dbEntityId", genericValue.getString("dbEntityId")));
             //启用当前流程
             process.set("statusId", "PROCESS_ENABLED");
         }
@@ -101,7 +101,7 @@ public class ApprovalEvent {
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.get("mainProcess");
         //停用所有相同业务对象的流程
         delegator.storeByCondition("MainProcess", UtilMisc.toMap("statusId", "PROCESS_NOT_ENABLED"),
-                EntityCondition.makeCondition("processEntityId", ofbizEntity.getPropertyValue("processEntityId")));
+                EntityCondition.makeCondition("dbEntityId", ofbizEntity.getPropertyValue("dbEntityId")));
         //启用当前流程
         delegator.storeByCondition("MainProcess", UtilMisc.toMap("statusId", "PROCESS_ENABLED"),
                 EntityCondition.makeCondition(ofbizEntity.getGenericValue().getPrimaryKey()));

@@ -8,8 +8,8 @@
                 EntityCondition="partyId=${userLogin.partyId}">
         <SelectionFields
                 PropertyPath="createdDate,comments,workEffortName,MainProcess/description"/>
-        <RelAlias Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity"/>
-        <Property Name="processEntityName" RelAlias="ProcessEntity" Field="processEntityName"/>
+        <RelAlias Name="DBEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/DBEntity"/>
+        <Property Name="dbEntityName" RelAlias="DBEntity" Field="dbEntityName"/>
         <Property Name="statusId">
             <Text Path="ApprovalStatusItem/description" TextArrangement="TextOnly"/>
         </Property>
@@ -30,7 +30,7 @@
                     Importance="High"/>
         </LineItem>
         <FieldGroup Qualifier="BaseInfo" Label="基本信息">
-            <DataField Values="createdDate,comments,workEffortName,ProcessEntity/description,MainProcess/version,MainProcess/description"
+            <DataField Values="createdDate,comments,workEffortName,DBEntity/description,MainProcess/version,MainProcess/description"
                        Importance="High"/>
         </FieldGroup>
         <FieldGroup Qualifier="Member" Label="待审批成员信息">
@@ -58,8 +58,8 @@
                             IsCollection="false"/>
         <NavigationProperty Name="MainProcess" Relations="TopWorkEffort/ParentWorkEffort/MainProcess" Type="MainProcess"
                             IsCollection="false"/>
-        <NavigationProperty Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity"
-                            Type="ProcessEntity" IsCollection="false"/>
+        <NavigationProperty Name="DBEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/DBEntity"
+                            Type="DBEntity" IsCollection="false"/>
         <NavigationProperty Name="Member" Relations="TopWorkEffort/WorkFlowMember/PartyAndContact" Type="Member"
                             IsCollection="false"/>
         <NavigationProperty Name="LeaveApproval" Relations="TopWorkEffort/WorkFlowMember/EmplLeave" Type="LeaveApproval"
@@ -78,8 +78,8 @@
 
     <!--审批记录-->
     <EntityType Name="ApprovalRecord" OfbizEntity="Approval" EntitySetName="ApprovalRecords" AutoProperties="true">
-        <RelAlias Name="ProcessEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/ProcessEntity"/>
-        <Property Name="processEntityName" RelAlias="ProcessEntity" Field="processEntityName"/>
+        <RelAlias Name="DBEntity" Relations="TopWorkEffort/ParentWorkEffort/MainProcess/DBEntity"/>
+        <Property Name="dbEntityName" RelAlias="DBEntity" Field="dbEntityName"/>
         <Property Name="statusId">
             <Text Path="ApprovalStatusItem/description" TextArrangement="TextOnly"/>
         </Property>
@@ -122,13 +122,13 @@
     <!-- 主流程对象 -->
     <EntityType Name="MainProcess" EntitySetName="MainProcess" AutoProperties="true">
         <NavigationProperty Name="WorkEffort"/>
-        <NavigationProperty Name="ProcessEntity"/>
+        <NavigationProperty Name="DBEntity"/>
         <NavigationProperty Name="StatusItem"/>
     </EntityType>
 
 
     <!-- 业务对象 -->
-    <EntityType Name="ProcessEntity" AutoProperties="true" EntitySetName="ProcessEntities">
+    <EntityType Name="DBEntity" AutoProperties="true" EntitySetName="DBEntities">
     </EntityType>
 
     <!--成员-->

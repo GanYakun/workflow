@@ -33,47 +33,28 @@ public class ApprovalObjectEvent {
      */
     public static void initFieldType(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws GenericEntityException {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
-        OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.get("processEntity");
-        String processEntityId = (String) ofbizEntity.getPropertyValue("processEntityId");
-        String processEntityName = (String) ofbizEntity.getPropertyValue("processEntityName");
-        ModelEntity modelEntity = delegator.getModelEntity(processEntityName);
+        OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.get("dbEntity");
+        String dbEntityId = (String) ofbizEntity.getPropertyValue("dbEntityId");
+        String dbEntityName = (String) ofbizEntity.getPropertyValue("dbEntityName");
+        ModelEntity modelEntity = delegator.getModelEntity(dbEntityName);
         List<String> automaticFieldNames = modelEntity.getAutomaticFieldNames();
         Iterator<ModelField> fieldsIterator = modelEntity.getFieldsIterator();
 
-        List<GenericValue> processFields = EntityQuery.use(delegator).from("ProcessField").where("processEntityId", processEntityId).queryList();
-        for (GenericValue processField : processFields) {
-            delegator.removeByAnd("ProcessFieldLabel", UtilMisc.toMap("processFieldId", processField.getString("processFieldId")));
+        List<GenericValue> dbFields = EntityQuery.use(delegator).from("DBField").where("dbEntityId", dbEntityId).queryList();
+        for (GenericValue dbField : dbFields) {
+            delegator.removeByAnd("DBFieldLabel", UtilMisc.toMap("dbFieldId", dbField.getString("dbFieldId")));
         }
-        delegator.removeByAnd("ProcessField", UtilMisc.toMap("processEntityId", processEntityId));
+        delegator.removeByAnd("DBField", UtilMisc.toMap("dbEntityId", dbEntityId));
         while (fieldsIterator.hasNext()) {
             ModelField field = fieldsIterator.next();
             if (automaticFieldNames.contains(field.getName())) {
                 continue;
             }
             String fieldType = getFieldType(field);
-            delegator.create("ProcessField", UtilMisc.toMap("processEntityId", processEntityId, "processFieldId", delegator.getNextSeqId("ProcessField"),
-                    "processFieldName", field.getName(), "processFieldTypeId", fieldType));
+            delegator.create("DBField", UtilMisc.toMap("dbEntityId", dbEntityId, "dbFieldId", delegator.getNextSeqId("DBField"),
+                    "dbFieldName", field.getName(), "dbFieldTypeId", fieldType));
         }
     }
-
-    /**
-     * 设置描述
-     */
-    public static void updateData(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws GenericEntityException {
-        Delegator delegator = (Delegator) oDataContext.get("delegator");
-        OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.get("processField");
-        String processFieldTypeId = (String) actionParameters.get("processFieldTypeId");
-        Boolean asCondition = (Boolean) actionParameters.get("asCondition");
-        String valueTypeId = (String) actionParameters.get("valueTypeId");
-        if (UtilValidate.isEmpty(processFieldTypeId)) {
-            processFieldTypeId = null;
-        }
-        String asConditionStr = asCondition ? "Y" : "N";
-        String description = (String) actionParameters.get("description");
-        delegator.storeByCondition("ProcessField", UtilMisc.toMap("description", description, "valueTypeId", valueTypeId, "processFieldTypeId", processFieldTypeId,
-                "asCondition", asConditionStr), EntityCondition.makeCondition(ofbizEntity.getGenericValue().getPrimaryKey()));
-    }
-
 
     /**
      * 初始化字段类型
@@ -81,20 +62,20 @@ public class ApprovalObjectEvent {
     public static void addLabel(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws GenericEntityException {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
         Locale locale = (Locale) oDataContext.get("locale");
-        OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.get("processField");
+        OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.get("dbField");
         String language = (String) actionParameters.get("language");
         if (UtilValidate.isEmpty(language)) {
             language = locale.getLanguage();
         }
         String value = (String) actionParameters.get("value");
-        String processFieldId = (String) ofbizEntity.getPropertyValue("processFieldId");
-        GenericValue label = EntityQuery.use(delegator).from("ProcessFieldLabel").where("processFieldId", processFieldId, "language", language).queryFirst();
+        String dbFieldId = (String) ofbizEntity.getPropertyValue("dbFieldId");
+        GenericValue label = EntityQuery.use(delegator).from("DBFieldLabel").where("dbFieldId", dbFieldId, "language", language).queryFirst();
         if (UtilValidate.isNotEmpty(label)) {
             label.set("value", value);
             label.store();
         } else {
-            delegator.create("ProcessFieldLabel", UtilMisc.toMap("processFieldLabelId", delegator.getNextSeqId("ProcessFieldLabel"),
-                    "processFieldId", processFieldId, "language", language, "value", value));
+            delegator.create("DBFieldLabel", UtilMisc.toMap("dbFieldLabelId", delegator.getNextSeqId("DBFieldLabel"),
+                    "dbFieldId", dbFieldId, "language", language, "value", value));
         }
     }
 
