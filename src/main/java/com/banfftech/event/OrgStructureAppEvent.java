@@ -48,19 +48,4 @@ public class OrgStructureAppEvent {
         }
     }
 
-//    public static Object changeDepartment(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws OfbizODataException {
-//        Delegator delegator = (Delegator) oDataContext.get("delegator");
-//        LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
-//        GenericValue userLogin = (GenericValue) oDataContext.get("userLogin");
-//        OdataOfbizEntity odataOfbizEntity = (OdataOfbizEntity) actionParameters.get("member");
-//        GenericValue member = odataOfbizEntity.getGenericValue();
-//        String partyId = (String) member.get("partyId");
-//        try {
-//
-//        }
-//            GenericValue parentDepartment = EntityQuery.use(delegator).from("PartyRelationship")
-//                .where(UtilMisc.toMap("partyIdTo", partyId, "roleTypeIdTo", "DEPARTMENT"))
-//                .queryFirst();
-//        return member;
-//    }
 }

@@ -176,6 +176,14 @@ public class GConfigService {
     }
 
 
+    /**
+    * @Author yyp
+    * @Description 主要作用:更新PartyRelationship,并且检查创建PartyRole.且当更新的是部门和成员关系时更新相关部门的人员数量
+    * @Date 10:37 2023/10/16
+    * @param [dctx, context]
+    * @EntityName PartyRelationship
+    * @ServiceName banfftech.updatePartyRelationshipAndCheckRole
+    **/
     public static Map<String, Object> updatePartyRelationshipAndCheckRole(DispatchContext dctx, Map<String, Object> context) throws GenericEntityException, GeneralServiceException, OfbizODataException, GenericServiceException {
         Delegator delegator = dctx.getDelegator();
         LocalDispatcher dispatcher = dctx.getDispatcher();
