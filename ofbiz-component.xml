@@ -41,7 +41,7 @@ under the License.
 
 
     <!--========================NingBoMat_SeedData========================-->
-    <entity-resource type="data" reader-name="seed" loader="main" location="data/GConfigData/MasterData.xml"/>
+    <entity-resource type="data" reader-name="seed" loader="main" location="data/GConfigData/CommonMasterData.xml"/>
 
     <!-- service resources: model(s), eca(s) and group definitions -->
     <service-resource type="eca" loader="main" location="servicedef/secas.xml"/>

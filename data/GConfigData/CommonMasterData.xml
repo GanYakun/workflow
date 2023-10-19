@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entity-engine-xml>
     <!--============================================系统-管理应用Master数据Begin============================================-->
-    <!-- 公司 -->
-    <Party partyId="Company" partyTypeId="PARTY_GROUP" partyName="上海工至信息科技服务有限公司"/>
-    <PartyGroup partyId="Company" groupName="上海工至信息科技服务有限公司" numEmployees="0"/>
-    <PartyRole partyId="Company" roleTypeId="INTERNAL_ORGANIZATIO"/>
-
-<!-- Enumeration -->
-    <!-- 性别枚举 -->
     <Enumeration enumId="M" enumTypeId="GENDER_ENUM_TYPE" description="男"/>
     <Enumeration enumId="F" enumTypeId="GENDER_ENUM_TYPE" description="女"/>
 
