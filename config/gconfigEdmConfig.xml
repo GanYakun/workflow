@@ -19,6 +19,7 @@
         <Property Name="edmServiceId"/>
         <Property Name="serviceName"/>
         <Property Name="description"/>
+        <NavigationProperty Name="EdmServiceContent"/>
     </EntityType>
     <EntityType Name="EdmEntityType" AutoProperties="true" EntitySetName="EdmEntityTypes">
         <NavigationProperty Name="EdmProperty"/>
@@ -26,6 +27,7 @@
     </EntityType>
     <EntityType Name="EdmProperty" AutoProperties="true" EntitySetName="EdmProperties"/>
     <EntityType Name="EdmNavigationProperty" AutoProperties="true" EntitySetName="EdmNavigationProperties"/>
+    <EntityType Name="EdmServiceContent" AutoProperties="true" EntitySetName="EdmServiceContents"/>
 
     <Action Name="CreateEntityType" IsBound="false" OfbizService="com.banfftech.event.EdmServiceEvent.createEntityType">
         <Parameter Name="edmServiceId" Type="String" IsCollection="false" Nullable="false"/>

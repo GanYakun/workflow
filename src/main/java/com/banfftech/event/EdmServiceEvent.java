@@ -10,6 +10,7 @@ import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.entity.condition.EntityCondition;
+import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.olingo.commons.api.edm.EdmBindingTarget;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -39,6 +40,7 @@ public class EdmServiceEvent {
         Locale locale = (Locale) oDataContext.get("locale");
         String edmServiceId = (String) actionParameters.get("edmServiceId");
         String data = (String) actionParameters.get("data");
+        saveEdmContent(delegator, edmServiceId, "json", data);
         JSONObject entityType = JSONObject.fromObject(data);
         String description = entityType.getString("Description");
         String name = entityType.getString("Name");
@@ -114,10 +116,23 @@ public class EdmServiceEvent {
                 //TODO: Navigation...
             }
             String edmXmlContent = UtilXml.writeXmlDocument(document);
-            delegator.storeByCondition("EdmService", UtilMisc.toMap("edmContent", edmXmlContent),
-                    EntityCondition.makeCondition("edmServiceId", edmServiceId));
+            saveEdmContent(delegator, edmServiceId, "xml", edmXmlContent);
         } catch (Exception e) {
             throw new OfbizODataException(e.getMessage());
+        }
+    }
+
+    private static void saveEdmContent(Delegator delegator, String edmServiceId, String format, String edmContent) throws GenericEntityException {
+        GenericValue edmServiceContent = EntityQuery.use(delegator).from("EdmServiceContent").where("edmServiceId", edmServiceId, "format", format).queryFirst();
+        if (UtilValidate.isEmpty(edmServiceContent)) {
+            //create
+            String edmServiceContentId = delegator.getNextSeqId("EdmServiceContent");
+            delegator.create("EdmServiceContent", UtilMisc.toMap("edmServiceContentId", edmServiceContentId,
+                    "edmServiceId", edmServiceId, "format", format, "edmContent", edmContent));
+        } else {
+            //update
+            edmServiceContent.set("edmContent", edmContent);
+            edmServiceContent.store();
         }
     }
 
