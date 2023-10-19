@@ -3,7 +3,6 @@ package com.banfftech.event;
 import com.dpbird.odata.OfbizODataException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.ofbiz.base.util.Debug;
 import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.base.util.UtilXml;
@@ -15,10 +14,7 @@ import org.apache.olingo.commons.api.edm.EdmBindingTarget;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -41,6 +37,7 @@ public class EdmServiceEvent {
     public static void createEntityType(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws GenericEntityException, OfbizODataException {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
         Locale locale = (Locale) oDataContext.get("locale");
+        String edmServiceId = (String) actionParameters.get("edmServiceId");
         String data = (String) actionParameters.get("data");
         JSONObject jsonObject = JSONObject.fromObject(data);
 
@@ -60,7 +57,7 @@ public class EdmServiceEvent {
         String edmEntityTypeId = delegator.getNextSeqId("EdmEntityType");
         delegator.create("EdmEntityType", UtilMisc.toMap("edmEntityTypeId", edmEntityTypeId, "name", name,
                 "autoProperties", autoProperties ? "Y" : "N", "entitySetName", entitySetName, "entityCondition", entityCondition,
-                "dbEntityId", dbEntityId, "edmServiceId", "10000", "description", description));
+                "dbEntityId", dbEntityId, "edmServiceId", edmServiceId, "description", description));
         //创建EdmProperty
         JSONArray propertyArr = entityType.getJSONArray("Property");
         for (int i = 0; i < propertyArr.size(); i++) {
@@ -76,7 +73,7 @@ public class EdmServiceEvent {
             delegator.create("EdmProperty", UtilMisc.toMap("edmEntityTypeId", edmEntityTypeId, "edmPropertyId", edmPropertyId,
                     "name", propertyName, "hidden", hidden, "computed", computed, "fieldControl", fieldControl, "immutable", immutable, "label", label));
         }
-        loadEdmService(delegator, "10000");
+        loadEdmService(delegator, edmServiceId);
 //        JSONArray navigationArr = entityType.getJSONArray("NavigationProperty");
 //        for (int i = 0; i < navigationArr.size(); i++) {
 //            JSONObject property = navigationArr.getJSONObject(i);
@@ -102,7 +99,6 @@ public class EdmServiceEvent {
                 entityTypeEle.setAttribute("Name", entityType.getString("name"));
                 entityTypeEle.setAttribute("AutoProperties", entityType.getBoolean("autoProperties").toString());
                 entityTypeEle.setAttribute("EntitySetName", entityType.getString("entitySetName"));
-                entityTypeEle.setAttribute("OfbizEntity", entityType.getString("entitySetName"));
                 entityTypeEle.setAttribute("EntityCondition", entityType.getString("entityCondition"));
                 GenericValue dbEntity = entityType.getRelatedOne("DBEntity", false);
                 entityTypeEle.setAttribute("OfbizEntity", dbEntity.getString("dbEntityName"));
