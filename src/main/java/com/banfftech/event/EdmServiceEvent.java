@@ -39,9 +39,7 @@ public class EdmServiceEvent {
         Locale locale = (Locale) oDataContext.get("locale");
         String edmServiceId = (String) actionParameters.get("edmServiceId");
         String data = (String) actionParameters.get("data");
-        JSONObject jsonObject = JSONObject.fromObject(data);
-
-        JSONObject entityType = jsonObject.getJSONObject("obj");
+        JSONObject entityType = JSONObject.fromObject(data);
         String description = entityType.getString("Description");
         String name = entityType.getString("Name");
         String ofbizEntity = entityType.getString("OfbizEntity");
