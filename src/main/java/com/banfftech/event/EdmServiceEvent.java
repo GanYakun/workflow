@@ -3,7 +3,6 @@ package com.banfftech.event;
 import com.dpbird.odata.OfbizODataException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.ofbiz.base.util.Debug;
 import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.base.util.UtilXml;
@@ -43,37 +42,32 @@ public class EdmServiceEvent {
         String data = (String) actionParameters.get("data");
         saveEdmContent(delegator, edmServiceId, "json", data);
         JSONObject entityType = JSONObject.fromObject(data);
-        String description = entityType.getString("Description");
-        String name = entityType.getString("Name");
-        String ofbizEntity = entityType.getString("OfbizEntity");
-        String dbEntityId = entityType.getString("dbEntityId");
+        String description = (String) entityType.get("Description");
+        String name = (String) entityType.get("Name");
+        String ofbizEntity = (String) entityType.get("OfbizEntity");
+        String dbEntityId = (String) entityType.get("dbEntityId");
         String entitySetName = (String) entityType.get("EntitySetName");
         if (UtilValidate.isEmpty(entitySetName)) {
-            entitySetName = ofbizEntity;
+            entitySetName = name;
         }
         boolean autoProperties = entityType.getBoolean("AutoProperties");
         String entityCondition = (String) entityType.get("EntityCondition");
-        GenericValue edmEntityType = EntityQuery.use(delegator).from("EdmEntityType").where("edmServiceId", edmServiceId, "name", name).queryFirst();
-        if (UtilValidate.isNotEmpty(edmEntityType)) {
-            throw new OfbizODataException("Duplicate definition: " + name);
-        }
         //创建EdmEntityType
         String edmEntityTypeId = delegator.getNextSeqId("EdmEntityType");
         delegator.create("EdmEntityType", UtilMisc.toMap("edmEntityTypeId", edmEntityTypeId, "name", name,
                 "autoProperties", autoProperties ? "Y" : "N", "entitySetName", entitySetName, "entityCondition", entityCondition,
-                "dbEntityId", dbEntityId, "edmServiceId", edmServiceId, "description", description, "sourceJson", data));
+                "dbEntityId", dbEntityId, "edmServiceId", edmServiceId, "description", description));
         //创建EdmProperty
         JSONArray propertyArr = entityType.getJSONArray("Property");
         for (int i = 0; i < propertyArr.size(); i++) {
             JSONObject property = propertyArr.getJSONObject(i);
-            String propertyName = property.getString("Name");
-            String hidden = property.getString("Hidden");
-            String computed = property.getString("Computed");
-            String fieldControl = property.getString("FieldControl");
-            String immutable = property.getString("Immutable");
-            String label = property.getString("Label");
+            String propertyName = (String) property.get("Name");
+            String hidden = (String) property.get("Hidden");
+            String computed = (String) property.get("Computed");
+            String fieldControl = (String) property.get("FieldControl");
+            String immutable = (String) property.get("Immutable");
+            String label = (String) property.get("Label");
             String edmPropertyId = delegator.getNextSeqId("EdmProperty");
-
             delegator.create("EdmProperty", UtilMisc.toMap("edmEntityTypeId", edmEntityTypeId, "edmPropertyId", edmPropertyId,
                     "name", propertyName, "hidden", hidden, "computed", computed, "fieldControl", fieldControl, "immutable", immutable, "label", label));
         }
@@ -81,11 +75,11 @@ public class EdmServiceEvent {
 //        JSONArray navigationArr = entityType.getJSONArray("NavigationProperty");
 //        for (int i = 0; i < navigationArr.size(); i++) {
 //            JSONObject property = navigationArr.getJSONObject(i);
-//            String navigationName = property.getString("Name");
-//            String type = property.getString("Type");
-//            String auto = property.getString("Auto");
-//            String relationName = property.getString("RelationName");
-//            String relations = property.getString("Relations");
+//            String navigationName = (String) property.get("Name");
+//            String type =  (String) property.get("Type");
+//            String auto =  (String) property.get("Auto");
+//            String relationName =  (String) property.get("RelationName");
+//            String relations =  (String) property.get("Relations");
 //            String edmNavigationPropertyId = delegator.getNextSeqId("EdmNavigationProperty");
 //            delegator.create("EdmNavigationProperty", UtilMisc.toMap("edmEntityTypeId", edmEntityTypeId, "edmNavigationPropertyId", edmNavigationPropertyId,
 //                    "name", navigationName, "type", type, "relations",  relations));
