@@ -3,6 +3,7 @@ package com.banfftech.event;
 import com.dpbird.odata.OfbizODataException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.ofbiz.base.util.Debug;
 import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.base.util.UtilXml;
@@ -52,12 +53,15 @@ public class EdmServiceEvent {
         }
         boolean autoProperties = entityType.getBoolean("AutoProperties");
         String entityCondition = (String) entityType.get("EntityCondition");
-
+        GenericValue edmEntityType = EntityQuery.use(delegator).from("EdmEntityType").where("edmServiceId", edmServiceId, "name", name).queryFirst();
+        if (UtilValidate.isNotEmpty(edmEntityType)) {
+            throw new OfbizODataException("Duplicate definition: " + name);
+        }
         //创建EdmEntityType
         String edmEntityTypeId = delegator.getNextSeqId("EdmEntityType");
         delegator.create("EdmEntityType", UtilMisc.toMap("edmEntityTypeId", edmEntityTypeId, "name", name,
                 "autoProperties", autoProperties ? "Y" : "N", "entitySetName", entitySetName, "entityCondition", entityCondition,
-                "dbEntityId", dbEntityId, "edmServiceId", edmServiceId, "description", description));
+                "dbEntityId", dbEntityId, "edmServiceId", edmServiceId, "description", description, "sourceJson", data));
         //创建EdmProperty
         JSONArray propertyArr = entityType.getJSONArray("Property");
         for (int i = 0; i < propertyArr.size(); i++) {
