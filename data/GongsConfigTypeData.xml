@@ -110,17 +110,16 @@ under the License.
     <Enumeration enumId="en" enumTypeId="LANGUAGE_ENUM" description="英文" enumCode="EN" sequenceId="03"/>
 
     <!-- 业务对象 字段类型 -->
-    <ProcessFieldType description="金额" processFieldTypeId="AMOUNT"/>
-    <ProcessFieldType description="布尔值" processFieldTypeId="BOOL"/>
-    <ProcessFieldType description="日期" processFieldTypeId="DATE"/>
-    <ProcessFieldType description="日期时间" processFieldTypeId="DATE_TIME"/>
-    <ProcessFieldType description="枚举" processFieldTypeId="ENUM"/>
-    <ProcessFieldType description="数字" processFieldTypeId="NUMBER"/>
-    <ProcessFieldType description="人员" processFieldTypeId="PARTY"/>
-    <ProcessFieldType description="产品" processFieldTypeId="PRODUCT"/>
-    <ProcessFieldType description="状态" processFieldTypeId="STATUS"/>
-    <ProcessFieldType description="字符串" processFieldTypeId="STRING"/>
-    <ProcessFieldType description="类型" processFieldTypeId="TYPE"/>
+    <DBFieldType description="布尔值" dbFieldTypeId="BOOL"/>
+    <DBFieldType description="日期" dbFieldTypeId="DATE"/>
+    <DBFieldType description="日期时间" dbFieldTypeId="DATE_TIME"/>
+    <DBFieldType description="枚举" dbFieldTypeId="ENUM"/>
+    <DBFieldType description="数字" dbFieldTypeId="NUMBER"/>
+    <DBFieldType description="人员" dbFieldTypeId="PARTY"/>
+    <DBFieldType description="产品" dbFieldTypeId="PRODUCT"/>
+    <DBFieldType description="状态" dbFieldTypeId="STATUS"/>
+    <DBFieldType description="字符串" dbFieldTypeId="STRING"/>
+    <DBFieldType description="类型" dbFieldTypeId="TYPE"/>
 
 
 

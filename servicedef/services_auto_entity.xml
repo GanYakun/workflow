@@ -74,6 +74,20 @@ under the License.
         <description>Delete a DBField</description>
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
+    <service name="banfftech.createDBRelation" default-entity-name="DBRelation" engine="entity-auto" invoke="create">
+        <description>Create a DBRelation</description>
+        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="banfftech.updateDBRelation" default-entity-name="DBRelation" engine="entity-auto" invoke="update">
+        <description>Update a DBRelation</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="banfftech.deleteDBRelation" default-entity-name="DBRelation" engine="entity-auto" invoke="delete">
+        <description>Delete a DBRelation</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
 
 
     <service name="banfftech.createEmplLeave" default-entity-name="EmplLeave" engine="entity-auto" invoke="create">

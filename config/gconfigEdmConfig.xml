@@ -1,17 +1,6 @@
 <ofbiz-edm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd"
            ImportGlobal="false">
-<!--    <EntityType Name="OfbizEntity" AutoProperties="true" EntitySetName="OfbizEntities">-->
-<!--        <NavigationProperty Name="OfbizField"/>-->
-<!--        <NavigationProperty Name="OfbizRelation"/>-->
-<!--    </EntityType>-->
-<!--    <EntityType Name="OfbizField" AutoProperties="true" EntitySetName="OfbizFields">-->
-<!--        <NavigationProperty Name="OfbizEntity"/>-->
-<!--    </EntityType>-->
-<!--    <EntityType Name="OfbizRelation" AutoProperties="true" EntitySetName="OfbizRelations">-->
-<!--        <NavigationProperty Name="OfbizEntity"/>-->
-<!--    </EntityType>-->
-
     <EntityType Name="DBEntity" AutoProperties="true" EntitySetName="DBEntities">
         <NavigationProperty Name="DBField"/>
         <NavigationProperty Name="DBRelation"/>
@@ -22,5 +11,13 @@
     <EntityType Name="DBRelation" AutoProperties="true" EntitySetName="DBRelations">
         <NavigationProperty Name="DBEntity"/>
     </EntityType>
+
+    <Action Name="CreateEntityType" IsBound="false" OfbizService="com.banfftech.event.EdmServiceEvent.createEntityType">
+        <Parameter Name="data" Type="String" IsCollection="false" Nullable="false"/>
+    </Action>
+
+    <EntityContainer>
+        <ActionImport Action="CreateEntityType" Name="CreateEntityType"/>
+    </EntityContainer>
 
 </ofbiz-edm>
