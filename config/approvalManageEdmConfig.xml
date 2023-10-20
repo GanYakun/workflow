@@ -1,7 +1,7 @@
 <ofbiz-edm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd" ImportGlobal="false">
-    <ImportEdm Path="component://gongsconfig/config/businessManageEdmConfig.xml"/>
-    <ImportEdm Path="component://gongsconfig/config/assetPickUpManageEdmConfig.xml"/>
+    <ImportEdm Path="component://bfcommon/config/businessManageEdmConfig.xml"/>
+    <ImportEdm Path="component://bfcommon/config/assetPickUpManageEdmConfig.xml"/>
     <!--=====================================     主对象EntityType definition     =====================================-->
     <!--审批(当前用户审批)-->
     <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true" Orderby="-createdDate"

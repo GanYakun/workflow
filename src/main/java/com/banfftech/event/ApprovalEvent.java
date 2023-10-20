@@ -4,7 +4,7 @@ import com.banfftech.bean.FlowHelper;
 import com.banfftech.bean.Manual;
 import com.banfftech.bean.NodeUser;
 import com.banfftech.bean.TreeNode;
-import com.banfftech.util.ServiceUtils;
+import com.banfftech.common.util.PartyServiceUtils;
 import com.dpbird.odata.OfbizAppEdmProvider;
 import com.dpbird.odata.OfbizMapOdata;
 import com.dpbird.odata.OfbizODataException;
@@ -181,7 +181,7 @@ public class ApprovalEvent {
             if ("company".equals(optionMap.get("type")) || "company".equals(optionMap.get("value"))) {
                 //公司id, 获取公司全部人员
                 List<GenericValue> allMembers = new ArrayList<>();
-                ServiceUtils.getDepartmentALlMembers(delegator, "Company", allMembers);
+                PartyServiceUtils.getDepartmentALlMembers(delegator, "Company", allMembers);
                 for (GenericValue member : allMembers) {
                     selectJson.put(member.getString("partyId"), member.getString("partyName"));
                 }

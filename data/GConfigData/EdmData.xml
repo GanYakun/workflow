@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-engine-xml>
+
+    <EdmService description="人员管理" edmServiceId="edm10000" serviceName="orgStructureManage"/>
+    <EdmServiceContent edmServiceContentId="edmCon10000" edmServiceId="edm10000" format="xml" edmContent="&lt;ofbiz-edm xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:noNamespaceSchemaLocation=&quot;https://dev.odatalab.com/dtds/edmconfig.xsd&quot; &gt;
+        &lt;ImportEdm Path=&quot;component://bfcommon/config/orgStructureManageEdmConfig.xml&quot;/&gt;&lt;/ofbiz-edm&gt;" />
+
+    <EdmService description="资产管理" edmServiceId="edm20000" serviceName="assetPickUpManage"/>
+    <EdmServiceContent edmServiceContentId="edmCon20000" edmServiceId="edm20000" format="xml" edmContent="&lt;ofbiz-edm xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:noNamespaceSchemaLocation=&quot;https://dev.odatalab.com/dtds/edmconfig.xsd&quot; &gt;
+        &lt;ImportEdm Path=&quot;component://bfcommon/config/assetPickUpManageEdmConfig.xml&quot;/&gt;&lt;/ofbiz-edm&gt;" />
+
+    <EdmService description="请假管理" edmServiceId="edm30000" serviceName="businessManage"/>
+    <EdmServiceContent edmServiceContentId="edmCon30000" edmServiceId="edm30000" format="xml" edmContent="&lt;ofbiz-edm xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:noNamespaceSchemaLocation=&quot;https://dev.odatalab.com/dtds/edmconfig.xsd&quot; &gt;
+        &lt;ImportEdm Path=&quot;component://bfcommon/config/businessManageEdmConfig.xml&quot;/&gt;&lt;/ofbiz-edm&gt;" />
+
+</entity-engine-xml>

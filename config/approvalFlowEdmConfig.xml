@@ -2,7 +2,7 @@
            xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd"
            ImportGlobal="false">
     <!-- 人员数据 -->
-    <ImportEdm Path="component://gongsconfig/config/orgStructureManageEdmConfig.xml"/>
+    <ImportEdm Path="component://bfcommon/config/orgStructureManageEdmConfig.xml"/>
 
     <!-- 主流程对象 -->
     <EntityType Name="MainProcess" EntitySetName="MainProcess" AutoProperties="true"

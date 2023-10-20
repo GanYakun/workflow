@@ -36,7 +36,7 @@ public class EdmServiceEvent {
 
 
     /**
-     * 初始化字段类型
+     * 创建EdmEntityType,EdmProperty,EdmNavigationProperty
      */
     public static void createEntityType(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws GenericEntityException, OfbizODataException {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
@@ -91,6 +91,7 @@ public class EdmServiceEvent {
                     "name", propertyName, "hidden", hidden, "computed", computed, "fieldControl", fieldControl, "immutable", immutable, "label", label));
         }
 
+        //创建EdmNavigationProperty
         JSONArray navigationArr = entityType.getJSONArray("navigationProperty");
         for (int i = 0; i < navigationArr.size(); i++) {
             JSONObject property = navigationArr.getJSONObject(i);
@@ -118,7 +119,9 @@ public class EdmServiceEvent {
         loadEdmService(delegator, edmServiceId);
     }
 
-
+    /**
+     * 将数据库中数据解析成EdmConfig.xml并保存
+     */
     private static void loadEdmService(Delegator delegator, String edmServiceId) throws OfbizODataException {
         try {
             Document document = UtilXml.readXmlDocument(EDM_ROOT);
@@ -159,6 +162,9 @@ public class EdmServiceEvent {
         }
     }
 
+    /**
+     * 保存edmConfig源文本
+     */
     private static void saveEdmContent(Delegator delegator, String edmServiceId, String format, String edmContent) throws GenericEntityException {
         GenericValue edmServiceContent = EntityQuery.use(delegator).from("EdmServiceContent").where("edmServiceId", edmServiceId, "format", format).queryFirst();
         if (UtilValidate.isEmpty(edmServiceContent)) {
