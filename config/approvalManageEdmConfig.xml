@@ -40,7 +40,7 @@
         </FieldGroup>
         <!--审批通过Action-->
         <Action Name="Approved" IsBound="true"
-                OfbizService="com.banfftech.event.OrgStructureAppEvent.approve">
+                OfbizService="com.banfftech.event.ApprovalEvent.approve">
             <Parameter Name="approval" Type="Approval" Nullable="false" IsCollection="false"/>
             <Parameter Name="statusId" Type="Edm.String" Nullable="false" IsCollection="false"/>
             <Parameter Name="comments" Type="Edm.String" Nullable="false" IsCollection="false"
@@ -48,7 +48,7 @@
         </Action>
         <!--审批不通过Action-->
         <Action Name="ApproveRefuse" IsBound="true"
-                OfbizService="com.banfftech.event.OrgStructureAppEvent.approve">
+                OfbizService="com.banfftech.event.ApprovalEvent.approve">
             <Parameter Name="approval" Type="Approval" Nullable="false" IsCollection="false"/>
             <Parameter Name="statusId" Type="Edm.String" Nullable="false" IsCollection="false"/>
             <Parameter Name="comments" Type="Edm.String" Nullable="false" IsCollection="false"

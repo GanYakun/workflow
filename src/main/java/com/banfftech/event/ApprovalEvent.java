@@ -299,4 +299,24 @@ public class ApprovalEvent {
         return typeId;
     }
 
+    /**
+     * 审批通过/拒绝
+     */
+    public static void approve(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws OfbizODataException {
+        LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
+        GenericValue userLogin = (GenericValue) oDataContext.get("userLogin");
+        OdataOfbizEntity odataOfbizEntity = (OdataOfbizEntity) actionParameters.get("approval");
+        GenericValue approval = odataOfbizEntity.getGenericValue();
+        String workEffortPartyAssignmentId = approval.getString("workEffortPartyAssignmentId");
+        String comments = (String) actionParameters.get("comments");
+        String statusId = (String) actionParameters.get("statusId");
+        try {
+            dispatcher.runSync("banfftech.updateWorkEffortPartyAssignment",
+                    UtilMisc.toMap("workEffortPartyAssignmentId",workEffortPartyAssignmentId,"statusId",statusId,
+                            "comments",comments,"mannerEnumId","PASS_APPROVE", "thruDate", UtilDateTime.nowTimestamp(), "userLogin",userLogin));
+        } catch (GenericServiceException e) {
+            throw new OfbizODataException(e.getMessage());
+        }
+    }
+
 }
