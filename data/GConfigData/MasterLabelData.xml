@@ -5,6 +5,7 @@
     <!--业务对象DBEntity-->
     <DBEntity dbEntityId="DBE10000" dbEntityName="DBEntity" description="业务对象" isOpen="N"/>
     <DBEntity dbEntityId="DBE10001" dbEntityName="DBField" description="业务对象字段"/>
+    <DBEntity dbEntityId="DBE10002" dbEntityName="DBFieldLabel" description="业务对象字段标签"/>
 
     <!--业务字段对象-->
     <!--DBEntity对象字段-->
@@ -35,6 +36,13 @@
              dbEntityId="DB10001"/>
     <DBField dbFieldId="DBF_DBF10007" dbFieldName="dbEntityId" dbFieldTypeId="STRING" description="业务对象ID"
              dbEntityId="DB10001"/>
+    <!--DBFieldLabel对象字段标签-->
+    <DBField dbFieldId="DBFL_DBF10000" dbFieldName="dbFieldName" dbFieldTypeId="STRING" description="字段名"
+             dbEntityId="DBE10002"/>
+    <DBField dbFieldId="DBFL_DBF10001" dbFieldName="language" dbFieldTypeId="STRING" description="语言"
+             dbEntityId="DBE10002"/>
+    <DBField dbFieldId="DBFL_DBF10002" dbFieldName="value" dbFieldTypeId="STRING" description="标签值"
+             dbEntityId="DBE10002"/>
 
     <!--业务对象字段国际化DBFieldLabel-->
     <!--DBEntity字段国际化-->
@@ -65,5 +73,10 @@
     <DBFieldLabel dbFieldLabelId="DBF_DBFL10013" dbFieldId="DBF_DBF10006" language="en" value="Field Description"/>
     <DBFieldLabel dbFieldLabelId="DBF_DBFL10014" dbFieldId="DBF_DBF10007" language="zh" value="业务对象ID"/>
     <DBFieldLabel dbFieldLabelId="DBF_DBFL10015" dbFieldId="DBF_DBF10007" language="en" value="Business Object ID"/>
+    <!--DBFieldLabel字段国际化-->
+    <DBFieldLabel dbFieldLabelId="DBFL_DBFL10000" dbFieldId="DBFL_DBF10001" language="zh" value="语言"/>
+    <DBFieldLabel dbFieldLabelId="DBFL_DBFL10000" dbFieldId="DBFL_DBF10001" language="en" value="Language"/>
+    <DBFieldLabel dbFieldLabelId="DBFL_DBFL10001" dbFieldId="DBFL_DBF10002" language="zh" value="标签值"/>
+    <DBFieldLabel dbFieldLabelId="DBFL_DBFL10001" dbFieldId="DBFL_DBF10002" language="en" value="Label Value"/>
 
 </entity-engine-xml>
