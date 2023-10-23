@@ -69,6 +69,8 @@
                             IsCollection="false"/>
         <NavigationProperty Name="PurchaseShipmentRequest" Relations="TopWorkEffort/WorkFlowMember/CustRequest" Type="PurchaseShipmentRequest"
                             IsCollection="false"/>
+        <NavigationProperty Name="OfficeShipmentRequest" Relations="TopWorkEffort/WorkFlowMember/CustRequest" Type="OfficeShipmentRequest"
+                            IsCollection="false"/>
         <NavigationProperty Name="ApprovalStatusItem" Relations="ApprovalStatusItem" Type="ApprovalStatusItem"
                             IsCollection="false"/>
         <!--关联审批通过枚举-->
