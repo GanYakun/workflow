@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-engine-xml>
+    <!--导入要求=====新加定时任务数据时,只导入新加的定时任务数据=====导入要求-->
+
+    <!--业务对象DBEntity-->
+    <DBEntity dbEntityId="DBE10000" dbEntityName="DBEntity" description="业务对象" isOpen="N"/>
+    <DBEntity dbEntityId="DBE10001" dbEntityName="DBField" description="业务对象字段"/>
+
+    <!--业务字段对象-->
+    <!--DBEntity对象字段-->
+    <DBField dbFieldId="DBE_DBF10000" dbFieldName="dbEntityId" dbFieldTypeId="STRING" description="ID"
+             dbEntityId="DB10000"/>
+    <DBField dbFieldId="DBE_DBF10001" dbFieldName="dbEntityName" dbFieldTypeId="STRING" description="业务对象名称"
+             dbEntityId="DB10000"/>
+    <DBField dbFieldId="DBE_DBF10002" dbFieldName="dbEntityTypeId" dbFieldTypeId="TYPE" description="业务对象类型"
+             dbEntityId="DB10000"/>
+    <DBField dbFieldId="DBE_DBF10003" dbFieldName="isOpen" dbFieldTypeId="BOOL" description="是否开放"
+             dbEntityId="DB10000"/>
+    <DBField dbFieldId="DBE_DBF10004" dbFieldName="description" dbFieldTypeId="STRING" description="业务对象描述"
+             dbEntityId="DB10000"/>
+    <!--DBField对象字段-->
+    <DBField dbFieldId="DBF_DBF10000" dbFieldName="dbFieldId" dbFieldTypeId="STRING" description="ID"
+             dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10001" dbFieldName="dbFieldName" dbFieldTypeId="STRING" description="字段名称"
+             dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10002" dbFieldName="dbFieldTypeId" dbFieldTypeId="TYPE" description="字段类型"
+             dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10003" dbFieldName="valueTypeId" dbFieldTypeId="TYPE" description="字段查询数据类型"
+             dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10004" dbFieldName="asCondition" dbFieldTypeId="BOOL" description="是否可做为条件"
+             dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10005" dbFieldName="isOpen" dbFieldTypeId="BOOL" description="是否开放"
+             dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10006" dbFieldName="description" dbFieldTypeId="STRING" description="字段描述"
+             dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10007" dbFieldName="dbEntityId" dbFieldTypeId="STRING" description="业务对象ID"
+             dbEntityId="DB10001"/>
+
+    <!--业务对象字段国际化DBFieldLabel-->
+    <!--DBEntity字段国际化-->
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10000" dbFieldId="DBE_DBF10000" language="zh" value="ID"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10001" dbFieldId="DBE_DBF10000" language="en" value="ID"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10002" dbFieldId="DBE_DBF10001" language="zh" value="业务对象名称"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10003" dbFieldId="DBE_DBF10001" language="en" value="Business Object Name"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10004" dbFieldId="DBE_DBF10002" language="zh" value="业务对象类型"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10005" dbFieldId="DBE_DBF10002" language="en" value="Business Object Type"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10006" dbFieldId="DBE_DBF10003" language="zh" value="是否开放"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10007" dbFieldId="DBE_DBF10003" language="en" value="Is Open"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10008" dbFieldId="DBE_DBF10004" language="zh" value="业务对象描述"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10009" dbFieldId="DBE_DBF10004" language="en" value="Business Object Description"/>
+    <!--DBField字段国际化-->
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10000" dbFieldId="DBF_DBF10000" language="zh" value="ID"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10001" dbFieldId="DBF_DBF10000" language="en" value="ID"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10002" dbFieldId="DBF_DBF10001" language="zh" value="字段名称"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10003" dbFieldId="DBF_DBF10001" language="en" value="Field Name"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10004" dbFieldId="DBF_DBF10002" language="zh" value="字段类型"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10005" dbFieldId="DBF_DBF10002" language="en" value="Field Type"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10006" dbFieldId="DBF_DBF10003" language="zh" value="字段查询数据类型"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10007" dbFieldId="DBF_DBF10003" language="en" value="Field Query Data Type"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10008" dbFieldId="DBF_DBF10004" language="zh" value="是否可做为条件"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10009" dbFieldId="DBF_DBF10004" language="en" value="Is As Condition"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10010" dbFieldId="DBF_DBF10005" language="zh" value="是否开放"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10011" dbFieldId="DBF_DBF10005" language="en" value="Is Open"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10012" dbFieldId="DBF_DBF10006" language="zh" value="字段描述"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10013" dbFieldId="DBF_DBF10006" language="en" value="Field Description"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10014" dbFieldId="DBF_DBF10007" language="zh" value="业务对象ID"/>
+    <DBFieldLabel dbFieldLabelId="DBF_DBFL10015" dbFieldId="DBF_DBF10007" language="en" value="Business Object ID"/>
+
+</entity-engine-xml>

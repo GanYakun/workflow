@@ -2,6 +2,7 @@
            xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd" ImportGlobal="false">
     <ImportEdm Path="component://bfcommon/config/businessManageEdmConfig.xml"/>
     <ImportEdm Path="component://bfcommon/config/assetPickUpManageEdmConfig.xml"/>
+    <ImportEdm Path="component://bfcommon/config/shipmentRequestManageEdmConfig.xml"/>
     <!--=====================================     主对象EntityType definition     =====================================-->
     <!--审批(当前用户审批)-->
     <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true" Orderby="-createdDate"
@@ -65,6 +66,8 @@
         <NavigationProperty Name="LeaveApproval" Relations="TopWorkEffort/WorkFlowMember/EmplLeave" Type="LeaveApproval"
                             IsCollection="false"/>
         <NavigationProperty Name="AssetPickUpRequest" Relations="TopWorkEffort/WorkFlowMember/Requirement" Type="AssetPickUpRequest"
+                            IsCollection="false"/>
+        <NavigationProperty Name="PurchaseShipmentRequest" Relations="TopWorkEffort/WorkFlowMember/CustRequest" Type="PurchaseShipmentRequest"
                             IsCollection="false"/>
         <NavigationProperty Name="ApprovalStatusItem" Relations="ApprovalStatusItem" Type="ApprovalStatusItem"
                             IsCollection="false"/>
@@ -134,7 +137,7 @@
     <!--成员-->
     <EntityType Name="Member" OfbizEntity="PartyAndContact" EntitySetName="Members" EntityCondition="partyTypeId=PERSON"
                 AutoProperties="true" OfbizType="partyTypeId=PERSON"
-                Handler="component://gongsconfig/groovyScripts/orgStructureManage/Member.groovy">
+                Handler="component://bfcommon/groovyScripts/orgStructureManage/Member.groovy">
         <RelAlias Name="Person" Relations="Person"/>
         <Property Name="gender" RelAlias="Person" Field="gender" FieldControl="Mandatory" Required="true">
             <Text Path="GenderEnumeration/description" TextArrangement="TextOnly"/>
