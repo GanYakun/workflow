@@ -28,8 +28,11 @@
     <view-entity entity-name="Approval" package-name="com.banfftech.gongsconfig">
         <member-entity entity-alias="WEFT" entity-name="WorkEffort"/>
         <member-entity entity-alias="WEETPA" entity-name="WorkEffortPartyAssignment"/>
-        <alias-all entity-alias="WEFT"/>
+        <alias-all entity-alias="WEFT">
+            <exclude field="workEffortId"/>
+        </alias-all>
         <alias-all entity-alias="WEETPA"/>
+        
         <view-link entity-alias="WEFT" rel-entity-alias="WEETPA" rel-optional="false">
             <key-map field-name="workEffortId"/>
             <entity-condition>

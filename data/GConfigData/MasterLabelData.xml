@@ -4,45 +4,29 @@
 
     <!--业务对象DBEntity-->
     <DBEntity dbEntityId="DBE10000" dbEntityName="DBEntity" description="业务对象" isOpen="N"/>
-    <DBEntity dbEntityId="DBE10001" dbEntityName="DBField" description="业务对象字段"/>
-    <DBEntity dbEntityId="DBE10002" dbEntityName="DBFieldLabel" description="业务对象字段标签"/>
+    <DBEntity dbEntityId="DBE10001" dbEntityName="DBField" description="业务对象字段" isOpen="N"/>
+    <DBEntity dbEntityId="DBE10002" dbEntityName="DBFieldLabel" description="业务对象字段标签" isOpen="N"/>
 
     <!--业务字段对象-->
     <!--DBEntity对象字段-->
-    <DBField dbFieldId="DBE_DBF10000" dbFieldName="dbEntityId" dbFieldTypeId="STRING" description="ID"
-             dbEntityId="DB10000"/>
-    <DBField dbFieldId="DBE_DBF10001" dbFieldName="dbEntityName" dbFieldTypeId="STRING" description="业务对象名称"
-             dbEntityId="DB10000"/>
-    <DBField dbFieldId="DBE_DBF10002" dbFieldName="dbEntityTypeId" dbFieldTypeId="TYPE" description="业务对象类型"
-             dbEntityId="DB10000"/>
-    <DBField dbFieldId="DBE_DBF10003" dbFieldName="isOpen" dbFieldTypeId="BOOL" description="是否开放"
-             dbEntityId="DB10000"/>
-    <DBField dbFieldId="DBE_DBF10004" dbFieldName="description" dbFieldTypeId="STRING" description="业务对象描述"
-             dbEntityId="DB10000"/>
+    <DBField dbFieldId="DBE_DBF10000" dbFieldName="dbEntityId" dbFieldTypeId="STRING" description="ID" dbEntityId="DB10000"/>
+    <DBField dbFieldId="DBE_DBF10001" dbFieldName="dbEntityName" dbFieldTypeId="STRING" description="业务对象名称" dbEntityId="DB10000"/>
+    <DBField dbFieldId="DBE_DBF10002" dbFieldName="dbEntityTypeId" dbFieldTypeId="TYPE" description="业务对象类型" dbEntityId="DB10000"/>
+    <DBField dbFieldId="DBE_DBF10003" dbFieldName="isOpen" dbFieldTypeId="BOOL" description="是否开放" dbEntityId="DB10000"/>
+    <DBField dbFieldId="DBE_DBF10004" dbFieldName="description" dbFieldTypeId="STRING" description="业务对象描述" dbEntityId="DB10000"/>
     <!--DBField对象字段-->
-    <DBField dbFieldId="DBF_DBF10000" dbFieldName="dbFieldId" dbFieldTypeId="STRING" description="ID"
-             dbEntityId="DB10001"/>
-    <DBField dbFieldId="DBF_DBF10001" dbFieldName="dbFieldName" dbFieldTypeId="STRING" description="字段名称"
-             dbEntityId="DB10001"/>
-    <DBField dbFieldId="DBF_DBF10002" dbFieldName="dbFieldTypeId" dbFieldTypeId="TYPE" description="字段类型"
-             dbEntityId="DB10001"/>
-    <DBField dbFieldId="DBF_DBF10003" dbFieldName="valueTypeId" dbFieldTypeId="TYPE" description="字段查询数据类型"
-             dbEntityId="DB10001"/>
-    <DBField dbFieldId="DBF_DBF10004" dbFieldName="asCondition" dbFieldTypeId="BOOL" description="是否可做为条件"
-             dbEntityId="DB10001"/>
-    <DBField dbFieldId="DBF_DBF10005" dbFieldName="isOpen" dbFieldTypeId="BOOL" description="是否开放"
-             dbEntityId="DB10001"/>
-    <DBField dbFieldId="DBF_DBF10006" dbFieldName="description" dbFieldTypeId="STRING" description="字段描述"
-             dbEntityId="DB10001"/>
-    <DBField dbFieldId="DBF_DBF10007" dbFieldName="dbEntityId" dbFieldTypeId="STRING" description="业务对象ID"
-             dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10000" dbFieldName="dbFieldId" dbFieldTypeId="STRING" description="ID" dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10001" dbFieldName="dbFieldName" dbFieldTypeId="STRING" description="字段名称" dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10002" dbFieldName="dbFieldTypeId" dbFieldTypeId="TYPE" description="字段类型" dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10003" dbFieldName="valueTypeId" dbFieldTypeId="TYPE" description="字段查询数据类型" dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10004" dbFieldName="asCondition" dbFieldTypeId="BOOL" description="是否可做为条件" dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10005" dbFieldName="isOpen" dbFieldTypeId="BOOL" description="是否开放" dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10006" dbFieldName="description" dbFieldTypeId="STRING" description="字段描述" dbEntityId="DB10001"/>
+    <DBField dbFieldId="DBF_DBF10007" dbFieldName="dbEntityId" dbFieldTypeId="STRING" description="业务对象ID" dbEntityId="DB10001"/>
     <!--DBFieldLabel对象字段标签-->
-    <DBField dbFieldId="DBFL_DBF10000" dbFieldName="dbFieldName" dbFieldTypeId="STRING" description="字段名"
-             dbEntityId="DBE10002"/>
-    <DBField dbFieldId="DBFL_DBF10001" dbFieldName="language" dbFieldTypeId="STRING" description="语言"
-             dbEntityId="DBE10002"/>
-    <DBField dbFieldId="DBFL_DBF10002" dbFieldName="value" dbFieldTypeId="STRING" description="标签值"
-             dbEntityId="DBE10002"/>
+    <DBField dbFieldId="DBFL_DBF10000" dbFieldName="dbFieldName" dbFieldTypeId="STRING" description="字段名" dbEntityId="DBE10002"/>
+    <DBField dbFieldId="DBFL_DBF10001" dbFieldName="language" dbFieldTypeId="STRING" description="语言" dbEntityId="DBE10002"/>
+    <DBField dbFieldId="DBFL_DBF10002" dbFieldName="value" dbFieldTypeId="STRING" description="标签值" dbEntityId="DBE10002"/>
 
     <!--业务对象字段国际化DBFieldLabel-->
     <!--DBEntity字段国际化-->
