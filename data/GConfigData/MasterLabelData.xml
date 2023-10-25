@@ -7,7 +7,8 @@
     <DBEntity dbEntityId="DBE10001" dbEntityName="DBField" description="业务对象字段" isOpen="N"/>
     <DBEntity dbEntityId="DBE10002" dbEntityName="DBFieldLabel" description="业务对象字段标签" isOpen="N"/>
     <DBEntity dbEntityId="APPROVAL" dbEntityName="Approval" description="流程审批" isOpen="N"/>
-    
+    <DBEntity dbEntityId="MAINPROCESS" dbEntityName="MainProcess" description="流程主对象" isOpen="N"/>
+
 
     <!--业务字段对象-->
     <!--DBEntity对象字段-->
@@ -38,7 +39,9 @@
     <DBField dbFieldId="APPROVAL_DBF10005" dbFieldName="mannerEnumId" dbFieldTypeId="String" description="审批方式" dbEntityId="APPROVAL"/>
     <DBField dbFieldId="APPROVAL_DBF10006" dbFieldName="thruDate" dbFieldTypeId="DATE_TIME" description="审批结束时间" dbEntityId="APPROVAL"/>
     <DBField dbFieldId="APPROVAL_DBF10007" dbFieldName="partyId" dbFieldTypeId="String" description="审批人" dbEntityId="APPROVAL"/>
-
+    <!--MainProcess对象字段标签-->
+    <DBField dbFieldId="MAINPROCESS_DBF10000" dbFieldName="description" dbFieldTypeId="STRING" description="审批流程描述" dbEntityId="MAINPROCESS"/>
+    <DBField dbFieldId="MAINPROCESS_DBF10001" dbFieldName="version" dbFieldTypeId="STRING" description="审批流程版本号" dbEntityId="MAINPROCESS"/>
     <!--业务对象字段国际化DBFieldLabel-->
     <!--DBEntity字段国际化-->
     <DBFieldLabel dbFieldLabelId="DBE_DBFL10000" dbFieldId="DBE_DBF10000" language="zh" value="ID"/>
