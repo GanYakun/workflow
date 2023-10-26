@@ -35,7 +35,7 @@
     <DBField dbFieldId="APPROVAL_DBF10001" dbFieldName="fromDate" dbFieldTypeId="DATE_TIME" description="审批开始时间" dbEntityId="APPROVAL"/>
     <DBField dbFieldId="APPROVAL_DBF10002" dbFieldName="workEffortName" dbFieldTypeId="STRING" description="当前审批节点" dbEntityId="APPROVAL"/>
     <DBField dbFieldId="APPROVAL_DBF10003" dbFieldName="comments" dbFieldTypeId="DATE_TIME" description="审批备注" dbEntityId="APPROVAL"/>
-    <DBField dbFieldId="APPROVAL_DBF10004" dbFieldName="statusId" dbFieldTypeId="DATE_TIME" description="STATUS" dbEntityId="APPROVAL"/>
+    <DBField dbFieldId="APPROVAL_DBF10004" dbFieldName="statusId" dbFieldTypeId="DATE_TIME" description="审批状态" dbEntityId="APPROVAL"/>
     <DBField dbFieldId="APPROVAL_DBF10005" dbFieldName="mannerEnumId" dbFieldTypeId="String" description="审批方式" dbEntityId="APPROVAL"/>
     <DBField dbFieldId="APPROVAL_DBF10006" dbFieldName="thruDate" dbFieldTypeId="DATE_TIME" description="审批结束时间" dbEntityId="APPROVAL"/>
     <DBField dbFieldId="APPROVAL_DBF10007" dbFieldName="partyId" dbFieldTypeId="String" description="审批人" dbEntityId="APPROVAL"/>
