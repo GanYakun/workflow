@@ -55,6 +55,10 @@ under the License.
         </relation>
     </extend-entity>
 
+    <extend-entity entity-name="RoleType">
+        <field name="isSystemRole" type="indicator"/>
+    </extend-entity>
+
     <extend-entity entity-name="WorkEffort">
         <field name="topWorkEffortId" type="id"/>
         <relation type="one" fk-name="TOP_WORK_EFFORT" title="Top" rel-entity-name="WorkEffort">
