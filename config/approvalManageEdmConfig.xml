@@ -192,7 +192,9 @@
     </EntityType>
 
     <!--部门-->
-    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup" EntitySetName="Departments"
+    <EntityType Name="Department" OfbizEntity="PartyAndPartyGroup"
+                EntityCondition="partyTypeId=PARTY_GROUP and PartyRole/roleTypeId in (DEPARTMENT,INTERNAL_ORGANIZATIO)"
+                EntitySetName="Departments" OfbizType="partyTypeId=PARTY_GROUP"
                 AutoProperties="true">
     </EntityType>
 
