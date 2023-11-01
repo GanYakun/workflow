@@ -2,7 +2,6 @@
            xsi:noNamespaceSchemaLocation="https://dev.odatalab.com/dtds/edmconfig.xsd" ImportGlobal="false">
     <ImportEdm Path="component://bfcommon/config/businessManageEdmConfig.xml"/>
     <ImportEdm Path="component://bfcommon/config/assetPickUpManageEdmConfig.xml"/>
-    <ImportEdm Path="component://bfcommon/config/shipmentRequestManageEdmConfig.xml"/>
     <!--=====================================     主对象EntityType definition     =====================================-->
     <!--审批(当前用户审批)-->
     <EntityType Name="Approval" EntitySetName="Approvals" AutoProperties="true" Orderby="-createdDate"
