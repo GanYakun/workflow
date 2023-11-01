@@ -36,8 +36,8 @@ under the License.
     <RoleType description="Ordinary Employee" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="ORD_EMPLOYEE"/>
     <RoleType description="Organization Manager" hasTable="N" roleTypeId="ORG_MANAGER"/>
 
-    <!--MAIN_ROLE(人事,IT,行政,财务等的parentTypeId)-->
-    <RoleType description="系统角色" hasTable="N" parentTypeId="" roleTypeId="MAIN_ROLE"/>
+    <!--SYSTEM_ROLE(人事,IT,行政,财务等的parentTypeId)-->
+    <RoleType description="系统角色" hasTable="N" parentTypeId="" roleTypeId="SYSTEM_ROLE"/>
 
     <!--ORGANIZATION_ROLE(ORGANIZATION_UNIT->DEPARTMENT)-->
     <!--组织机构角色-->
@@ -120,13 +120,6 @@ under the License.
     <DBFieldType description="状态" dbFieldTypeId="STATUS"/>
     <DBFieldType description="字符串" dbFieldTypeId="STRING"/>
     <DBFieldType description="类型" dbFieldTypeId="TYPE"/>
-
-
-
-
-
-
-
     <!--===============================================Ofbiz原生PartySeedData ()===============================================-->
     <ContactMechPurposeType contactMechPurposeTypeId="SHIPPING_LOCATION" description="Shipping Destination Address"/>
     <ContactMechPurposeType contactMechPurposeTypeId="SHIP_ORIG_LOCATION" description="Shipping Origin Address"/>
