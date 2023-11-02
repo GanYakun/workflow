@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entity-engine-xml>
-    <!--状态翻译-->
-    <Internationalization id="StatusTrans10000" lang="zh" property="StatusItem.description.CRQ_CANCELLED" value="已取消"/>
-    <Internationalization id="StatusTrans10001" lang="en" property="StatusItem.description.CRQ_CANCELLED" value="Cancelled"/>
-    <Internationalization id="StatusTrans10000" lang="zh" property="StatusItem.description.CRQ_INCOMING_SHIPPING" value="待入库"/>
-    <Internationalization id="StatusTrans10001" lang="en" property="StatusItem.description.CRQ_INCOMING_SHIPPING" value="ToBeStored"/>
-    <Internationalization id="StatusTrans10000" lang="zh" property="StatusItem.description.CRQ_OUTGOING_SHIPPING" value="待出库"/>
-    <Internationalization id="StatusTrans10001" lang="en" property="StatusItem.description.CRQ_OUTGOING_SHIPPING" value="ToBeShippedOut"/>
-    <Internationalization id="StatusTrans10000" lang="zh" property="StatusItem.description.CRQ_OUTGOING_PICKED" value="待领用"/>
-    <Internationalization id="StatusTrans10001" lang="en" property="StatusItem.description.CRQ_OUTGOING_PICKED" value="ToBeCollected"/>
     <!--导入要求=====新加定时任务数据时,只导入新加的定时任务数据=====导入要求-->
     <Internationalization id="userNumbers" lang="zh" property="userNumbers" value="用户数量"/>
     <Internationalization id="gender" lang="zh" property="gender" value="性别"/>
