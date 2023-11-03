@@ -94,12 +94,12 @@
     <DBFieldLabel dbFieldLabelId="MAINROLETYPE_DBFL10007" dbFieldId="MAINROLETYPE_DBF10003" language="en" value="System Role"/>
     <!--成员-->
     <DBEntity dbEntityId="MEMBER" dbEntityName="PartyAndContact" dbEntityTypeId="PERSON" description="成员" isOpen="N"/>
-    <DBField dbFieldId="MEMBER_DBF10000" dbFieldName="partyId" dbFieldTypeId="String" description="用户ID" dbEntityId="MEMBER"/>
+    <DBField dbFieldId="MEMBER_DBF10000" dbFieldName="partyId" dbFieldTypeId="String" description="姓名" dbEntityId="MEMBER"/>
     <DBField dbFieldId="MEMBER_DBF10001" dbFieldName="partyName" dbFieldTypeId="String" description="姓名" dbEntityId="MEMBER"/>
     <DBField dbFieldId="MEMBER_DBF10002" dbFieldName="phoneMobile" dbFieldTypeId="String" description="联系电话" dbEntityId="MEMBER"/>
     <DBField dbFieldId="MEMBER_DBF10003" dbFieldName="primaryEmail" dbFieldTypeId="String" description="联系邮箱" dbEntityId="MEMBER"/>
     <DBField dbFieldId="MEMBER_DBF10004" dbFieldName="externalId" dbFieldTypeId="String" description="工号" dbEntityId="MEMBER"/>
-    <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10000" dbFieldId="MEMBER_DBF10000" language="zh" value="用户ID"/>
+    <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10000" dbFieldId="MEMBER_DBF10000" language="zh" value="姓名"/>
     <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10001" dbFieldId="MEMBER_DBF10000" language="en" value="ID"/>
     <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10002" dbFieldId="MEMBER_DBF10001" language="zh" value="姓名"/>
     <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10003" dbFieldId="MEMBER_DBF10001" language="en" value="Name"/>
@@ -117,5 +117,9 @@
     <DBFieldLabel dbFieldLabelId="DEPARTMENT_DBFL10001" dbFieldId="DEPARTMENT_DBF10000" language="en" value="ID"/>
     <DBFieldLabel dbFieldLabelId="DEPARTMENT_DBFL10002" dbFieldId="DEPARTMENT_DBF10001" language="zh" value="部门名称"/>
     <DBFieldLabel dbFieldLabelId="DEPARTMENT_DBFL10003" dbFieldId="DEPARTMENT_DBF10001" language="en" value="Department Name"/>
-
+    <!--PartyRole-->
+    <DBEntity dbEntityId="PARTYROLE" dbEntityName="PartyRole" description="Party角色" isOpen="N"/>
+    <DBField dbFieldId="PARTYROLE_DBF10000" dbFieldName="partyId" dbFieldTypeId="String" description="姓名" dbEntityId="PARTYROLE"/>
+    <DBFieldLabel dbFieldLabelId="PARTYROLE_DBFL10000" dbFieldId="PARTYROLE_DBF10000" language="zh" value="姓名"/>
+    <DBFieldLabel dbFieldLabelId="PARTYROLE_DBFL10001" dbFieldId="PARTYROLE_DBF10000" language="en" value="Name"/>
 </entity-engine-xml>
