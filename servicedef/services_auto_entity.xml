@@ -89,6 +89,21 @@ under the License.
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
 
+    <service name="banfftech.createWorkFlowMember" default-entity-name="WorkFlowMember" engine="entity-auto" invoke="create">
+        <description>Create a WorkFlowMember</description>
+        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="banfftech.updateWorkFlowMember" default-entity-name="WorkFlowMember" engine="entity-auto" invoke="update">
+        <description>Update a WorkFlowMember</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="banfftech.deleteWorkFlowMember" default-entity-name="WorkFlowMember" engine="entity-auto" invoke="delete">
+        <description>Delete a WorkFlowMember</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+
 
 
 
