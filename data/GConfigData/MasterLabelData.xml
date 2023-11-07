@@ -80,10 +80,10 @@
     <DBField dbFieldId="MAINPROCESS_DBF10001" dbFieldName="version" dbFieldTypeId="STRING" description="审批流程版本号" dbEntityId="MAINPROCESS"/>
     <!--角色-->
     <DBEntity dbEntityId="MAINROLETYPE" dbEntityName="RoleType" dbEntityTypeId="SYSTEM_ROLE" description="角色" isOpen="N"/>
-    <DBField dbFieldId="MAINROLETYPE_DBF10000" dbFieldName="parentTypeId" dbFieldTypeId="Type" description="角色类型" dbEntityId="MAINROLETYPE"/>
+    <DBField dbFieldId="MAINROLETYPE_DBF10000" dbFieldName="parentTypeId" dbFieldTypeId="TYPE" description="角色类型" dbEntityId="MAINROLETYPE"/>
     <DBField dbFieldId="MAINROLETYPE_DBF10001" dbFieldName="description" dbFieldTypeId="STRING" description="角色" dbEntityId="MAINROLETYPE"/>
-    <DBField dbFieldId="MAINROLETYPE_DBF10002" dbFieldName="roleTypeId" dbFieldTypeId="Type" description="角色" dbEntityId="MAINROLETYPE"/>
-    <DBField dbFieldId="MAINROLETYPE_DBF10003" dbFieldName="isSystemRole" dbFieldTypeId="Type" description="系统角色" dbEntityId="MAINROLETYPE"/>
+    <DBField dbFieldId="MAINROLETYPE_DBF10002" dbFieldName="roleTypeId" dbFieldTypeId="TYPE" description="角色" dbEntityId="MAINROLETYPE"/>
+    <DBField dbFieldId="MAINROLETYPE_DBF10003" dbFieldName="isSystemRole" dbFieldTypeId="TYPE" description="系统角色" dbEntityId="MAINROLETYPE"/>
     <DBFieldLabel dbFieldLabelId="MAINROLETYPE_DBFL10000" dbFieldId="MAINROLETYPE_DBF10000" language="zh" value="角色类型"/>
     <DBFieldLabel dbFieldLabelId="MAINROLETYPE_DBFL10001" dbFieldId="MAINROLETYPE_DBF10000" language="en" value="RoleType"/>
     <DBFieldLabel dbFieldLabelId="MAINROLETYPE_DBFL10002" dbFieldId="MAINROLETYPE_DBF10001" language="zh" value="角色"/>
