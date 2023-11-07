@@ -61,7 +61,7 @@
     <DBFieldLabel dbFieldLabelId="DBFL_DBFL10003" dbFieldId="DBFL_DBF10002" language="en" value="Label Value"/>
     <!--根审批节点-->
     <DBEntity dbEntityId="ROOTNODE" dbEntityName="WorkEffort" dbEntityTypeId="ROOT_NODE" description="根审批节点" isOpen="N"/>
-    <DBField dbFieldId="ROOTNODE_DBF10000" dbFieldName="createdByUserLogin" dbFieldTypeId="String" description="发起人" dbEntityId="ROOTNODE"/>
+    <DBField dbFieldId="ROOTNODE_DBF10000" dbFieldName="createdByUserLogin" dbFieldTypeId="STRING" description="发起人" dbEntityId="ROOTNODE"/>
     <DBFieldLabel dbFieldLabelId="MROOTNODE_DBFL10000" dbFieldId="ROOTNODE_DBF10000" language="zh" value="发起人"/>
     <DBFieldLabel dbFieldLabelId="MROOTNODE_DBFL10001" dbFieldId="ROOTNODE_DBF10000" language="en" value="Creator"/>
     <!--流程审批-->
@@ -71,9 +71,9 @@
     <DBField dbFieldId="APPROVAL_DBF10002" dbFieldName="workEffortName" dbFieldTypeId="STRING" description="当前审批节点" dbEntityId="APPROVAL"/>
     <DBField dbFieldId="APPROVAL_DBF10003" dbFieldName="comments" dbFieldTypeId="DATE_TIME" description="审批备注" dbEntityId="APPROVAL"/>
     <DBField dbFieldId="APPROVAL_DBF10004" dbFieldName="statusId" dbFieldTypeId="DATE_TIME" description="审批状态" dbEntityId="APPROVAL"/>
-    <DBField dbFieldId="APPROVAL_DBF10005" dbFieldName="mannerEnumId" dbFieldTypeId="String" description="审批方式" dbEntityId="APPROVAL"/>
+    <DBField dbFieldId="APPROVAL_DBF10005" dbFieldName="mannerEnumId" dbFieldTypeId="STRING" description="审批方式" dbEntityId="APPROVAL"/>
     <DBField dbFieldId="APPROVAL_DBF10006" dbFieldName="thruDate" dbFieldTypeId="DATE_TIME" description="审批结束时间" dbEntityId="APPROVAL"/>
-    <DBField dbFieldId="APPROVAL_DBF10007" dbFieldName="partyId" dbFieldTypeId="String" description="审批人" dbEntityId="APPROVAL"/>
+    <DBField dbFieldId="APPROVAL_DBF10007" dbFieldName="partyId" dbFieldTypeId="STRING" description="审批人" dbEntityId="APPROVAL"/>
     <!--流程主对象-->
     <DBEntity dbEntityId="MAINPROCESS" dbEntityName="MainProcess" description="流程主对象" isOpen="N"/>
     <DBField dbFieldId="MAINPROCESS_DBF10000" dbFieldName="description" dbFieldTypeId="STRING" description="审批流程描述" dbEntityId="MAINPROCESS"/>
@@ -81,7 +81,7 @@
     <!--角色-->
     <DBEntity dbEntityId="MAINROLETYPE" dbEntityName="RoleType" dbEntityTypeId="SYSTEM_ROLE" description="角色" isOpen="N"/>
     <DBField dbFieldId="MAINROLETYPE_DBF10000" dbFieldName="parentTypeId" dbFieldTypeId="Type" description="角色类型" dbEntityId="MAINROLETYPE"/>
-    <DBField dbFieldId="MAINROLETYPE_DBF10001" dbFieldName="description" dbFieldTypeId="String" description="角色" dbEntityId="MAINROLETYPE"/>
+    <DBField dbFieldId="MAINROLETYPE_DBF10001" dbFieldName="description" dbFieldTypeId="STRING" description="角色" dbEntityId="MAINROLETYPE"/>
     <DBField dbFieldId="MAINROLETYPE_DBF10002" dbFieldName="roleTypeId" dbFieldTypeId="Type" description="角色" dbEntityId="MAINROLETYPE"/>
     <DBField dbFieldId="MAINROLETYPE_DBF10003" dbFieldName="isSystemRole" dbFieldTypeId="Type" description="系统角色" dbEntityId="MAINROLETYPE"/>
     <DBFieldLabel dbFieldLabelId="MAINROLETYPE_DBFL10000" dbFieldId="MAINROLETYPE_DBF10000" language="zh" value="角色类型"/>
@@ -94,11 +94,11 @@
     <DBFieldLabel dbFieldLabelId="MAINROLETYPE_DBFL10007" dbFieldId="MAINROLETYPE_DBF10003" language="en" value="System Role"/>
     <!--成员-->
     <DBEntity dbEntityId="MEMBER" dbEntityName="PartyAndContact" dbEntityTypeId="PERSON" description="成员" isOpen="N"/>
-    <DBField dbFieldId="MEMBER_DBF10000" dbFieldName="partyId" dbFieldTypeId="String" description="姓名" dbEntityId="MEMBER"/>
-    <DBField dbFieldId="MEMBER_DBF10001" dbFieldName="partyName" dbFieldTypeId="String" description="姓名" dbEntityId="MEMBER"/>
-    <DBField dbFieldId="MEMBER_DBF10002" dbFieldName="phoneMobile" dbFieldTypeId="String" description="联系电话" dbEntityId="MEMBER"/>
-    <DBField dbFieldId="MEMBER_DBF10003" dbFieldName="primaryEmail" dbFieldTypeId="String" description="联系邮箱" dbEntityId="MEMBER"/>
-    <DBField dbFieldId="MEMBER_DBF10004" dbFieldName="externalId" dbFieldTypeId="String" description="工号" dbEntityId="MEMBER"/>
+    <DBField dbFieldId="MEMBER_DBF10000" dbFieldName="partyId" dbFieldTypeId="STRING" description="姓名" dbEntityId="MEMBER"/>
+    <DBField dbFieldId="MEMBER_DBF10001" dbFieldName="partyName" dbFieldTypeId="STRING" description="姓名" dbEntityId="MEMBER"/>
+    <DBField dbFieldId="MEMBER_DBF10002" dbFieldName="phoneMobile" dbFieldTypeId="STRING" description="联系电话" dbEntityId="MEMBER"/>
+    <DBField dbFieldId="MEMBER_DBF10003" dbFieldName="primaryEmail" dbFieldTypeId="STRING" description="联系邮箱" dbEntityId="MEMBER"/>
+    <DBField dbFieldId="MEMBER_DBF10004" dbFieldName="externalId" dbFieldTypeId="STRING" description="工号" dbEntityId="MEMBER"/>
     <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10000" dbFieldId="MEMBER_DBF10000" language="zh" value="姓名"/>
     <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10001" dbFieldId="MEMBER_DBF10000" language="en" value="ID"/>
     <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10002" dbFieldId="MEMBER_DBF10001" language="zh" value="姓名"/>
@@ -111,15 +111,15 @@
     <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10009" dbFieldId="MEMBER_DBF10004" language="en" value="job number"/>
     <!--部门-->
     <DBEntity dbEntityId="DEPARTMENT" dbEntityName="PartyAndPartyGroup" dbEntityTypeId="PARTY_GROUP" description="部门" isOpen="N"/>
-    <DBField dbFieldId="DEPARTMENT_DBF10000" dbFieldName="partyId" dbFieldTypeId="String" description="部门ID" dbEntityId="DEPARTMENT"/>
-    <DBField dbFieldId="DEPARTMENT_DBF10001" dbFieldName="partyName" dbFieldTypeId="String" description="部门名称" dbEntityId="DEPARTMENT"/>
+    <DBField dbFieldId="DEPARTMENT_DBF10000" dbFieldName="partyId" dbFieldTypeId="STRING" description="部门ID" dbEntityId="DEPARTMENT"/>
+    <DBField dbFieldId="DEPARTMENT_DBF10001" dbFieldName="partyName" dbFieldTypeId="STRING" description="部门名称" dbEntityId="DEPARTMENT"/>
     <DBFieldLabel dbFieldLabelId="DEPARTMENT_DBFL10000" dbFieldId="DEPARTMENT_DBF10000" language="zh" value="部门ID"/>
     <DBFieldLabel dbFieldLabelId="DEPARTMENT_DBFL10001" dbFieldId="DEPARTMENT_DBF10000" language="en" value="ID"/>
     <DBFieldLabel dbFieldLabelId="DEPARTMENT_DBFL10002" dbFieldId="DEPARTMENT_DBF10001" language="zh" value="部门名称"/>
     <DBFieldLabel dbFieldLabelId="DEPARTMENT_DBFL10003" dbFieldId="DEPARTMENT_DBF10001" language="en" value="Department Name"/>
     <!--PartyRole-->
     <DBEntity dbEntityId="PARTYROLE" dbEntityName="PartyRole" description="Party角色" isOpen="N"/>
-    <DBField dbFieldId="PARTYROLE_DBF10000" dbFieldName="partyId" dbFieldTypeId="String" description="姓名" dbEntityId="PARTYROLE"/>
+    <DBField dbFieldId="PARTYROLE_DBF10000" dbFieldName="partyId" dbFieldTypeId="STRING" description="姓名" dbEntityId="PARTYROLE"/>
     <DBFieldLabel dbFieldLabelId="PARTYROLE_DBFL10000" dbFieldId="PARTYROLE_DBF10000" language="zh" value="姓名"/>
     <DBFieldLabel dbFieldLabelId="PARTYROLE_DBFL10001" dbFieldId="PARTYROLE_DBF10000" language="en" value="Name"/>
 </entity-engine-xml>
