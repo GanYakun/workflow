@@ -24,7 +24,7 @@ under the License.
     <!--GoodIdentificationType-->
     <GoodIdentificationType description="Finish Good" hasTable="N" parentTypeId="" goodIdentificationTypeId="MANUFACTURER_ID_NO"/>
     <!--ProductType-->
-    <ProductType description="Finish Good" hasTable="N" parentTypeId="" productTypeId="FINISH_GOOD"/>
+    <ProductType description="Finish Good" hasTable="N" parentTypeId="" productTypeId="FINISHED_GOOD"/>
 <!--RequirementType-->
     <RequirementType description="Work Requirement" hasTable="N" parentTypeId="" requirementTypeId="WORK_REQUIREMENT"/>
 
