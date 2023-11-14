@@ -10,8 +10,6 @@
     <view-entity entity-name="Approval" package-name="com.banfftech.gongsconfig">
         <member-entity entity-alias="WEFT" entity-name="WorkEffort"/>
         <member-entity entity-alias="WEETPA" entity-name="WorkEffortPartyAssignment"/>
-
-
         <alias name="workEffortId" entity-alias="WEFT"/>
         <alias name="workEffortTypeId" entity-alias="WEFT"/>
         <alias name="workEffortParentId" entity-alias="WEFT"/>
@@ -20,9 +18,6 @@
         <alias name="comments" entity-alias="WEFT"/>
         <alias name="workEffortName" entity-alias="WEFT"/>
         <alias name="currentStatusId" entity-alias="WEFT"/>
-        <alias name="mannerEnumId" entity-alias="WEFT"/>
-        <alias name="fromDate" entity-alias="WEFT"/>
-        <alias name="thruDate" entity-alias="WEFT"/>
         <alias-all entity-alias="WEETPA"/>
 
         <view-link entity-alias="WEFT" rel-entity-alias="WEETPA" rel-optional="false">
