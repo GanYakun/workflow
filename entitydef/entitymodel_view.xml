@@ -15,7 +15,6 @@
         <alias name="workEffortParentId" entity-alias="WEFT"/>
         <alias name="topWorkEffortId" entity-alias="WEFT"/>
         <alias name="createdDate" entity-alias="WEFT"/>
-        <alias name="comments" entity-alias="WEFT"/>
         <alias name="workEffortName" entity-alias="WEFT"/>
         <alias name="currentStatusId" entity-alias="WEFT"/>
         <alias-all entity-alias="WEETPA"/>
