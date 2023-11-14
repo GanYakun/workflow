@@ -422,7 +422,12 @@ public class FlowHelper {
         GenericValue systemUser = Util.getSystemUser(delegator);
         String updateService = Util.getEntityActionService(null, genericValue.getEntityName(), "update", delegator);
         HashMap<String, Object> serviceParam = new HashMap<>(genericValue.getPrimaryKey());
-        serviceParam.put("statusId", statusId);
+        ModelEntity modelEntity = genericValue.getModelEntity();
+        if (modelEntity.isField("currentStatusId")) {
+            serviceParam.put("currentStatusId", statusId);
+        } else {
+            serviceParam.put("statusId", statusId);
+        }
         serviceParam.put("userLogin", systemUser);
         dispatcher.runSync(updateService, serviceParam);
     }
