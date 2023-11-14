@@ -10,11 +10,20 @@
     <view-entity entity-name="Approval" package-name="com.banfftech.gongsconfig">
         <member-entity entity-alias="WEFT" entity-name="WorkEffort"/>
         <member-entity entity-alias="WEETPA" entity-name="WorkEffortPartyAssignment"/>
-        <alias-all entity-alias="WEFT">
-            <exclude field="workEffortId"/>
-        </alias-all>
+
         <alias-all entity-alias="WEETPA"/>
-        
+        <alias name="workEffortId" entity-alias="WEFT"/>
+        <alias name="workEffortTypeId" entity-alias="WEFT"/>
+        <alias name="workEffortParentId" entity-alias="WEFT"/>
+        <alias name="topWorkEffortId" entity-alias="WEFT"/>
+        <alias name="createdDate" entity-alias="WEFT"/>
+        <alias name="comments" entity-alias="WEFT"/>
+        <alias name="workEffortName" entity-alias="WEFT"/>
+        <alias name="statusId" entity-alias="WEFT"/>
+        <alias name="mannerEnumId" entity-alias="WEFT"/>
+        <alias name="fromDate" entity-alias="WEFT"/>
+        <alias name="thruDate" entity-alias="WEFT"/>
+
         <view-link entity-alias="WEFT" rel-entity-alias="WEETPA" rel-optional="false">
             <key-map field-name="workEffortId"/>
             <entity-condition>
