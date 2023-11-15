@@ -14,6 +14,8 @@
     <Internationalization id="SIWEPR_REFUSE_EN" lang="en" property="StatusItem.description.WEPR_REFUSE" value="Approval failed"/>
     <Internationalization id="SIWEPR_CANCEL_ZH" lang="zh" property="StatusItem.description.WEPR_CANCEL" value="已取消"/>
     <Internationalization id="SIWEPR_CANCEL_EN" lang="en" property="StatusItem.description.WEPR_CANCEL" value="Canceled"/>
+    <Internationalization id="approvalComments_ZH" lang="zh" property="approvalComments" value="审批意见"/>
+    <Internationalization id="approvalComments_EN" lang="en" property="approvalComments" value="Approval remarks"/>
 
     <!--业务对象-->
     <DBEntity dbEntityId="DBE10000" dbEntityName="DBEntity" description="业务对象" isOpen="N"/>
