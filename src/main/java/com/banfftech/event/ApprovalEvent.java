@@ -13,10 +13,7 @@ import com.dpbird.odata.edm.OdataOfbizEntity;
 import com.dpbird.odata.edm.OfbizCsdlEntityType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.sf.json.JSONObject;
-import org.apache.ofbiz.base.util.UtilDateTime;
-import org.apache.ofbiz.base.util.UtilGenerics;
-import org.apache.ofbiz.base.util.UtilMisc;
-import org.apache.ofbiz.base.util.UtilValidate;
+import org.apache.ofbiz.base.util.*;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
@@ -37,10 +34,7 @@ import org.apache.olingo.commons.api.edm.provider.CsdlEntityType;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 处理审批流相关代码
@@ -235,6 +229,7 @@ public class ApprovalEvent {
             throws GenericEntityException, OfbizODataException, GenericServiceException {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
         LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
+        Locale locale = (Locale) oDataContext.get("locale");
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.values().stream().filter(v -> v instanceof OdataOfbizEntity).findFirst().get();
         GenericValue genericValue = ofbizEntity.getGenericValue();
         Object primaryKey = new HashMap<>(genericValue.getPrimaryKey()).entrySet().iterator().next().getValue();
@@ -245,13 +240,15 @@ public class ApprovalEvent {
         List<GenericValue> approvalNodes = rootWorkEffort.getRelated("NodeWorkEffort", UtilMisc.toMap("workEffortTypeId", "APPROVAL"), null, false);
         for (GenericValue approvalNode : approvalNodes) {
             if (!approvalNode.getString("currentStatusId").equals("WEPR_WAIT")) {
-                throw new OfbizODataException("撤回失败,审批已在进行中");
+                String errMsg = UtilProperties.getMessage("GongsConfigUiLabels", "WorkFlowWithdrawFailed", locale);
+                throw new OfbizODataException(errMsg);
             }
             EntityCondition condition = EntityCondition.makeCondition(UtilMisc.toList(EntityCondition.makeCondition(approvalNode.getPrimaryKey()),
                     EntityCondition.makeCondition("statusId", EntityOperator.IN, UtilMisc.toList("WEPR_COMPLETE", "WEPR_REFUSE"))));
             long approvedCount = EntityQuery.use(delegator).from("WorkEffortPartyAssignment").where(condition).queryCount();
             if (approvedCount > 0) {
-                throw new OfbizODataException("撤回失败,审批已在进行中");
+                String errMsg = UtilProperties.getMessage("GongsConfigUiLabels", "WorkFlowWithdrawFailed", locale);
+                throw new OfbizODataException(errMsg);
             }
         }
         //将所有节点改为取消
