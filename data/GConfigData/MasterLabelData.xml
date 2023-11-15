@@ -6,6 +6,14 @@
     <Internationalization id="birthDate" lang="zh" property="birthDate" value="出生日期"/>
     <Internationalization id="nickname" lang="zh" property="nickname" value="别名"/>
     <Internationalization id="numEmployees" lang="zh" property="numEmployees" value="部门人数"/>
+    <Internationalization id="SIWEPR_WAIT_ZH" lang="zh" property="StatusItem.description.WEPR_WAIT" value="待审批"/>
+    <Internationalization id="SIWEPR_WAIT_EN" lang="en" property="StatusItem.description.WEPR_WAIT" value="Pending approval"/>
+    <Internationalization id="SIWEPR_COMPLETE_ZH" lang="zh" property="StatusItem.description.WEPR_COMPLETE" value="审批通过"/>
+    <Internationalization id="SIWEPR_COMPLETE_EN" lang="en" property="StatusItem.description.WEPR_COMPLETE" value="Approved"/>
+    <Internationalization id="SIWEPR_REFUSE_ZH" lang="zh" property="StatusItem.description.WEPR_REFUSE" value="审批不通过"/>
+    <Internationalization id="SIWEPR_REFUSE_EN" lang="en" property="StatusItem.description.WEPR_REFUSE" value="Approval failed"/>
+    <Internationalization id="SIWEPR_CANCEL_ZH" lang="zh" property="StatusItem.description.WEPR_CANCEL" value="已取消"/>
+    <Internationalization id="SIWEPR_CANCEL_EN" lang="en" property="StatusItem.description.WEPR_CANCEL" value="Canceled"/>
 
     <!--业务对象-->
     <DBEntity dbEntityId="DBE10000" dbEntityName="DBEntity" description="业务对象" isOpen="N"/>
@@ -74,10 +82,30 @@
     <DBField dbFieldId="APPROVAL_DBF10005" dbFieldName="mannerEnumId" dbFieldTypeId="STRING" description="审批方式" dbEntityId="APPROVAL"/>
     <DBField dbFieldId="APPROVAL_DBF10006" dbFieldName="thruDate" dbFieldTypeId="DATE_TIME" description="审批结束时间" dbEntityId="APPROVAL"/>
     <DBField dbFieldId="APPROVAL_DBF10007" dbFieldName="partyId" dbFieldTypeId="STRING" description="审批人" dbEntityId="APPROVAL"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10001" dbFieldId="APPROVAL_DBF10000" language="zh" value="审批开始时间"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10002" dbFieldId="APPROVAL_DBF10000" language="en" value="Approval start time"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10003" dbFieldId="APPROVAL_DBF10001" language="zh" value="审批开始时间"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10004" dbFieldId="APPROVAL_DBF10001" language="en" value="Approval start time"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10005" dbFieldId="APPROVAL_DBF10002" language="zh" value="当前审批节点"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10006" dbFieldId="APPROVAL_DBF10002" language="en" value="Current Approval Node"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10007" dbFieldId="APPROVAL_DBF10003" language="zh" value="审批备注"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10008" dbFieldId="APPROVAL_DBF10003" language="en" value="Approval remarks"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10009" dbFieldId="APPROVAL_DBF10004" language="zh" value="审批状态"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10011" dbFieldId="APPROVAL_DBF10004" language="en" value="Approval status"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10012" dbFieldId="APPROVAL_DBF10005" language="zh" value="审批方式"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10013" dbFieldId="APPROVAL_DBF10005" language="en" value="Approval method"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10014" dbFieldId="APPROVAL_DBF10006" language="zh" value="审批结束时间"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10015" dbFieldId="APPROVAL_DBF10006" language="en" value="Approval end time"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10016" dbFieldId="APPROVAL_DBF10007" language="zh" value="审批人"/>
+    <DBFieldLabel dbFieldLabelId="APPROVAL_DBF10017" dbFieldId="APPROVAL_DBF10007" language="en" value="Approved by"/>
     <!--流程主对象-->
     <DBEntity dbEntityId="MAINPROCESS" dbEntityName="MainProcess" description="流程主对象" isOpen="N"/>
     <DBField dbFieldId="MAINPROCESS_DBF10000" dbFieldName="description" dbFieldTypeId="STRING" description="审批流程描述" dbEntityId="MAINPROCESS"/>
     <DBField dbFieldId="MAINPROCESS_DBF10001" dbFieldName="version" dbFieldTypeId="STRING" description="审批流程版本号" dbEntityId="MAINPROCESS"/>
+    <DBFieldLabel dbFieldLabelId="MAINPROCESS_DBF10000" dbFieldId="MAINPROCESS_DBF10000" language="zh" value="审批流程描述"/>
+    <DBFieldLabel dbFieldLabelId="MAINPROCESS_DBF10001" dbFieldId="MAINPROCESS_DBF10000" language="en" value="Approval process description"/>
+    <DBFieldLabel dbFieldLabelId="MAINPROCESS_DBF10002" dbFieldId="MAINPROCESS_DBF10001" language="zh" value="审批流程版本号"/>
+    <DBFieldLabel dbFieldLabelId="MAINPROCESS_DBF10003" dbFieldId="MAINPROCESS_DBF10001" language="en" value="Approval process version number"/>
     <!--角色-->
     <DBEntity dbEntityId="MAINROLETYPE" dbEntityName="RoleType" dbEntityTypeId="SYSTEM_ROLE" description="角色" isOpen="N"/>
     <DBField dbFieldId="MAINROLETYPE_DBF10000" dbFieldName="parentTypeId" dbFieldTypeId="TYPE" description="角色类型" dbEntityId="MAINROLETYPE"/>
@@ -104,7 +132,7 @@
     <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10002" dbFieldId="MEMBER_DBF10001" language="zh" value="姓名"/>
     <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10003" dbFieldId="MEMBER_DBF10001" language="en" value="Name"/>
     <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10004" dbFieldId="MEMBER_DBF10002" language="zh" value="联系电话"/>
-    <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10005" dbFieldId="MEMBER_DBF10002" language="en" value="phoneMobile"/>
+    <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10005" dbFieldId="MEMBER_DBF10002" language="en" value="Contact number"/>
     <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10006" dbFieldId="MEMBER_DBF10003" language="zh" value="联系邮箱"/>
     <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10007" dbFieldId="MEMBER_DBF10003" language="en" value="Email"/>
     <DBFieldLabel dbFieldLabelId="MEMBER_DBFL10008" dbFieldId="MEMBER_DBF10004" language="zh" value="工号"/>
