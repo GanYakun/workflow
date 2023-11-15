@@ -16,6 +16,12 @@
     <Internationalization id="SIWEPR_CANCEL_EN" lang="en" property="StatusItem.description.WEPR_CANCEL" value="Canceled"/>
     <Internationalization id="approvalComments_ZH" lang="zh" property="approvalComments" value="审批意见"/>
     <Internationalization id="approvalComments_EN" lang="en" property="approvalComments" value="Approval remarks"/>
+    <Internationalization id="ENUM_PASS_APPROVE_ZH" lang="zh" property="Enumeration.description.PASS_APPROVE" value="人工审批"/>
+    <Internationalization id="ENUM_PASS_APPROVE_EN" lang="en" property="Enumeration.description.PASS_APPROVE" value="Manual approval"/>
+    <Internationalization id="ENUM_PASS_AUTO_ZH" lang="zh" property="Enumeration.description.PASS_AUTO" value="自动通过"/>
+    <Internationalization id="ENUM_PASS_AUTO_EN" lang="en" property="Enumeration.description.PASS_AUTO" value="Automatic pass"/>
+    <Internationalization id="ENUM_AUTO_REJECT_ZH" lang="zh" property="Enumeration.description.AUTO_REJECT" value="自动拒绝"/>
+    <Internationalization id="ENUM_AUTO_REJECT_EN" lang="en" property="Enumeration.description.AUTO_REJECT" value="Automatic rejection"/>
 
     <!--业务对象-->
     <DBEntity dbEntityId="DBE10000" dbEntityName="DBEntity" description="业务对象" isOpen="N"/>
