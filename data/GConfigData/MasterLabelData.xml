@@ -5,6 +5,7 @@
     <Internationalization id="gender" lang="zh" property="gender" value="性别"/>
     <Internationalization id="birthDate" lang="zh" property="birthDate" value="出生日期"/>
     <Internationalization id="nickname" lang="zh" property="nickname" value="别名"/>
+    <Internationalization id="signatureImage" lang="zh" property="signatureImage" value="签名图片"/>
     <Internationalization id="numEmployees" lang="zh" property="numEmployees" value="部门人数"/>
     <Internationalization id="SIWEPR_WAIT_ZH" lang="zh" property="StatusItem.description.WEPR_WAIT" value="待审批"/>
     <Internationalization id="SIWEPR_WAIT_EN" lang="en" property="StatusItem.description.WEPR_WAIT" value="Pending approval"/>

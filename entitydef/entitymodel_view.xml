@@ -18,7 +18,6 @@
         <alias name="workEffortName" entity-alias="WEFT"/>
         <alias name="currentStatusId" entity-alias="WEFT"/>
         <alias-all entity-alias="WEETPA"/>
-
         <view-link entity-alias="WEFT" rel-entity-alias="WEETPA" rel-optional="false">
             <key-map field-name="workEffortId"/>
             <entity-condition>
@@ -36,6 +35,9 @@
         </relation>
         <relation type="one-nofk" rel-entity-name="PartyAndContact">
             <key-map field-name="partyId"/>
+        </relation>
+        <relation type="many" rel-entity-name="WorkEffortContent">
+            <key-map field-name="workEffortId"/>
         </relation>
     </view-entity>
 

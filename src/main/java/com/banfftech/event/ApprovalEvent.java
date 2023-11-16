@@ -33,6 +33,10 @@ import org.apache.olingo.commons.api.edm.FullQualifiedName;
 import org.apache.olingo.commons.api.edm.provider.CsdlEntityType;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -299,18 +303,76 @@ public class ApprovalEvent {
     /**
      * 审批通过/拒绝
      */
+//    public static void approve(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws OfbizODataException {
+//        LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
+//        GenericValue userLogin = (GenericValue) oDataContext.get("userLogin");
+//        OdataOfbizEntity odataOfbizEntity = (OdataOfbizEntity) actionParameters.get("approval");
+//        GenericValue approval = odataOfbizEntity.getGenericValue();
+//        String workEffortPartyAssignmentId = approval.getString("workEffortPartyAssignmentId");
+//        String comments = (String) actionParameters.get("comments");
+//        String statusId = (String) actionParameters.get("statusId");
+//        try {
+//            dispatcher.runSync("banfftech.updateWorkEffortPartyAssignment",
+//                    UtilMisc.toMap("workEffortPartyAssignmentId", workEffortPartyAssignmentId, "statusId", statusId,
+//                            "comments", comments, "mannerEnumId", "PASS_APPROVE", "thruDate", UtilDateTime.nowTimestamp(), "userLogin", userLogin));
+//        } catch (GenericServiceException e) {
+//            throw new OfbizODataException(e.getMessage());
+//        }
+//    }
+
+
+    //    开发测试
     public static void approve(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws OfbizODataException {
         LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
         GenericValue userLogin = (GenericValue) oDataContext.get("userLogin");
         OdataOfbizEntity odataOfbizEntity = (OdataOfbizEntity) actionParameters.get("approval");
         GenericValue approval = odataOfbizEntity.getGenericValue();
         String workEffortPartyAssignmentId = approval.getString("workEffortPartyAssignmentId");
+        String workEffortId = approval.getString("workEffortId");
         String comments = (String) actionParameters.get("comments");
         String statusId = (String) actionParameters.get("statusId");
+        //
+
+//        String erjinzhi = (String) actionParameters.get("erjinzhi");
         try {
             dispatcher.runSync("banfftech.updateWorkEffortPartyAssignment",
-                    UtilMisc.toMap("workEffortPartyAssignmentId",workEffortPartyAssignmentId,"statusId",statusId,
-                            "comments",comments,"mannerEnumId","PASS_APPROVE", "thruDate", UtilDateTime.nowTimestamp(), "userLogin",userLogin));
+                    UtilMisc.toMap("workEffortPartyAssignmentId", workEffortPartyAssignmentId, "statusId", statusId,
+                            "comments", comments, "mannerEnumId", "PASS_APPROVE", "thruDate",
+                            UtilDateTime.nowTimestamp(), "userLogin", userLogin));
+            //会有一个二进制的参数:是图片
+            //根据Action是否传递了这个参数进行隐藏
+//            if (UtilValidate.isNotEmpty(erjinzhi)) {
+            if (true) {
+
+                //创建DataResource
+                Map<String, Object> dataResourceResult = dispatcher.runSync("banfftech.createDataResource",
+                        UtilMisc.toMap("dataResourceTypeId", "IMAGE_OBJECT", "mimeTypeId", "image/jpeg"));
+                //图片转化为二进制
+                byte[] imageBytes = null;
+                try {
+                    FileInputStream fileInputStream = new FileInputStream(new File("C:\\Users\\banff\\Desktop\\OIP.jpg"));
+                    imageBytes = new byte[fileInputStream.available()];
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                //创建ImageDataResource
+                dispatcher.runSync("banfftech.createImageDataResource",
+                        UtilMisc.toMap("dataResourceId", dataResourceResult.get("dataResourceId"),
+                                "imageData",imageBytes, "userLogin", userLogin));
+
+                //创建Content(问题是你自己调接口创建还是传图片流)
+                Map<String, Object> contentResult = dispatcher.runSync("banfftech.createContent",
+                        UtilMisc.toMap("contentTypeId", "SIGNATURE_IMAGE",
+                                "dataResourceId", dataResourceResult.get("dataResourceId"),
+                                "userLogin", userLogin));
+
+                //创建WorkEffortContent(关联当前审批节点和签名照)
+                dispatcher.runSync("banfftech.createWorkEffortContent",
+                        UtilMisc.toMap("workEffortId", workEffortId, "contentId", contentResult.get("contentId"),
+                        "workEffortContentTypeId","SIGNATURE_IMAGE"));
+            }
+
         } catch (GenericServiceException e) {
             throw new OfbizODataException(e.getMessage());
         }
