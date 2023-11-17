@@ -4,6 +4,7 @@ import com.banfftech.bean.FlowHelper;
 import com.banfftech.bean.Manual;
 import com.banfftech.bean.NodeUser;
 import com.banfftech.bean.TreeNode;
+import com.banfftech.common.util.CommonUtils;
 import com.banfftech.common.util.PartyServiceUtils;
 import com.dpbird.odata.OfbizAppEdmProvider;
 import com.dpbird.odata.OfbizMapOdata;
@@ -11,6 +12,7 @@ import com.dpbird.odata.OfbizODataException;
 import com.dpbird.odata.Util;
 import com.dpbird.odata.edm.OdataOfbizEntity;
 import com.dpbird.odata.edm.OfbizCsdlEntityType;
+import com.dpbird.odata.edm.ParameterContext;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.sf.json.JSONObject;
 import org.apache.ofbiz.base.util.*;
@@ -22,6 +24,7 @@ import org.apache.ofbiz.entity.condition.EntityOperator;
 import org.apache.ofbiz.entity.model.ModelEntity;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.entity.util.EntityUtil;
+import org.apache.ofbiz.service.GeneralServiceException;
 import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 import org.apache.olingo.commons.api.data.ComplexValue;
@@ -38,6 +41,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.ByteBuffer;
 import java.util.*;
 
 /**
@@ -303,25 +307,6 @@ public class ApprovalEvent {
     /**
      * 审批通过/拒绝
      */
-//    public static void approve(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws OfbizODataException {
-//        LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
-//        GenericValue userLogin = (GenericValue) oDataContext.get("userLogin");
-//        OdataOfbizEntity odataOfbizEntity = (OdataOfbizEntity) actionParameters.get("approval");
-//        GenericValue approval = odataOfbizEntity.getGenericValue();
-//        String workEffortPartyAssignmentId = approval.getString("workEffortPartyAssignmentId");
-//        String comments = (String) actionParameters.get("comments");
-//        String statusId = (String) actionParameters.get("statusId");
-//        try {
-//            dispatcher.runSync("banfftech.updateWorkEffortPartyAssignment",
-//                    UtilMisc.toMap("workEffortPartyAssignmentId", workEffortPartyAssignmentId, "statusId", statusId,
-//                            "comments", comments, "mannerEnumId", "PASS_APPROVE", "thruDate", UtilDateTime.nowTimestamp(), "userLogin", userLogin));
-//        } catch (GenericServiceException e) {
-//            throw new OfbizODataException(e.getMessage());
-//        }
-//    }
-
-
-    //    开发测试
     public static void approve(Map<String, Object> oDataContext, Map<String, Object> actionParameters, EdmBindingTarget edmBindingTarget) throws OfbizODataException {
         LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
         GenericValue userLogin = (GenericValue) oDataContext.get("userLogin");
@@ -331,37 +316,31 @@ public class ApprovalEvent {
         String workEffortId = approval.getString("workEffortId");
         String comments = (String) actionParameters.get("comments");
         String statusId = (String) actionParameters.get("statusId");
-        //
+        ParameterContext signatureImage = (ParameterContext) actionParameters.get("signatureImage");
 
-//        String erjinzhi = (String) actionParameters.get("erjinzhi");
         try {
+            //填写审批备注到当前审批节点
             dispatcher.runSync("banfftech.updateWorkEffortPartyAssignment",
                     UtilMisc.toMap("workEffortPartyAssignmentId", workEffortPartyAssignmentId, "statusId", statusId,
                             "comments", comments, "mannerEnumId", "PASS_APPROVE", "thruDate",
                             UtilDateTime.nowTimestamp(), "userLogin", userLogin));
-            //会有一个二进制的参数:是图片
-            //根据Action是否传递了这个参数进行隐藏
-//            if (UtilValidate.isNotEmpty(erjinzhi)) {
-            if (true) {
+
+            //根据Action是否传递Stream参数,判断是否需要审批签名逻辑
+            if (UtilValidate.isNotEmpty(signatureImage)) {
+                //获取二进制文件&文件MimeType
+                ByteBuffer signatureImageByte = signatureImage.getFile();
+                String mimeType = signatureImage.getFileMimeType();
 
                 //创建DataResource
                 Map<String, Object> dataResourceResult = dispatcher.runSync("banfftech.createDataResource",
-                        UtilMisc.toMap("dataResourceTypeId", "IMAGE_OBJECT", "mimeTypeId", "image/jpeg"));
-                //图片转化为二进制
-                byte[] imageBytes = null;
-                try {
-                    FileInputStream fileInputStream = new FileInputStream(new File("C:\\Users\\banff\\Desktop\\OIP.jpg"));
-                    imageBytes = new byte[fileInputStream.available()];
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                        UtilMisc.toMap("dataResourceTypeId", "IMAGE_OBJECT", "mimeTypeId", mimeType));
 
                 //创建ImageDataResource
                 dispatcher.runSync("banfftech.createImageDataResource",
                         UtilMisc.toMap("dataResourceId", dataResourceResult.get("dataResourceId"),
-                                "imageData",imageBytes, "userLogin", userLogin));
+                                "imageData",signatureImageByte, "userLogin", userLogin));
 
-                //创建Content(问题是你自己调接口创建还是传图片流)
+                //创建Content
                 Map<String, Object> contentResult = dispatcher.runSync("banfftech.createContent",
                         UtilMisc.toMap("contentTypeId", "SIGNATURE_IMAGE",
                                 "dataResourceId", dataResourceResult.get("dataResourceId"),
@@ -370,7 +349,7 @@ public class ApprovalEvent {
                 //创建WorkEffortContent(关联当前审批节点和签名照)
                 dispatcher.runSync("banfftech.createWorkEffortContent",
                         UtilMisc.toMap("workEffortId", workEffortId, "contentId", contentResult.get("contentId"),
-                        "workEffortContentTypeId","SIGNATURE_IMAGE"));
+                                "workEffortContentTypeId", "SIGNATURE_IMAGE"));
             }
 
         } catch (GenericServiceException e) {
