@@ -19,6 +19,91 @@ under the License.
 -->
 
 <entity-engine-xml>
+    <!--===============================================MimeType Begin===============================================-->
+    <!-- application mime types -->
+    <MimeType mimeTypeId="application/octet-stream" description="Arbitrary Binary Data"/>
+    <MimeType mimeTypeId="application/pkcs7-signature" description="PKCS7 Signature"/>
+    <MimeType mimeTypeId="application/postscript" description="Postsctipt Application/Script"/>
+    <MimeType mimeTypeId="application/zip" description="ZIP Data"/>
+    <MimeType mimeTypeId="application/pdf" description="Adobe Portable Document Format (PDF)"/>
+    <MimeType mimeTypeId="application/msword" description="Microsoft Word"/>
+    <MimeType mimeTypeId="application/x-shockwave-flash" description="Shockwave Flash Movie"/>
+    <MimeType mimeTypeId="application/x-zip-compressed" description="ZIP compressed file"/>
+    <MimeType mimeTypeId="application/x-tgz" description="Gzipped Tar archive file"/>
+    <MimeType mimeTypeId="application/vnd.oasis.opendocument.text" description="OpenOffice OpenDocument Text"/>
+    <MimeType mimeTypeId="application/vnd.oasis.opendocument.spreadsheet" description="OpenOffice OpenDocument Spreadsheet"/>
+    <MimeType mimeTypeId="application/vnd.ofbiz.survey" description="Survey"/>
+    <MimeType mimeTypeId="application/vnd.ofbiz.survey.response" description="Survey Response"/>
+    <MimeType mimeTypeId="application/vnd.ms-powerpoint" description="Microsoft PowerPoint"/>
+    <MimeType mimeTypeId="application/vnd.ms-excel" description="Microsoft Excel"/>
+    <!-- audio mime types -->
+    <MimeType mimeTypeId="audio/basic" description="Basic Audio"/>
+    <MimeType mimeTypeId="audio/mpeg" description="MP3 Audio"/>
+    <MimeType mimeTypeId="audio/mp4" description="MP4 Audio"/>
+    <MimeType mimeTypeId="audio/x-ms-wax" description="WAX Audio"/>
+    <MimeType mimeTypeId="audio/wav" description="WAV Audio"/>
+    <MimeType mimeTypeId="audio/ogg" description="OGG Audio"/>
+    <MimeType mimeTypeId="audio/x-ogg" description="OGG Audio"/>
+    <MimeType mimeTypeId="audio/vorbis" description="Vorbis Audio"/>
+    <MimeType mimeTypeId="audio/x-flac" description="FLAC Audio"/>
+    <MimeType mimeTypeId="audio/flac" description="FLAC Audio"/>
+    <!-- image mime types -->
+    <MimeType mimeTypeId="image/jpeg" description="JPEG/JPG Image"/>
+    <MimeType mimeTypeId="image/pjpeg" description="Progressive JPEG/JPG Image"/>
+    <MimeType mimeTypeId="image/gif" description="GIF Image"/>
+    <MimeType mimeTypeId="image/tiff" description="TIFF Image"/>
+    <MimeType mimeTypeId="image/png" description="PNG Image"/>
+    <MimeType mimeTypeId="image/svg+xml" description="Image SVG"/>
+    <!-- message mime types -->
+    <MimeType mimeTypeId="message/external-body" description="External Body Message"/>
+    <MimeType mimeTypeId="message/http" description="HTTP Message"/>
+    <MimeType mimeTypeId="message/s-http" description="HTTPS/S-HTTP Message"/>
+    <MimeType mimeTypeId="message/news" description="News Message"/>
+    <MimeType mimeTypeId="message/partial" description="Partial Message"/>
+    <MimeType mimeTypeId="message/rfc822" description="RFC 822 Headered Message"/>
+    <!-- model mime types -->
+    <MimeType mimeTypeId="model/mesh" description="Mesh Model"/>
+    <MimeType mimeTypeId="model/vrml" description="VRML Model"/>
+    <!-- multipart mime types -->
+    <MimeType mimeTypeId="multipart/alternative" description="Mutliple Alternative Multipart"/>
+    <MimeType mimeTypeId="multipart/digest" description="Digest of Messages Multipart"/>
+    <MimeType mimeTypeId="multipart/encrypted" description="Encrypted Multipart"/>
+    <MimeType mimeTypeId="multipart/form-data" description="Form Data Multipart"/>
+    <MimeType mimeTypeId="multipart/mixed" description="Mixed Type Multipart"/>
+    <MimeType mimeTypeId="multipart/related" description="Related Multipart"/>
+    <MimeType mimeTypeId="multipart/signed" description="Signed Multipart"/>
+    <!-- text mime types -->
+    <MimeType mimeTypeId="text/css" description="CSS Text"/>
+    <MimeType mimeTypeId="text/csv" description="Comma Separated Value Text"/>
+    <MimeType mimeTypeId="text/enriched" description="Enriched Text"/>
+    <MimeType mimeTypeId="text/html" description="HTML Text"/>
+    <MimeType mimeTypeId="text/plain" description="Plain Text"/>
+    <MimeType mimeTypeId="text/rtf" description="RTF Rich Text"/>
+    <MimeType mimeTypeId="text/richtext" description="Rich Text"/>
+    <MimeType mimeTypeId="text/sgml" description="SGML Text"/>
+    <MimeType mimeTypeId="text/tab-separated-values" description="Tab Separated Value Text"/>
+    <MimeType mimeTypeId="text/x-diff" description="diff for patching files"/>
+    <MimeType mimeTypeId="text/xml" description="XML Text"/>
+    <MimeType mimeTypeId="text/x-vcard" description="electronic business card"/>
+    <!-- video mime types -->
+    <MimeType mimeTypeId="video/avi" description="AVI Video"/>
+    <MimeType mimeTypeId="video/mpeg" description="MPEG/MPG Video"/>
+    <MimeType mimeTypeId="video/mp4" description="MPEG-4 (H.264) Video"/>
+    <MimeType mimeTypeId="video/quicktime" description="Quicktime Video"/>
+    <MimeType mimeTypeId="video/x-ms-asf" description="ASF Video"/>
+    <MimeType mimeTypeId="video/x-flv" description="Flash Streaming Video"/>
+    <MimeType mimeTypeId="video/x-ms-wvx" description="WVX Video"/>
+    <MimeType mimeTypeId="video/x-ms-wm" description="WM Video"/>
+    <MimeType mimeTypeId="video/x-ms-wmv" description="WMV Video"/>
+    <MimeType mimeTypeId="video/x-ms-wmx" description="WMX Video"/>
+    <MimeType mimeTypeId="video/3gpp" description="3GP Mobile Video"/>
+    <!--=========================================DataResourceType==========================================-->
+    <DataResourceType dataResourceTypeId="IMAGE_OBJECT" hasTable="N" description="图片类型"/>
+    <!--============================================ContentType============================================-->
+    <ContentType contentTypeId="SIGNATURE_IMAGE" hasTable="N" description="签名图"/>
+    <!--=======================================WorkEffortContentType=======================================-->
+    <WorkEffortContentType workEffortContentTypeId="SIGNATURE_IMAGE" hasTable="N" description="关联签名图"/>
+
     <!--FixedAssetType-->
     <FixedAssetType description="Equipment" hasTable="N" parentTypeId="" fixedAssetTypeId="EQUIPMENT"/>
     <!--GoodIdentificationType-->
@@ -36,7 +121,7 @@ under the License.
     <RoleType description="Ordinary Employee" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="ORD_EMPLOYEE"/>
     <RoleType description="Organization Manager" hasTable="N" roleTypeId="ORG_MANAGER"/>
 
-    <!--SYSTEM_ROLE(人事,IT,行政,财务等的parentTypeId)-->
+    <!--SYSTEM_ROLE(人事,IT,行政,财务等自定义角色的parentTypeId)-->
     <RoleType description="系统角色" hasTable="N" parentTypeId="" roleTypeId="SYSTEM_ROLE"/>
 
     <!--ORGANIZATION_ROLE(ORGANIZATION_UNIT->DEPARTMENT)-->
@@ -51,16 +136,14 @@ under the License.
     <!--其它（用户组）-->
     <RoleType description="Other Organization Unit" hasTable="N" parentTypeId="ORGANIZATION_UNIT" roleTypeId="OTHER_ORGANIZATION_U"/>
 
-    <!--EmplLeaveType(请假类型)-->
+<!--EmplLeaveType(请假类型)-->
     <EmplLeaveType emplLeaveTypeId="INLAND_EARNED" hasTable="N" description="Inland earned"/>
     <EmplLeaveType emplLeaveTypeId="LOSS_OF_PAY" hasTable="N" description="Loss of pay"/>
     <EmplLeaveType emplLeaveTypeId="RESTRICTED_HOLIDAY" hasTable="N" description="Restricted holiday"/>
     <EmplLeaveType emplLeaveTypeId="SPECIAL_DAY_OFF" hasTable="N" description="Special day off"/>
 
 
-    <!--EmplLeaveReasonType(请假原因类型)-->
-<!--    <EmplLeaveReasonType emplLeaveReasonTypeId="MEDICAL" hasTable="N" description="Medical"/>-->
-<!--    <EmplLeaveReasonType emplLeaveReasonTypeId="CASUAL" hasTable="N" description="Casual"/>-->
+<!--EmplLeaveReasonType(请假原因类型)-->
     <EmplLeaveReasonType emplLeaveReasonTypeId="ANNUAL_LEAVE" hasTable="N" description="年假"/>
     <EmplLeaveReasonType emplLeaveReasonTypeId="SICK_LEAVE" hasTable="N" description="病假"/>
     <EmplLeaveReasonType emplLeaveReasonTypeId="Personal Leave" hasTable="N" description="事假"/>
@@ -68,10 +151,6 @@ under the License.
     <EmplLeaveReasonType emplLeaveReasonTypeId="MATERNITY_LEAVE" hasTable="N" description="孕假"/>
     <EmplLeaveReasonType emplLeaveReasonTypeId="PATERNITY_LEAVE" hasTable="N" description="陪产假"/>
     <EmplLeaveReasonType emplLeaveReasonTypeId="CHILDCARE_LEAVE" hasTable="N" description="育儿假"/>
-
-    <!--EnumerationType-->
-    <EnumerationType enumTypeId="GENDER_ENUM_TYPE"  description="性别"/>
-    <EnumerationType enumTypeId="PASS_MANNER"  description="审批通过方式枚举"/>
 
 <!--WorkEffortType-->
     <WorkEffortType workEffortTypeId="WORK_FLOW" description="审批流"/>
@@ -89,20 +168,19 @@ under the License.
     <StatusType statusTypeId="MAIN_PROCESS_STATUS" description="Main Process Status"/>
     <StatusItem statusId="PROCESS_ENABLED" statusTypeId="MAIN_PROCESS_STATUS" description="已发布"/>
     <StatusItem statusId="PROCESS_NOT_ENABLED" statusTypeId="MAIN_PROCESS_STATUS" description="已停用"/>
-
     <!-- 节点状态 -->
     <StatusType statusTypeId="WORKFLOW_STATUS" description="Work flow status"/>
-    <StatusItem statusId="WEPR_WAIT" statusTypeId="WORKFLOW_STATUS" description="待审批"/>
-    <StatusItem statusId="WEPR_COMPLETE" statusTypeId="WORKFLOW_STATUS" description="审批通过"/>
-    <StatusItem statusId="WEPR_REFUSE" statusTypeId="WORKFLOW_STATUS" description="审批不通过"/>
-    <StatusItem statusId="WEPR_CANCEL" statusTypeId="WORKFLOW_STATUS" description="取消"/>
-
     <!-- 审批通用状态类型 -->
     <StatusType statusTypeId="APPROVAL" description="Approval"/>
 
+<!--EnumerationType-->
+    <!-- 性别枚举类型 -->
+    <EnumerationType enumTypeId="GENDER_ENUM_TYPE"  description="性别"/>
+    <!-- 审批方式枚举类型 -->
+    <EnumerationType enumTypeId="PASS_MANNER"  description="审批通过方式枚举"/>
+    <!-- 审批流程可见范围枚举类型 -->
     <EnumerationType description="审批流程可见范围枚举值" enumTypeId="PROCESS_RANGE" hasTable="N"/>
-    <Enumeration enumId="VISIBLE_ALL" enumTypeId="PROCESS_RANGE" description="全员可见" enumCode="VISIBLE_TO_ALL" sequenceId="01"/>
-    <Enumeration enumId="SPECIFY_PERSON" enumTypeId="PROCESS_RANGE" description="指定人员" enumCode="SPECIFY_PERSON" sequenceId="02"/>
+
 
     <!--===============================================Ofbiz原生PartySeedData ()===============================================-->
     <ContactMechPurposeType contactMechPurposeTypeId="SHIPPING_LOCATION" description="Shipping Destination Address"/>
@@ -237,106 +315,6 @@ under the License.
     <Enumeration description="Unsubscribe Contact List Verify" enumCode="UNSUB_CONT_VERIFY_EMAIL" enumId="UNSUB_CONT_LIST_VERI" sequenceId="03" enumTypeId="PARTY_EMAIL"/>
     <Enumeration description="Contact List E-mail Template" enumCode="CONT_EMAIL_TEMPLATE" enumId="CONT_EMAIL_TEMPLATE" sequenceId="04" enumTypeId="PARTY_EMAIL"/>
 
-<!--    &lt;!&ndash; the groups which are the main roles on he party listing &ndash;&gt;-->
-<!--    <RoleType description="Main Role" hasTable="N" parentTypeId="" roleTypeId="MAIN_ROLE"/>-->
-
-<!--    &lt;!&ndash; top level role types &ndash;&gt;-->
-<!--    <RoleType description="Account Lead" hasTable="N" parentTypeId="" roleTypeId="ACCOUNT_LEAD"/>-->
-<!--    <RoleType description="Administrator" hasTable="N" parentTypeId="" roleTypeId="ADMIN"/>-->
-<!--    <RoleType description="Agent" hasTable="N" parentTypeId="" roleTypeId="AGENT"/>-->
-<!--    <RoleType description="Automated Agent" hasTable="N" parentTypeId="" roleTypeId="AUTOMATED_AGENT_ROLE"/>-->
-<!--    <RoleType description="Calendar" hasTable="N" parentTypeId="" roleTypeId="CALENDAR_ROLE"/>-->
-<!--    <RoleType description="Client" hasTable="N" parentTypeId="" roleTypeId="CLIENT"/>-->
-<!--    <RoleType description="Communication Participant" hasTable="N" parentTypeId="" roleTypeId="COMMEVENT_ROLE"/>-->
-<!--    <RoleType description="Consumer" hasTable="N" parentTypeId="" roleTypeId="CONSUMER"/>-->
-<!--    <RoleType description="Contractor" hasTable="N" parentTypeId="" roleTypeId="CONTRACTOR"/>-->
-<!--    <RoleType description="Customer" hasTable="N" parentTypeId="" roleTypeId="CUSTOMER"/>-->
-<!--    <RoleType description="Distribution Channel" hasTable="N" parentTypeId="" roleTypeId="DISTRIBUTION_CHANNEL"/>-->
-<!--    <RoleType description="ISP" hasTable="N" parentTypeId="" roleTypeId="ISP"/>-->
-<!--    <RoleType description="Hosting Server" hasTable="N" parentTypeId="" roleTypeId="HOSTING_SERVER"/>-->
-<!--    <RoleType description="Manufacturer" hasTable="N" parentTypeId="" roleTypeId="MANUFACTURER"/>-->
-<!--    <RoleType description="Not Applicable" hasTable="N" parentTypeId="" roleTypeId="_NA_"/>-->
-<!--    <RoleType description="Organization" hasTable="N" parentTypeId="MAIN_ROLE" roleTypeId="ORGANIZATION_ROLE"/>-->
-<!--    <RoleType description="Owner" hasTable="N"  parentTypeId="" roleTypeId="OWNER"/>-->
-<!--    <RoleType description="Prospect" hasTable="N" parentTypeId="" roleTypeId="PROSPECT"/>-->
-<!--    <RoleType description="Person" hasTable="N" parentTypeId="" roleTypeId="PERSON_ROLE"/>-->
-<!--    <RoleType description="Referrer" hasTable="N" parentTypeId="" roleTypeId="REFERRER"/>-->
-<!--    <RoleType description="Request Role" hasTable="N" parentTypeId="" roleTypeId="REQUEST_ROLE"/>-->
-<!--    <RoleType description="Request Manager" hasTable="N" parentTypeId="REQUEST_ROLE" roleTypeId="REQ_MANAGER"/>-->
-<!--    <RoleType description="Requesting Party" hasTable="N" parentTypeId="REQUEST_ROLE" roleTypeId="REQ_REQUESTER"/>-->
-<!--    <RoleType description="Request Taker" hasTable="N" parentTypeId="REQUEST_ROLE" roleTypeId="REQ_TAKER"/>-->
-<!--    <RoleType description="Request Respondent" hasTable="N" parentTypeId="REQUEST_ROLE" roleTypeId="REQ_RESPOND"/>-->
-<!--    <RoleType description="Sales Force Autm." hasTable="N" parentTypeId="MAIN_ROLE" roleTypeId="SFA_ROLE"/>-->
-<!--    <RoleType description="Shareholder" hasTable="N" parentTypeId="" roleTypeId="SHAREHOLDER"/>-->
-<!--    <RoleType description="Subscriber" hasTable="N" parentTypeId="" roleTypeId="SUBSCRIBER"/>-->
-<!--    <RoleType description="Vendor" hasTable="N" parentTypeId="" roleTypeId="VENDOR"/>-->
-<!--    <RoleType description="Visitor" hasTable="N" parentTypeId="" roleTypeId="VISITOR"/>-->
-<!--    <RoleType description="Web Master" hasTable="N" parentTypeId="" roleTypeId="WEB_MASTER"/>-->
-<!--    <RoleType description="Workflow" hasTable="N" parentTypeId="" roleTypeId="WORKFLOW_ROLE"/>-->
-<!--    <RoleType description="Accountant" hasTable="N" parentTypeId="" roleTypeId="ACCOUNTANT"/>-->
-
-<!--    &lt;!&ndash; second level role types &ndash;&gt;-->
-<!--    <RoleType description="Account" hasTable="N" parentTypeId="SFA_ROLE" roleTypeId="ACCOUNT"/>-->
-<!--    <RoleType description="Addressee" hasTable="N" parentTypeId="COMMEVENT_ROLE" roleTypeId="ADDRESSEE"/>-->
-<!--    <RoleType description="Association" hasTable="N" parentTypeId="ORGANIZATION_ROLE" roleTypeId="ASSOCIATION"/>-->
-<!--    <RoleType description="Bill-From Vendor" hasTable="N" parentTypeId="VENDOR" roleTypeId="BILL_FROM_VENDOR"/>-->
-<!--    <RoleType description="Bill-To Customer" hasTable="N" parentTypeId="CUSTOMER" roleTypeId="BILL_TO_CUSTOMER"/>-->
-<!--    <RoleType description="Blind Copy" hasTable="N" parentTypeId="COMMEVENT_ROLE" roleTypeId="BCC"/>-->
-<!--    <RoleType description="Bulk Customer" hasTable="N" parentTypeId="CUSTOMER" roleTypeId="BULK_CUSTOMER"/>-->
-<!--    <RoleType description="Calendar Attendee" hasTable="N" parentTypeId="CALENDAR_ROLE" roleTypeId="CAL_ATTENDEE"/>-->
-<!--    <RoleType description="Calendar Delegate" hasTable="N" parentTypeId="CALENDAR_ROLE" roleTypeId="CAL_DELEGATE"/>-->
-<!--    <RoleType description="Calendar Host" hasTable="N" parentTypeId="CALENDAR_ROLE" roleTypeId="CAL_HOST"/>-->
-<!--    <RoleType description="Calendar Organizer" hasTable="N" parentTypeId="CALENDAR_ROLE" roleTypeId="CAL_ORGANIZER"/>-->
-<!--    <RoleType description="Calendar Owner" hasTable="N" parentTypeId="CALENDAR_ROLE" roleTypeId="CAL_OWNER"/>-->
-<!--    <RoleType description="Carrier" hasTable="N" parentTypeId="ORGANIZATION_ROLE" roleTypeId="CARRIER"/>-->
-<!--    <RoleType description="Competitor" hasTable="N" parentTypeId="ORGANIZATION_ROLE" roleTypeId="COMPETITOR"/>-->
-<!--    <RoleType description="Contact" hasTable="N" parentTypeId="SFA_ROLE" roleTypeId="CONTACT"/>-->
-<!--    <RoleType description="Carbon Copy" hasTable="N" parentTypeId="COMMEVENT_ROLE" roleTypeId="CC"/>-->
-<!--    <RoleType description="Originator" hasTable="N" parentTypeId="COMMEVENT_ROLE" roleTypeId="ORIGINATOR"/>-->
-<!--    <RoleType description="Distributor" hasTable="N" parentTypeId="DISTRIBUTION_CHANNEL" roleTypeId="DISTRIBUTOR"/>-->
-<!--    <RoleType description="Employee" hasTable="N" parentTypeId="PERSON_ROLE" roleTypeId="EMPLOYEE"/>-->
-<!--    <RoleType description="End-User Customer" hasTable="N" parentTypeId="CUSTOMER" roleTypeId="END_USER_CUSTOMER"/>-->
-<!--    <RoleType description="Household" hasTable="N" parentTypeId="ORGANIZATION_ROLE" roleTypeId="HOUSEHOLD"/>-->
-<!--    <RoleType description="Internal Organization" hasTable="Y" parentTypeId="ORGANIZATION_ROLE" roleTypeId="INTERNAL_ORGANIZATIO"/>-->
-<!--    <RoleType description="Lead" hasTable="N" parentTypeId="SFA_ROLE" roleTypeId="LEAD"/>-->
-<!--    <RoleType description="Limited Administrator" hasTable="N" parentTypeId="ADMIN" roleTypeId="LTD_ADMIN"/>-->
-<!--    <RoleType description="Organization Unit" hasTable="N" parentTypeId="ORGANIZATION_ROLE" roleTypeId="ORGANIZATION_UNIT"/>-->
-<!--    <RoleType description="Partner" hasTable="N" parentTypeId="ORGANIZATION_ROLE" roleTypeId="PARTNER"/>-->
-<!--    <RoleType description="Placing Customer" hasTable="N" parentTypeId="CUSTOMER" roleTypeId="PLACING_CUSTOMER"/>-->
-<!--    <RoleType description="Regulatory Agency" hasTable="N" parentTypeId="ORGANIZATION_ROLE" roleTypeId="REGULATORY_AGENCY"/>-->
-<!--    <RoleType description="Sales Representative" hasTable="N" parentTypeId="PERSON_ROLE" roleTypeId="SALES_REP"/>-->
-<!--    <RoleType description="Ship-From Vendor" hasTable="N" parentTypeId="VENDOR" roleTypeId="SHIP_FROM_VENDOR"/>-->
-<!--    <RoleType description="Ship-To Customer" hasTable="N" parentTypeId="CUSTOMER" roleTypeId="SHIP_TO_CUSTOMER"/>-->
-<!--    <RoleType description="Sponsor" hasTable="N" parentTypeId="PERSON_ROLE" roleTypeId="SPONSOR"/>-->
-<!--    <RoleType description="Spouse" hasTable="N" parentTypeId="PERSON_ROLE" roleTypeId="SPOUSE"/>-->
-<!--    <RoleType description="Supplier Agent" hasTable="N" parentTypeId="PERSON_ROLE" roleTypeId="SUPPLIER_AGENT"/>-->
-<!--    <RoleType description="Supplier" hasTable="N" parentTypeId="ORGANIZATION_ROLE" roleTypeId="SUPPLIER"/>-->
-<!--    <RoleType description="Tax Authority" hasTable="N" parentTypeId="ORGANIZATION_ROLE" roleTypeId="TAX_AUTHORITY"/>-->
-<!--    <RoleType description="Union" hasTable="N" parentTypeId="ORGANIZATION_ROLE" roleTypeId="UNION"/>-->
-<!--    <RoleType description="Workflow Owner" hasTable="N" parentTypeId="WORKFLOW_ROLE" roleTypeId="WF_OWNER"/>-->
-
-<!--    &lt;!&ndash; third level role types &ndash;&gt;-->
-<!--    <RoleType description="Affiliate" hasTable="N" parentTypeId="SALES_REP" roleTypeId="AFFILIATE"/>-->
-<!--    <RoleType description="Buyer" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="BUYER"/>-->
-<!--    <RoleType description="Cashier" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="CASHIER"/>-->
-<!--    <RoleType description="Department" hasTable="N" parentTypeId="ORGANIZATION_UNIT" roleTypeId="DEPARTMENT"/>-->
-<!--    <RoleType description="Division" hasTable="N" parentTypeId="ORGANIZATION_UNIT" roleTypeId="DIVISION"/>-->
-<!--    <RoleType description="Family generateFields" hasTable="N" parentTypeId="PERSON_ROLE" roleTypeId="FAMILY_MEMBER"/>-->
-<!--    <RoleType description="Manager" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="MANAGER"/>-->
-<!--    <RoleType description="Order Clerk" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="ORDER_CLERK"/>-->
-<!--    <RoleType description="Other Internal" hasTable="N" parentTypeId="INTERNAL_ORGANIZATIO" roleTypeId="OTHER_INTERNAL_ORGAN"/>-->
-<!--    <RoleType description="Other Organization Unit" hasTable="N" parentTypeId="ORGANIZATION_UNIT" roleTypeId="OTHER_ORGANIZATION_U"/>-->
-<!--    <RoleType description="Parent Organization" hasTable="N" parentTypeId="ORGANIZATION_UNIT" roleTypeId="PARENT_ORGANIZATION"/>-->
-<!--    <RoleType description="Packer" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="PACKER"/>-->
-<!--    <RoleType description="Picker" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="PICKER"/>-->
-<!--    <RoleType description="Receiver" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="RECEIVER"/>-->
-<!--    <RoleType description="Shipment Clerk" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="SHIPMENT_CLERK"/>-->
-<!--    <RoleType description="Stocker" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="STOCKER"/>-->
-<!--    <RoleType description="Subsidiary" hasTable="N" parentTypeId="ORGANIZATION_UNIT" roleTypeId="SUBSIDIARY"/>-->
-<!--    <RoleType description="Worker" hasTable="N" parentTypeId="EMPLOYEE" roleTypeId="WORKER"/>-->
-
-<!--    <RoleType description="Email Administrator" hasTable="N" parentTypeId="PERSON_ROLE" roleTypeId="EMAIL_ADMIN"/>-->
-
     <PartyClassificationType description="EEOC (Equal Opportunity)" hasTable="N" parentTypeId="" partyClassificationTypeId="EEOC_CLASSIFICATION"/>
     <PartyClassificationType description="Minority" hasTable="N" parentTypeId="" partyClassificationTypeId="MINORITY_CLASSIFICAT"/>
     <PartyClassificationType description="Income" hasTable="N" parentTypeId="" partyClassificationTypeId="INCOME_CLASSIFICATIO"/>
@@ -356,33 +334,6 @@ under the License.
     <PartyQualType description="Work experience" hasTable="N" parentTypeId="" partyQualTypeId="EXPERIENCE"/>
     <PartyQualType description="Certification" hasTable="N" parentTypeId="" partyQualTypeId="CERTIFICATION"/>
     <PartyQualType description="Degree" hasTable="N" parentTypeId="" partyQualTypeId="DEGREE"/>
-
-    <!-- NOTE: The partyRelationshipName describes the TO party, ie A is a customer of B, so A is the partyTo and B is the partyFrom -->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Agent" partyRelationshipTypeId="AGENT" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Child" partyRelationshipTypeId="CHILD" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Contact Relation" partyRelationshipTypeId="CONTACT_REL" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Lead Relation" partyRelationshipTypeId="LEAD_REL" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Lead Owned by" partyRelationshipTypeId="LEAD_OWNER" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Customer" partyRelationshipTypeId="CUSTOMER_REL" roleTypeIdValidFrom="CUSTOMER" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Distributor" partyRelationshipTypeId="DISTRIBUTION_CHANNEL" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="Y" parentTypeId="" partyRelationshipName="Employee" partyRelationshipTypeId="EMPLOYMENT" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Friend" partyRelationshipTypeId="FRIEND" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Group generateFields" partyRelationshipTypeId="GROUP_ROLLUP" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Host Server Visitor" partyRelationshipTypeId="HOST_SERVER_VISITOR" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="ISP Visitor" partyRelationshipTypeId="VISITOR_ISP" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Manager" partyRelationshipTypeId="MANAGER" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Parent" partyRelationshipTypeId="PARENT" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Partner" partyRelationshipTypeId="PARTNERSHIP" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Sales Affiliate" partyRelationshipTypeId="SALES_AFFILIATE" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Spouse" partyRelationshipTypeId="SPOUSE" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="Y" parentTypeId="" partyRelationshipName="Supplier" partyRelationshipTypeId="SUPPLIER_REL" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Web Master" partyRelationshipTypeId="WEB_MASTER_ASSIGNMEN" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Account owned by" partyRelationshipTypeId="ACCOUNT" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Assistant" partyRelationshipTypeId="ASSISTANT" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Owned by" partyRelationshipTypeId="OWNER" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Parent Account" partyRelationshipTypeId="PARENT_ACCOUNT" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Reports To" partyRelationshipTypeId="REPORTS_TO" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
-<!--    <PartyRelationshipType description="" hasTable="N" parentTypeId="" partyRelationshipName="Lead Owners/Managers" partyRelationshipTypeId="LEAD_OWN_GRP_MEMBER" roleTypeIdValidFrom="" roleTypeIdValidTo=""/>-->
 
     <PartyType description="Automated Agent" hasTable="N" parentTypeId="" partyTypeId="AUTOMATED_AGENT"/>
     <PartyType description="Person" hasTable="Y" parentTypeId="" partyTypeId="PERSON"/>

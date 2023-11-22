@@ -39,11 +39,13 @@ under the License.
     <entity-resource type="data" reader-name="demo" loader="main" location="data/GongsConfigSecurityGroupDemoData.xml"/>
     <entity-resource type="data" reader-name="demo" loader="main" location="data/GongsConfigDemoData.xml"/>
 
+    <!--注意单独启动GongsConfig项目时,需要导入seed和gconfigproject数据-->
     <!--========================Gconfig_SeedData========================-->
-    <entity-resource type="data" reader-name="seed" loader="main" location="data/GConfigData/ContentSeedData.xml"/>
-    <entity-resource type="data" reader-name="seed" loader="main" location="data/GConfigData/CommonMasterData.xml"/>
-    <entity-resource type="data" reader-name="seed" loader="main" location="data/GConfigData/MasterLabelData.xml"/>
-    <entity-resource type="data" reader-name="seed" loader="main" location="data/GConfigData/EdmData.xml"/>
+    <entity-resource type="data" reader-name="seed" loader="main" location="data/GConfigUniversalData/UniversalLabelData.xml"/>
+    <entity-resource type="data" reader-name="seed" loader="main" location="data/GConfigUniversalData/UniversalMasterData.xml"/>
+    <!--========================Gconfig_ProjectData========================-->
+    <entity-resource type="data" reader-name="gconfigproject" loader="main" location="data/GConfigData/GongsConfigProjectEdmData.xml"/>
+    <entity-resource type="data" reader-name="gconfigproject" loader="main" location="data/GConfigData/GongsConfigProjectMasterData.xml"/>
 
     <!-- service resources: model(s), eca(s) and group definitions -->
     <service-resource type="eca" loader="main" location="servicedef/secas.xml"/>

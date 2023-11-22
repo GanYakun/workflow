@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entity-engine-xml>
     <!--============================================系统-管理应用Master数据Begin============================================-->
+    <!-- Enumeration -->
+    <!-- 性别枚举 -->
     <Enumeration enumId="M" enumTypeId="GENDER_ENUM_TYPE" description="男"/>
     <Enumeration enumId="F" enumTypeId="GENDER_ENUM_TYPE" description="女"/>
-
     <!-- 审批方式枚举 -->
     <Enumeration enumId="PASS_APPROVE" enumTypeId="PASS_MANNER" description="人工审批"/>
     <Enumeration enumId="PASS_AUTO" enumTypeId="PASS_MANNER" description="自动通过"/>
     <Enumeration enumId="AUTO_REJECT" enumTypeId="PASS_MANNER" description="自动拒绝"/>
+    <!-- 范围枚举 -->
+    <Enumeration enumId="VISIBLE_ALL" enumTypeId="PROCESS_RANGE" description="全员可见" enumCode="VISIBLE_TO_ALL" sequenceId="01"/>
+    <Enumeration enumId="SPECIFY_PERSON" enumTypeId="PROCESS_RANGE" description="指定人员" enumCode="SPECIFY_PERSON" sequenceId="02"/>
 
-<!-- StatusItem -->
+    <!-- StatusItem -->
     <!-- 资产状态 -->
     <StatusItem statusId="FIXEDASSET_CREATED" statusTypeId="FIXEDASSET_STATUS" description="已创建-待领用"/>
     <StatusItem statusId="FIXEDASSET_RECEIVED" statusTypeId="FIXEDASSET_STATUS" description="已领用"/>
@@ -18,10 +22,17 @@
     <StatusItem statusId="APPROVAL_SUBMITTED" statusTypeId="APPROVAL" description="已提交-审批中"/>
     <StatusItem statusId="APPROVAL_REJECTED" statusTypeId="APPROVAL" description="已拒绝"/>
     <StatusItem statusId="APPROVAL_APPROVED" statusTypeId="APPROVAL" description="已通过"/>
+    <!-- 节点状态 -->
+    <StatusItem statusId="WEPR_WAIT" statusTypeId="WORKFLOW_STATUS" description="待审批"/>
+    <StatusItem statusId="WEPR_COMPLETE" statusTypeId="WORKFLOW_STATUS" description="审批通过"/>
+    <StatusItem statusId="WEPR_REFUSE" statusTypeId="WORKFLOW_STATUS" description="审批不通过"/>
+    <StatusItem statusId="WEPR_CANCEL" statusTypeId="WORKFLOW_STATUS" description="取消"/>
 
     <!--StatusValidChange(状态改变约束)-->
+    <!-- 节点状态更改约束 -->
     <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_COMPLETE"/>
     <StatusValidChange statusId="WEPR_WAIT" statusIdTo="WEPR_REFUSE"/>
+    <!-- 审批状态更改约束 -->
     <StatusValidChange statusId="APPROVAL_CREATED" statusIdTo="APPROVAL_SUBMITTED"/>
     <StatusValidChange statusId="APPROVAL_CREATED" statusIdTo="APPROVAL_APPROVED"/>
     <StatusValidChange statusId="APPROVAL_SUBMITTED" statusIdTo="APPROVAL_CREATED"/>
@@ -30,16 +41,17 @@
     <StatusValidChange statusId="APPROVAL_REJECTED" statusIdTo="APPROVAL_SUBMITTED"/>
     <!-- 资产状态更改 -->
     <StatusValidChange statusId="FIXEDASSET_CREATED" statusIdTo="FIXEDASSET_RECEIVED"/>
+
     <!-- SecurityGroup -->
     <SecurityGroup groupId="VISIT" description="访问权限" groupName="Visit"/>
-    <SecurityGroupPermission groupId="VISIT" permissionId="GONGSCONFIG_VIEW" fromDate="2023-09-19 22:11:39.139" />
+    <SecurityGroupPermission groupId="VISIT" permissionId="GONGSCONFIG_VIEW" fromDate="2023-09-19 22:11:39.139"/>
     <!--============================================系统-管理应用Master数据Begin============================================-->
-
     <!-- 组织管理员 -->
     <Party partyId="org_admin" partyTypeId="PERSON" partyName="组织管理员"/>
     <Person partyId="org_admin" firstName="Org" lastName="Manager"/>
     <PartyRole partyId="org_admin" roleTypeId="ORG_MANAGER"/>
-    <UserLogin userLoginId="org_admin" currentPassword="$SHA$CB2JTQBg$IVZnsVlreq0L8EVM8soUIETA9c8" passwordHint="" partyId="org_admin"/>
+    <UserLogin userLoginId="org_admin" currentPassword="$SHA$CB2JTQBg$IVZnsVlreq0L8EVM8soUIETA9c8" passwordHint=""
+               partyId="org_admin"/>
     <UserLoginSecurityGroup groupId="VISIT" userLoginId="org_admin" fromDate="2001-01-01 12:00:00.0"/>
     <PartyRelationship partyRelationshipId="PRID_10000" partyIdFrom="Company" partyIdTo="org_admin"
                        roleTypeIdTo="ORG_MANAGER" fromDate="2001-01-01 12:00:00.0"/>
