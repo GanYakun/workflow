@@ -72,9 +72,6 @@ under the License.
         <relation type="one-nofk" rel-entity-name="Requirement">
             <key-map field-name="memberEntityId" rel-field-name="requirementId"/>
         </relation>
-        <relation type="one-nofk" rel-entity-name="CustRequest">
-            <key-map field-name="memberEntityId" rel-field-name="custRequestId"/>
-        </relation>
     </entity>
 
 
