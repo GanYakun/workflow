@@ -6,4 +6,8 @@
     <PartyGroup partyId="Company" groupName="上海工至信息科技服务有限公司" numEmployees="0"/>
     <PartyRole partyId="Company" roleTypeId="INTERNAL_ORGANIZATIO"/>
 
+    <!-- SecurityGroup -->
+    <SecurityGroup groupId="VISIT" description="访问权限" groupName="Visit"/>
+    <SecurityGroupPermission groupId="VISIT" permissionId="GONGSCONFIG_VIEW" fromDate="2023-09-19 22:11:39.139"/>
+    <!--============================================系统-管理应用Master数据Begin============================================-->
 </entity-engine-xml>

@@ -96,4 +96,11 @@ under the License.
         </relation>
     </extend-entity>
 
+
+    <extend-entity entity-name="WorkEffortContent">
+        <relation type="one-nofk" rel-entity-name="ContentAndMediaDataResource">
+            <key-map field-name="contentId"/>
+        </relation>
+    </extend-entity>
+
 </entitymodel>

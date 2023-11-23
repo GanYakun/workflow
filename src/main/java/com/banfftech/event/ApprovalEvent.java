@@ -4,6 +4,7 @@ import com.banfftech.bean.FlowHelper;
 import com.banfftech.bean.Manual;
 import com.banfftech.bean.NodeUser;
 import com.banfftech.bean.TreeNode;
+import com.banfftech.common.util.CommonUtils;
 import com.banfftech.common.util.PartyServiceUtils;
 import com.dpbird.odata.OfbizAppEdmProvider;
 import com.dpbird.odata.OfbizMapOdata;
@@ -11,12 +12,10 @@ import com.dpbird.odata.OfbizODataException;
 import com.dpbird.odata.Util;
 import com.dpbird.odata.edm.OdataOfbizEntity;
 import com.dpbird.odata.edm.OfbizCsdlEntityType;
+import com.dpbird.odata.edm.ParameterContext;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.sf.json.JSONObject;
-import org.apache.ofbiz.base.util.UtilDateTime;
-import org.apache.ofbiz.base.util.UtilGenerics;
-import org.apache.ofbiz.base.util.UtilMisc;
-import org.apache.ofbiz.base.util.UtilValidate;
+import org.apache.ofbiz.base.util.*;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
@@ -25,6 +24,7 @@ import org.apache.ofbiz.entity.condition.EntityOperator;
 import org.apache.ofbiz.entity.model.ModelEntity;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.entity.util.EntityUtil;
+import org.apache.ofbiz.service.GeneralServiceException;
 import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 import org.apache.olingo.commons.api.data.ComplexValue;
@@ -36,11 +36,13 @@ import org.apache.olingo.commons.api.edm.FullQualifiedName;
 import org.apache.olingo.commons.api.edm.provider.CsdlEntityType;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.ByteBuffer;
+import java.util.*;
 
 /**
  * 处理审批流相关代码
@@ -235,6 +237,7 @@ public class ApprovalEvent {
             throws GenericEntityException, OfbizODataException, GenericServiceException {
         Delegator delegator = (Delegator) oDataContext.get("delegator");
         LocalDispatcher dispatcher = (LocalDispatcher) oDataContext.get("dispatcher");
+        Locale locale = (Locale) oDataContext.get("locale");
         OdataOfbizEntity ofbizEntity = (OdataOfbizEntity) actionParameters.values().stream().filter(v -> v instanceof OdataOfbizEntity).findFirst().get();
         GenericValue genericValue = ofbizEntity.getGenericValue();
         Object primaryKey = new HashMap<>(genericValue.getPrimaryKey()).entrySet().iterator().next().getValue();
@@ -245,13 +248,15 @@ public class ApprovalEvent {
         List<GenericValue> approvalNodes = rootWorkEffort.getRelated("NodeWorkEffort", UtilMisc.toMap("workEffortTypeId", "APPROVAL"), null, false);
         for (GenericValue approvalNode : approvalNodes) {
             if (!approvalNode.getString("currentStatusId").equals("WEPR_WAIT")) {
-                throw new OfbizODataException("撤回失败,审批已在进行中");
+                String errMsg = UtilProperties.getMessage("GongsConfigUiLabels", "WorkFlowWithdrawFailed", locale);
+                throw new OfbizODataException(errMsg);
             }
             EntityCondition condition = EntityCondition.makeCondition(UtilMisc.toList(EntityCondition.makeCondition(approvalNode.getPrimaryKey()),
                     EntityCondition.makeCondition("statusId", EntityOperator.IN, UtilMisc.toList("WEPR_COMPLETE", "WEPR_REFUSE"))));
             long approvedCount = EntityQuery.use(delegator).from("WorkEffortPartyAssignment").where(condition).queryCount();
             if (approvedCount > 0) {
-                throw new OfbizODataException("撤回失败,审批已在进行中");
+                String errMsg = UtilProperties.getMessage("GongsConfigUiLabels", "WorkFlowWithdrawFailed", locale);
+                throw new OfbizODataException(errMsg);
             }
         }
         //将所有节点改为取消
@@ -308,12 +313,45 @@ public class ApprovalEvent {
         OdataOfbizEntity odataOfbizEntity = (OdataOfbizEntity) actionParameters.get("approval");
         GenericValue approval = odataOfbizEntity.getGenericValue();
         String workEffortPartyAssignmentId = approval.getString("workEffortPartyAssignmentId");
+        String workEffortId = approval.getString("workEffortId");
         String comments = (String) actionParameters.get("comments");
         String statusId = (String) actionParameters.get("statusId");
+        ParameterContext signatureImage = (ParameterContext) actionParameters.get("signatureImage");
+
         try {
+            //填写审批备注到当前审批节点
             dispatcher.runSync("banfftech.updateWorkEffortPartyAssignment",
-                    UtilMisc.toMap("workEffortPartyAssignmentId",workEffortPartyAssignmentId,"statusId",statusId,
-                            "comments",comments,"mannerEnumId","PASS_APPROVE", "thruDate", UtilDateTime.nowTimestamp(), "userLogin",userLogin));
+                    UtilMisc.toMap("workEffortPartyAssignmentId", workEffortPartyAssignmentId, "statusId", statusId,
+                            "comments", comments, "mannerEnumId", "PASS_APPROVE", "thruDate",
+                            UtilDateTime.nowTimestamp(), "userLogin", userLogin));
+
+            //根据Action是否传递Stream参数,判断是否需要审批签名逻辑
+            if (UtilValidate.isNotEmpty(signatureImage)) {
+                //获取二进制文件&文件MimeType
+                ByteBuffer signatureImageByte = signatureImage.getFile();
+                String mimeType = signatureImage.getFileMimeType();
+
+                //创建DataResource
+                Map<String, Object> dataResourceResult = dispatcher.runSync("banfftech.createDataResource",
+                        UtilMisc.toMap("dataResourceTypeId", "IMAGE_OBJECT", "mimeTypeId", mimeType));
+
+                //创建ImageDataResource
+                dispatcher.runSync("banfftech.createImageDataResource",
+                        UtilMisc.toMap("dataResourceId", dataResourceResult.get("dataResourceId"),
+                                "imageData",signatureImageByte, "userLogin", userLogin));
+
+                //创建Content
+                Map<String, Object> contentResult = dispatcher.runSync("banfftech.createContent",
+                        UtilMisc.toMap("contentTypeId", "SIGNATURE_IMAGE",
+                                "dataResourceId", dataResourceResult.get("dataResourceId"),
+                                "userLogin", userLogin));
+
+                //创建WorkEffortContent(关联当前审批节点和签名照)
+                dispatcher.runSync("banfftech.createWorkEffortContent",
+                        UtilMisc.toMap("workEffortId", workEffortId, "contentId", contentResult.get("contentId"),
+                                "workEffortContentTypeId", "SIGNATURE_IMAGE"));
+            }
+
         } catch (GenericServiceException e) {
             throw new OfbizODataException(e.getMessage());
         }

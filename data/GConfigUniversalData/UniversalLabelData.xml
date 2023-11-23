@@ -5,6 +5,7 @@
     <Internationalization id="gender" lang="zh" property="gender" value="性别"/>
     <Internationalization id="birthDate" lang="zh" property="birthDate" value="出生日期"/>
     <Internationalization id="nickname" lang="zh" property="nickname" value="别名"/>
+    <Internationalization id="signatureImage" lang="zh" property="signatureImage" value="签名图片"/>
     <Internationalization id="numEmployees" lang="zh" property="numEmployees" value="部门人数"/>
     <Internationalization id="SIWEPR_WAIT_ZH" lang="zh" property="StatusItem.description.WEPR_WAIT" value="待审批"/>
     <Internationalization id="SIWEPR_WAIT_EN" lang="en" property="StatusItem.description.WEPR_WAIT" value="Pending approval"/>
@@ -16,6 +17,39 @@
     <Internationalization id="SIWEPR_CANCEL_EN" lang="en" property="StatusItem.description.WEPR_CANCEL" value="Canceled"/>
     <Internationalization id="approvalComments_ZH" lang="zh" property="approvalComments" value="审批意见"/>
     <Internationalization id="approvalComments_EN" lang="en" property="approvalComments" value="Approval remarks"/>
+    <Internationalization id="ENUM_PASS_APPROVE_ZH" lang="zh" property="Enumeration.description.PASS_APPROVE" value="人工审批"/>
+    <Internationalization id="ENUM_PASS_APPROVE_EN" lang="en" property="Enumeration.description.PASS_APPROVE" value="Manual approval"/>
+    <Internationalization id="ENUM_PASS_AUTO_ZH" lang="zh" property="Enumeration.description.PASS_AUTO" value="自动通过"/>
+    <Internationalization id="ENUM_PASS_AUTO_EN" lang="en" property="Enumeration.description.PASS_AUTO" value="Automatic pass"/>
+    <Internationalization id="ENUM_AUTO_REJECT_ZH" lang="zh" property="Enumeration.description.AUTO_REJECT" value="自动拒绝"/>
+    <Internationalization id="ENUM_AUTO_REJECT_EN" lang="en" property="Enumeration.description.AUTO_REJECT" value="Automatic rejection"/>
+
+    <!--流程定义-->
+    <DBEntity dbEntityId="MAINPROCESS" dbEntityName="MainProcess" description="业务对象" isOpen="N"/>
+    <DBField dbFieldId="MAINPROCESS_DBF10000" dbFieldName="description" dbFieldTypeId="STRING" description="流程描述" dbEntityId="MAINPROCESS"/>
+    <DBField dbFieldId="MAINPROCESS_DBF10001" dbFieldName="version" dbFieldTypeId="STRING" description="版本号" dbEntityId="MAINPROCESS"/>
+    <DBField dbFieldId="MAINPROCESS_DBF10002" dbFieldName="createdDate" dbFieldTypeId="DATE_TIME" description="创建时间" dbEntityId="MAINPROCESS"/>
+    <DBField dbFieldId="MAINPROCESS_DBF10003" dbFieldName="statusId" dbFieldTypeId="STATUS" description="流程状态" dbEntityId="MAINPROCESS"/>
+    <DBField dbFieldId="MAINPROCESS_DBF10004" dbFieldName="rangeEnumId" dbFieldTypeId="ENUM" description="可见范围" dbEntityId="MAINPROCESS"/>
+    <DBField dbFieldId="MAINPROCESS_DBF10005" dbFieldName="totalQuantity" dbFieldTypeId="NUMBER" description="调用总次数" dbEntityId="MAINPROCESS"/>
+    <DBField dbFieldId="MAINPROCESS_DBF10006" dbFieldName="progressingQuantity" dbFieldTypeId="NUMBER" description="进行中数量" dbEntityId="MAINPROCESS"/>
+    <DBField dbFieldId="MAINPROCESS_DBF10007" dbFieldName="completedQuantity" dbFieldTypeId="NUMBER" description="完成数量" dbEntityId="MAINPROCESS"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10000" dbFieldId="MAINPROCESS_DBF10000" language="zh" value="流程描述"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10001" dbFieldId="MAINPROCESS_DBF10000" language="en" value="description"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10002" dbFieldId="MAINPROCESS_DBF10001" language="zh" value="版本号"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10003" dbFieldId="MAINPROCESS_DBF10001" language="en" value="Version"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10004" dbFieldId="MAINPROCESS_DBF10002" language="zh" value="创建时间"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10005" dbFieldId="MAINPROCESS_DBF10002" language="en" value="Created time"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10006" dbFieldId="MAINPROCESS_DBF10003" language="zh" value="流程状态"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10007" dbFieldId="MAINPROCESS_DBF10003" language="en" value="Status"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10008" dbFieldId="MAINPROCESS_DBF10004" language="zh" value="可见范围"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10009" dbFieldId="MAINPROCESS_DBF10004" language="en" value="Visible range"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10010" dbFieldId="MAINPROCESS_DBF10005" language="zh" value="调用总次数"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10011" dbFieldId="MAINPROCESS_DBF10005" language="en" value="Total calls"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10012" dbFieldId="MAINPROCESS_DBF10006" language="zh" value="进行中数量"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10013" dbFieldId="MAINPROCESS_DBF10006" language="en" value="Progressing calls"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10014" dbFieldId="MAINPROCESS_DBF10007" language="zh" value="完成数量"/>
+    <DBFieldLabel dbFieldLabelId="DBE_DBFL10015" dbFieldId="MAINPROCESS_DBF10007" language="en" value="Completed calls"/>
 
     <!--业务对象-->
     <DBEntity dbEntityId="DBE10000" dbEntityName="DBEntity" description="业务对象" isOpen="N"/>
