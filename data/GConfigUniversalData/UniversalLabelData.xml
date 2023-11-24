@@ -7,6 +7,18 @@
     <Internationalization id="nickname" lang="zh" property="nickname" value="别名"/>
     <Internationalization id="signatureImage" lang="zh" property="signatureImage" value="签名图片"/>
     <Internationalization id="numEmployees" lang="zh" property="numEmployees" value="部门人数"/>
+
+
+    <!--业务对象审批通用状态翻译-->
+    <Internationalization id="StatusTrans10000" lang="zh" property="StatusItem.description.APPROVAL_CREATED" value="已创建-待提交"/>
+    <Internationalization id="StatusTrans10001" lang="en" property="StatusItem.description.APPROVAL_CREATED" value="Created"/>
+    <Internationalization id="StatusTrans10002" lang="zh" property="StatusItem.description.APPROVAL_SUBMITTED" value="已提交-审批中"/>
+    <Internationalization id="StatusTrans10003" lang="en" property="StatusItem.description.APPROVAL_SUBMITTED" value="Submitted"/>
+    <Internationalization id="StatusTrans10004" lang="zh" property="StatusItem.description.APPROVAL_REJECTED" value="已拒绝"/>
+    <Internationalization id="StatusTrans10005" lang="en" property="StatusItem.description.APPROVAL_REJECTED" value="Rejected"/>
+    <Internationalization id="StatusTrans10006" lang="zh" property="StatusItem.description.APPROVAL_APPROVED" value="已通过"/>
+    <Internationalization id="StatusTrans10007" lang="en" property="StatusItem.description.APPROVAL_APPROVED" value="Approved"/>
+    <!--审批流通用状态翻译-->
     <Internationalization id="SIWEPR_WAIT_ZH" lang="zh" property="StatusItem.description.WEPR_WAIT" value="待审批"/>
     <Internationalization id="SIWEPR_WAIT_EN" lang="en" property="StatusItem.description.WEPR_WAIT" value="Pending approval"/>
     <Internationalization id="SIWEPR_COMPLETE_ZH" lang="zh" property="StatusItem.description.WEPR_COMPLETE" value="审批通过"/>
@@ -15,6 +27,7 @@
     <Internationalization id="SIWEPR_REFUSE_EN" lang="en" property="StatusItem.description.WEPR_REFUSE" value="Approval failed"/>
     <Internationalization id="SIWEPR_CANCEL_ZH" lang="zh" property="StatusItem.description.WEPR_CANCEL" value="已取消"/>
     <Internationalization id="SIWEPR_CANCEL_EN" lang="en" property="StatusItem.description.WEPR_CANCEL" value="Canceled"/>
+
     <Internationalization id="approvalComments_ZH" lang="zh" property="approvalComments" value="审批意见"/>
     <Internationalization id="approvalComments_EN" lang="en" property="approvalComments" value="Approval remarks"/>
     <Internationalization id="ENUM_PASS_APPROVE_ZH" lang="zh" property="Enumeration.description.PASS_APPROVE" value="人工审批"/>
