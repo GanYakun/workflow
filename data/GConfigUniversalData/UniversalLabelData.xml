@@ -7,8 +7,9 @@
     <Internationalization id="nickname" lang="zh" property="nickname" value="别名"/>
     <Internationalization id="signatureImage" lang="zh" property="signatureImage" value="签名图片"/>
     <Internationalization id="numEmployees" lang="zh" property="numEmployees" value="部门人数"/>
-
-
+    <Internationalization id="departmentManager" lang="zh" property="departmentManager" value="负责人"/>
+    <Internationalization id="hasActiveFlow" lang="zh" property="hasActiveFlow" value="存在有效流程"/>
+    <Internationalization id="configFieldTotal" lang="zh" property="configFieldTotal" value="可配置字段数量"/>
     <!--业务对象审批通用状态翻译-->
     <Internationalization id="StatusTrans10000" lang="zh" property="StatusItem.description.APPROVAL_CREATED" value="已创建-待提交"/>
     <Internationalization id="StatusTrans10001" lang="en" property="StatusItem.description.APPROVAL_CREATED" value="Created"/>
@@ -199,4 +200,10 @@
     <DBField dbFieldId="PARTYROLE_DBF10000" dbFieldName="partyId" dbFieldTypeId="STRING" description="姓名" dbEntityId="PARTYROLE"/>
     <DBFieldLabel dbFieldLabelId="PARTYROLE_DBFL10000" dbFieldId="PARTYROLE_DBF10000" language="zh" value="姓名"/>
     <DBFieldLabel dbFieldLabelId="PARTYROLE_DBFL10001" dbFieldId="PARTYROLE_DBF10000" language="en" value="Name"/>
+
+    <!--UserLogin-->
+    <DBEntity dbEntityId="USERLOGIN" dbEntityName="UserLogin" description="账号" isOpen="N"/>
+    <DBField dbFieldId="USERLOGIN_DBF10000" dbFieldName="enabled" dbFieldTypeId="STRING" description="账号状态" dbEntityId="USERLOGIN"/>
+    <DBFieldLabel dbFieldLabelId="USERLOGIN_DBFL10000" dbFieldId="USERLOGIN_DBF10000" language="zh" value="账号状态"/>
+    <DBFieldLabel dbFieldLabelId="USERLOGIN_DBFL10001" dbFieldId="USERLOGIN_DBF10000" language="en" value="enabled"/>
 </entity-engine-xml>
