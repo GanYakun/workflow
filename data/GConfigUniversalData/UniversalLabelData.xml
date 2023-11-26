@@ -10,6 +10,8 @@
     <Internationalization id="departmentManager" lang="zh" property="departmentManager" value="负责人"/>
     <Internationalization id="hasActiveFlow" lang="zh" property="hasActiveFlow" value="存在有效流程"/>
     <Internationalization id="configFieldTotal" lang="zh" property="configFieldTotal" value="可配置字段数量"/>
+    <Internationalization id="MemberAndDepart" lang="zh" property="MemberAndDepart" value="组内成员/部门"/>
+    <Internationalization id="MemberDepNameOrDepName" lang="zh" property="MemberAndDepart" value="部门"/>
     <!--业务对象审批通用状态翻译-->
     <Internationalization id="StatusTrans10000" lang="zh" property="StatusItem.description.APPROVAL_CREATED" value="已创建-待提交"/>
     <Internationalization id="StatusTrans10001" lang="en" property="StatusItem.description.APPROVAL_CREATED" value="Created"/>
@@ -206,4 +208,13 @@
     <DBField dbFieldId="USERLOGIN_DBF10000" dbFieldName="enabled" dbFieldTypeId="STRING" description="账号状态" dbEntityId="USERLOGIN"/>
     <DBFieldLabel dbFieldLabelId="USERLOGIN_DBFL10000" dbFieldId="USERLOGIN_DBF10000" language="zh" value="账号状态"/>
     <DBFieldLabel dbFieldLabelId="USERLOGIN_DBFL10001" dbFieldId="USERLOGIN_DBF10000" language="en" value="enabled"/>
+
+    <!--PartyAndPartyGroup(用户组)-->
+    <DBEntity dbEntityId="USERGROUP" dbEntityName="PartyAndPartyGroup" dbEntityTypeId="OTHER_ORGANIZATION_U" description="用户组" isOpen="N"/>
+    <DBField dbFieldId="USERGROUP_DBF10000" dbFieldName="groupName" dbFieldTypeId="STRING" description="用户组" dbEntityId="USERGROUP"/>
+    <DBField dbFieldId="USERGROUP_DBF10001" dbFieldName="description" dbFieldTypeId="STRING" description="描述" dbEntityId="USERGROUP"/>
+    <DBFieldLabel dbFieldLabelId="USERGROUP_DBFL10000" dbFieldId="USERGROUP_DBF10000" language="zh" value="用户组"/>
+    <DBFieldLabel dbFieldLabelId="USERGROUP_DBFL10001" dbFieldId="USERGROUP_DBF10000" language="en" value="enabled"/>
+    <DBFieldLabel dbFieldLabelId="USERGROUP_DBFL10002" dbFieldId="USERGROUP_DBF10001" language="zh" value="描述"/>
+    <DBFieldLabel dbFieldLabelId="USERGROUP_DBFL10003" dbFieldId="USERGROUP_DBF10001" language="en" value="Description"/>
 </entity-engine-xml>
