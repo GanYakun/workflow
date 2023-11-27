@@ -38,7 +38,6 @@ under the License.
     <entity-resource type="data" reader-name="seed" loader="main" location="data/GongsConfigSecurityPermissionSeedData.xml"/>
     <entity-resource type="data" reader-name="demo" loader="main" location="data/GongsConfigSecurityGroupDemoData.xml"/>
     <entity-resource type="data" reader-name="demo" loader="main" location="data/GongsConfigDemoData.xml"/>
-    <entity-resource type="data" reader-name="demo" loader="main" location="data/GConfigDemoData/DepartmentAndMemberDemoData.xml"/>
     <!--注意单独启动GongsConfig项目时,需要导入seed和gconfigproject数据-->
     <!--========================Gconfig_SeedData========================-->
     <entity-resource type="data" reader-name="seed" loader="main" location="data/GConfigUniversalData/UniversalLabelData.xml"/>
@@ -46,6 +45,9 @@ under the License.
     <!--========================Gconfig_ProjectData========================-->
     <entity-resource type="data" reader-name="gconfigproject" loader="main" location="data/GConfigData/GongsConfigProjectEdmData.xml"/>
     <entity-resource type="data" reader-name="gconfigproject" loader="main" location="data/GConfigData/GongsConfigProjectMasterData.xml"/>
+    <!--========================Gconfig_DemoData========================-->
+    <entity-resource type="data" reader-name="gconfigdemo" loader="main" location="data/GConfigDemoData/DepartmentAndMemberDemoData.xml"/>
+
 
     <!-- service resources: model(s), eca(s) and group definitions -->
     <service-resource type="eca" loader="main" location="servicedef/secas.xml"/>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entity-engine-xml>
-    <!-- 默认每个项目都有一条Company数据这里就不准备-->
     <!-- 开发部 -->
     <Party partyId="DEVELOPMENT_DEPARTMENT" partyTypeId="PARTY_GROUP" statusId="PARTY_ENABLED" partyName="开发部"/>
     <Party partyId="FRONT_END" partyTypeId="PARTY_GROUP" statusId="PARTY_ENABLED" partyName="前端"/>
