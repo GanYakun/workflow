@@ -12,6 +12,7 @@
     <Internationalization id="configFieldTotal" lang="zh" property="configFieldTotal" value="可配置字段数量"/>
     <Internationalization id="MemberAndDepart" lang="zh" property="MemberAndDepart" value="组内成员/部门"/>
     <Internationalization id="MemberDepNameOrDepName" lang="zh" property="MemberAndDepart" value="部门"/>
+    <Internationalization id="ParentDepartmentName" lang="zh" property="ParentDepartmentName" value="上级部门"/>
     <!--业务对象审批通用状态翻译-->
     <Internationalization id="StatusTrans10000" lang="zh" property="StatusItem.description.APPROVAL_CREATED" value="已创建-待提交"/>
     <Internationalization id="StatusTrans10001" lang="en" property="StatusItem.description.APPROVAL_CREATED" value="Created"/>

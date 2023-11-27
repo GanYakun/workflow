@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-engine-xml>
+    <!-- 默认每个项目都有一条Company数据这里就不准备-->
+    <!-- 开发部 -->
+    <Party partyId="DEVELOPMENT_DEPARTMENT" partyTypeId="PARTY_GROUP" statusId="PARTY_ENABLED" partyName="开发部"/>
+    <Party partyId="FRONT_END" partyTypeId="PARTY_GROUP" statusId="PARTY_ENABLED" partyName="前端"/>
+    <Party partyId="BACK_END" partyTypeId="PARTY_GROUP" statusId="PARTY_ENABLED" partyName="后端"/>
+    <!-- 测试部 -->
+    <Party partyId="TEST_DEPARTMENT" partyTypeId="PARTY_GROUP" statusId="PARTY_ENABLED" partyName="测试部"/>
+    <!-- 部门信息 -->
+    <PartyGroup partyId="Company" groupName="上海工至信息科技服务有限公司" numEmployees="0"/>
+    <PartyGroup partyId="DEVELOPMENT_DEPARTMENT" groupName="开发部" numEmployees="0"/>
+    <PartyGroup partyId="FRONT_END" groupName="前端" numEmployees="0"/>
+    <PartyGroup partyId="BACK_END" groupName="后端" numEmployees="0"/>
+    <PartyGroup partyId="TEST_DEPARTMENT" groupName="测试部" numEmployees="0"/>
+    <!-- 部门角色 -->
+    <PartyRole partyId="Company" roleTypeId="INTERNAL_ORGANIZATIO"/>
+    <PartyRole partyId="DEVELOPMENT_DEPARTMENT" roleTypeId="DEPARTMENT"/>
+    <PartyRole partyId="FRONT_END" roleTypeId="DEPARTMENT"/>
+    <PartyRole partyId="BACK_END" roleTypeId="DEPARTMENT"/>
+    <PartyRole partyId="TEST_DEPARTMENT" roleTypeId="DEPARTMENT"/>
+    <!-- 公司直属部门 -->
+    <PartyRelationship partyRelationshipId="CD10000" partyIdFrom="Company" partyIdTo="DEVELOPMENT_DEPARTMENT"
+                       roleTypeIdTo="DEPARTMENT"/>
+    <PartyRelationship partyRelationshipId="CD10001" partyIdFrom="Company" partyIdTo="TEST_DEPARTMENT"
+                       roleTypeIdTo="DEPARTMENT"/>
+    <!-- 部门子部门 -->
+    <PartyRelationship partyRelationshipId="DS10000" partyIdFrom="DEVELOPMENT_DEPARTMENT" partyIdTo="FRONT_END"
+                       roleTypeIdTo="DEPARTMENT"/>
+    <PartyRelationship partyRelationshipId="DS10001" partyIdFrom="DEVELOPMENT_DEPARTMENT" partyIdTo="BACK_END"
+                       roleTypeIdTo="DEPARTMENT"/>
+    <!--成员-->
+    <Party partyId="JLX" partyTypeId="PERSON" statusId="PARTY_ENABLED" partyName="金龙熙" externalId="0001"/>
+    <Party partyId="YYQ" partyTypeId="PERSON" statusId="PARTY_ENABLED" partyName="杨亚庆" externalId="0002"/>
+    <Party partyId="ZQZ" partyTypeId="PERSON" statusId="PARTY_ENABLED" partyName="张全洲" externalId="0003"/>
+    <Party partyId="HJH" partyTypeId="PERSON" statusId="PARTY_ENABLED" partyName="何嘉豪" externalId="0004"/>
+    <Party partyId="SCY" partyTypeId="PERSON" statusId="PARTY_ENABLED" partyName="孙灿阳" externalId="0005"/>
+    <Party partyId="GYK" partyTypeId="PERSON" statusId="PARTY_ENABLED" partyName="甘亚坤" externalId="0006"/>
+    <Party partyId="YYP" partyTypeId="PERSON" statusId="PARTY_ENABLED" partyName="杨元培" externalId="0007"/>
+    <Party partyId="CH" partyTypeId="PERSON" statusId="PARTY_ENABLED" partyName="程慧" externalId="0008"/>
+    <!-- 成员角色 -->
+    <PartyRole partyId="JLX" roleTypeId="ORD_EMPLOYEE"/>
+    <PartyRole partyId="JLX" roleTypeId="MANAGER"/>
+    <PartyRole partyId="YYQ" roleTypeId="ORD_EMPLOYEE"/>
+    <PartyRole partyId="YYQ" roleTypeId="MANAGER"/>
+    <PartyRole partyId="ZQZ" roleTypeId="ORD_EMPLOYEE"/>
+    <PartyRole partyId="HJH" roleTypeId="ORD_EMPLOYEE"/>
+    <PartyRole partyId="SCY" roleTypeId="ORD_EMPLOYEE"/>
+    <PartyRole partyId="SCY" roleTypeId="MANAGER"/>
+    <PartyRole partyId="GYK" roleTypeId="ORD_EMPLOYEE"/>
+    <PartyRole partyId="YYP" roleTypeId="ORD_EMPLOYEE"/>
+    <PartyRole partyId="CH" roleTypeId="ORD_EMPLOYEE"/>
+    <PartyRole partyId="CH" roleTypeId="MANAGER"/>
+    <!--成员信息-->
+    <Person partyId="JLX" firstName="金龙熙" lastName="金龙熙" gender="M" birthDate="1990-01-01"/>
+    <Person partyId="YYQ" firstName="杨亚庆" lastName="杨亚庆" gender="M" birthDate="1990-01-01"/>
+    <Person partyId="ZQZ" firstName="张全洲" lastName="张全洲" gender="M" birthDate="1990-01-01"/>
+    <Person partyId="HJH" firstName="何嘉豪" lastName="何嘉豪" gender="M" birthDate="1990-01-01"/>
+    <Person partyId="SCY" firstName="孙灿阳" lastName="孙灿阳" gender="M" birthDate="1990-01-01"/>
+    <Person partyId="GYK" firstName="甘亚坤" lastName="甘亚坤" gender="M" birthDate="1990-01-01"/>
+    <Person partyId="YYP" firstName="杨元培" lastName="杨元培" gender="M" birthDate="1990-01-01"/>
+    <Person partyId="CH" firstName="程慧" lastName="程慧" gender="F" birthDate="1999-01-01"/>
+    <!--成员电话、邮箱-->
+    <ContactMech contactMechId="JLX_PHONE" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="JLX_EMAIL" infoString="jlx@163.com" contactMechTypeId="EMAIL_ADDRESS"/>
+    <ContactMech contactMechId="YYQ_PHONE" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="YYQ_EMAIL" infoString="yyq@163.com" contactMechTypeId="EMAIL_ADDRESS"/>
+    <ContactMech contactMechId="ZQZ_PHONE" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="ZQZ_EMAIL" infoString="zzq@163.com" contactMechTypeId="EMAIL_ADDRESS"/>
+    <ContactMech contactMechId="HJH_PHONE" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="HJH_EMAIL" infoString="hhh@163.com" contactMechTypeId="EMAIL_ADDRESS"/>
+    <ContactMech contactMechId="SCY_PHONE" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="SCY_EMAIL" infoString="scy@163.com" contactMechTypeId="EMAIL_ADDRESS"/>
+    <ContactMech contactMechId="GYK_PHONE" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="GYK_EMAIL" infoString="gyk@163.com" contactMechTypeId="EMAIL_ADDRESS"/>
+    <ContactMech contactMechId="YYP_PHONE" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="YYP_EMAIL" infoString="yyp@163.com" contactMechTypeId="EMAIL_ADDRESS"/>
+    <ContactMech contactMechId="CH_PHONE"  contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="CH_EMAIL" infoString="ch@163.com" contactMechTypeId="EMAIL_ADDRESS"/>
+    <TelecomNumber contactMechId="JLX_PHONE" partyId="JLX" contactNumber="13812345678"/>
+    <TelecomNumber contactMechId="YYQ_PHONE" partyId="YYQ" contactNumber="18671953973"/>
+    <TelecomNumber contactMechId="ZQZ_PHONE" partyId="ZQZ" contactNumber="13812345678"/>
+    <TelecomNumber contactMechId="HJH_PHONE" partyId="HJH" contactNumber="13812345678"/>
+    <TelecomNumber contactMechId="SCY_PHONE" partyId="SCY" contactNumber="17719127963"/>
+    <TelecomNumber contactMechId="GYK_PHONE" partyId="GYK" contactNumber="13812345678"/>
+    <TelecomNumber contactMechId="YYP_PHONE" partyId="YYP" contactNumber="15295577071"/>
+    <TelecomNumber contactMechId="CH_PHONE" partyId="CH" contactNumber="13812345678"/>
+    <PartyContactMechPurpose partyId="JLX" contactMechId="JLX_PHONE" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="JLX" contactMechId="JLX_EMAIL" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="YYQ" contactMechId="YYQ_PHONE" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="YYQ" contactMechId="YYQ_EMAIL" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="ZQZ" contactMechId="ZQZ_PHONE" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="ZQZ" contactMechId="ZQZ_EMAIL" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="HJH" contactMechId="HJH_PHONE" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="HJH" contactMechId="HJH_EMAIL" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="SCY" contactMechId="SCY_PHONE" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="SCY" contactMechId="SCY_EMAIL" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="GYK" contactMechId="GYK_PHONE" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="GYK" contactMechId="GYK_EMAIL" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="YYP" contactMechId="YYP_PHONE" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="YYP" contactMechId="YYP_EMAIL" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="CH" contactMechId="CH_PHONE" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyContactMechPurpose partyId="CH" contactMechId="CH_EMAIL" contactMechPurposeTypeId="PRIMARY_EMAIL"  fromDate="2023-01-28 11:45:31.928"/>
+    <!--账号和权限(密码:gongsconfig 权限:访问磁贴的VISIT权限)-->
+    <UserLogin userLoginId="JLX" partyId="JLX" currentPassword="$SHA$.xBPQ4DsNy0Vloo$ON9a2VuiHhWpAj4i6a9eahTONUo" enabled="Y"/>
+    <UserLogin userLoginId="YYQ" partyId="YYQ" currentPassword="$SHA$.xBPQ4DsNy0Vloo$ON9a2VuiHhWpAj4i6a9eahTONUo" enabled="Y"/>
+    <UserLogin userLoginId="ZQZ" partyId="ZQZ" currentPassword="$SHA$.xBPQ4DsNy0Vloo$ON9a2VuiHhWpAj4i6a9eahTONUo" enabled="Y"/>
+    <UserLogin userLoginId="HJH" partyId="HJH" passwordHint="$SHA$.xBPQ4DsNy0Vloo$ON9a2VuiHhWpAj4i6a9eahTONUo" enabled="Y"/>
+    <UserLogin userLoginId="SCY" partyId="SCY" currentPassword="$SHA$.xBPQ4DsNy0Vloo$ON9a2VuiHhWpAj4i6a9eahTONUo" enabled="Y"/>
+    <UserLogin userLoginId="GYK" partyId="GYK" currentPassword="$SHA$.xBPQ4DsNy0Vloo$ON9a2VuiHhWpAj4i6a9eahTONUo" enabled="Y"/>
+    <UserLogin userLoginId="YYP" partyId="YYP" currentPassword="$SHA$.xBPQ4DsNy0Vloo$ON9a2VuiHhWpAj4i6a9eahTONUo" enabled="Y"/>
+    <UserLogin userLoginId="CH" partyId="CH" currentPassword="$SHA$.xBPQ4DsNy0Vloo$ON9a2VuiHhWpAj4i6a9eahTONUo" enabled="Y"/>
+    <UserLoginSecurityGroup userLoginId="JLX" groupId="VISIT" fromDate="2023-01-28 11:45:31.928"/>
+    <UserLoginSecurityGroup userLoginId="YYQ" groupId="VISIT" fromDate="2023-01-28 11:45:31.928"/>
+    <UserLoginSecurityGroup userLoginId="ZQZ" groupId="VISIT" fromDate="2023-01-28 11:45:31.928"/>
+    <UserLoginSecurityGroup userLoginId="HJH" groupId="VISIT" fromDate="2023-01-28 11:45:31.928"/>
+    <UserLoginSecurityGroup userLoginId="SCY" groupId="VISIT" fromDate="2023-01-28 11:45:31.928"/>
+    <UserLoginSecurityGroup userLoginId="GYK" groupId="VISIT" fromDate="2023-01-28 11:45:31.928"/>
+    <UserLoginSecurityGroup userLoginId="YYP" groupId="VISIT" fromDate="2023-01-28 11:45:31.928"/>
+    <UserLoginSecurityGroup userLoginId="CH" groupId="VISIT" fromDate="2023-01-28 11:45:31.928"/>
+    <!--部门成员-->
+    <PartyRelationship partyRelationshipId="Department_Member10000" partyIdTo="JLX" partyIdFrom="FRONT_END" roleTypeIdTo="ORD_EMPLOYEE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyRelationship partyRelationshipId="Department_Member10001" partyIdTo="YYQ" partyIdFrom="FRONT_END" roleTypeIdTo="ORD_EMPLOYEE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyRelationship partyRelationshipId="Department_Member10002" partyIdTo="ZQZ" partyIdFrom="FRONT_END" roleTypeIdTo="ORD_EMPLOYEE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyRelationship partyRelationshipId="Department_Member10003" partyIdTo="HJH" partyIdFrom="BACK_END" roleTypeIdTo="ORD_EMPLOYEE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyRelationship partyRelationshipId="Department_Member10004" partyIdTo="SCY" partyIdFrom="BACK_END" roleTypeIdTo="ORD_EMPLOYEE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyRelationship partyRelationshipId="Department_Member10005" partyIdTo="GYK" partyIdFrom="BACK_END" roleTypeIdTo="ORD_EMPLOYEE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyRelationship partyRelationshipId="Department_Member10006" partyIdTo="YYP" partyIdFrom="BACK_END" roleTypeIdTo="ORD_EMPLOYEE" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyRelationship partyRelationshipId="Department_Member10007" partyIdTo="CH" partyIdFrom="TEST_DEPARTMENT" roleTypeIdTo="ORD_EMPLOYEE" fromDate="2023-01-28 11:45:31.928"/>
+
+    <!--部门负责人-->
+    <PartyRelationship partyRelationshipId="DEPARTMENT_LEADER10000" partyIdTo="JLX" partyIdFrom="DEVELOPMENT_DEPARTMENT" roleTypeIdTo="MANAGER" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyRelationship partyRelationshipId="DEPARTMENT_LEADER10001" partyIdTo="YYQ" partyIdFrom="FRONT_END" roleTypeIdTo="MANAGER" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyRelationship partyRelationshipId="Department_Leader10002" partyIdTo="SCY" partyIdFrom="BACK_END" roleTypeIdTo="MANAGER" fromDate="2023-01-28 11:45:31.928"/>
+    <PartyRelationship partyRelationshipId="Department_Leader10003" partyIdTo="CH" partyIdFrom="TEST_DEPARTMENT" roleTypeIdTo="MANAGER" fromDate="2023-01-28 11:45:31.928"/>
+
+</entity-engine-xml>
