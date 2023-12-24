@@ -61,6 +61,7 @@ under the License.
 
     <extend-entity entity-name="WorkEffort">
         <field name="topWorkEffortId" type="id"/>
+        <field name="currentActiveId" type="id"/>
         <relation type="one" fk-name="TOP_WORK_EFFORT" title="Top" rel-entity-name="WorkEffort">
             <key-map field-name="topWorkEffortId" rel-field-name="workEffortId"/>
         </relation>
@@ -72,6 +73,9 @@ under the License.
         </relation>
         <relation type="many" rel-entity-name="Approval">
             <key-map field-name="workEffortId" rel-field-name="topWorkEffortId"/>
+        </relation>
+        <relation type="one" fk-name="CURRENT_ACTIVE" title="CurrentActive" rel-entity-name="WorkEffort">
+            <key-map field-name="currentActiveId" rel-field-name="workEffortId"/>
         </relation>
     </extend-entity>
 
