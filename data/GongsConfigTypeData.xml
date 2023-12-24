@@ -153,7 +153,12 @@ under the License.
     <EmplLeaveReasonType emplLeaveReasonTypeId="CHILDCARE_LEAVE" hasTable="N" description="育儿假"/>
 
 <!--WorkEffortType-->
-    <WorkEffortType workEffortTypeId="WORK_FLOW" description="审批流"/>
+    <WorkEffortType workEffortTypeId="TEMPLATE" description="Template"/>
+    <WorkEffortType workEffortTypeId="WORK_FLOW_TEMPLATE" parentTypeId="TEMPLATE" description="Workflow Process Template"/>
+    <WorkEffortType workEffortTypeId="ACTIVITY_TEMPLATE" parentTypeId="TEMPLATE" description="Workflow Activity Template"/>
+    <WorkEffortType workEffortTypeId="WORK_FLOW" description="Workflow Process"/>
+    <WorkEffortType workEffortTypeId="ACTIVITY" description="Workflow Activity"/>
+    <WorkEffortAssocType workEffortAssocTypeId="WORKFLOW_ACTIVITY" description="Workflow process and activity association"/>
     <!-- 审批节点类型 -->
     <WorkEffortType workEffortTypeId="ROOT_NODE" description="根节点"/>
     <WorkEffortType workEffortTypeId="APPROVAL" description="审批"/>
